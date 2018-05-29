@@ -32,10 +32,9 @@ public class UserManagerTest {
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap
-            .create(WebArchive.class, "test.war")
+            .create(WebArchive.class)
             .addClass(User.class)
-            .addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml")
-            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+            .addAsResource("META-INF/test-persistence.xml");
     }
 
     @Test
