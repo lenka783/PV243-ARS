@@ -51,7 +51,7 @@ public class User {
     private Boolean isActive = true;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet();
 
     public Long getId() {
         return id;
