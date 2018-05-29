@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import cz.muni.fi.pv243.ars.enumeration.UserRole;
+
 /**
  * Created by jsmolar on 5/19/18.
  */
@@ -24,7 +26,7 @@ public class Role {
     private Long id;
 
     @Enumerated
-    private Role role;
+    private UserRole userRole;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "role")
     private Set<Offer> offers = new HashSet<Offer>();
@@ -41,12 +43,12 @@ public class Role {
         return this;
     }
 
-    public Role getRole() {
-        return role;
+    public UserRole getUserRole() {
+        return userRole;
     }
 
-    public Role setRole(Role role) {
-        this.role = role;
+    public Role setUserRole(UserRole userRole) {
+        this.userRole = userRole;
         return this;
     }
 
@@ -85,14 +87,14 @@ public class Role {
 
         if (!getId().equals(role1.getId()))
             return false;
-        return getRole() != null ? getRole().equals(role1.getRole()) : role1.getRole() == null;
+        return getUserRole() != null ? getUserRole().equals(role1.getUserRole()) : role1.getUserRole() == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = getId().hashCode();
-        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        result = 31 * result + (getUserRole() != null ? getUserRole().hashCode() : 0);
         return result;
     }
 }
