@@ -28,6 +28,10 @@ public class Address {
     @PrimaryKeyJoinColumn
     private User user;
 
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private Offer offer;
+
     public Address(String street, String city, String state, String country, String postCode) {
         this.street = street;
         this.city = city;
