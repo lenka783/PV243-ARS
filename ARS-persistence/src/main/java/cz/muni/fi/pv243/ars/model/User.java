@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.ars.model;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -7,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -14,12 +16,16 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import cz.muni.fi.pv243.ars.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.validation.AddressConstraint;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by jsmolar on 5/10/18.
  */
-public class User {
+@Entity
+public class User implements Serializable {
 
     @Id
     @GeneratedValue
@@ -35,6 +41,8 @@ public class User {
     private String surname;
 
     @NotNull
+    @NotEmpty
+    @Email
     private String email;
 
     @NotNull
@@ -51,7 +59,13 @@ public class User {
     private Boolean isActive = true;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
-    private Set<Role> roles = new HashSet();
+    private Set<UserRole> roles = new HashSet();
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    private Set<Offer> offers = new HashSet();
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    private Set<Reservation> reservations = new HashSet();
 
     public Long getId() {
         return id;
@@ -125,16 +139,40 @@ public class User {
         return this;
     }
 
-    public Set<Role> getRoles() {
+    public Set<UserRole> getRoles() {
         return Collections.unmodifiableSet(roles);
     }
 
-    public void addRole(Role role) {
+    public void addRole(UserRole role) {
         roles.add(role);
     }
 
-    public void removeRole(Role role) {
-        roles.remove(role);
+    public void removeRole(UserRole role) {
+        roles.remove(roles);
+    }
+
+    public Set<Offer> getOffers() {
+        return Collections.unmodifiableSet(offers);
+    }
+
+    public void addOffer(Offer offer) {
+        offers.add(offer);
+    }
+
+    public void removeOffer(Offer offer) {
+        offers.remove(offer);
+    }
+
+    public Set<Reservation> getReservations() {
+        return Collections.unmodifiableSet(reservations);
+    }
+
+    public void addReservation(Reservation reservation) {
+        reservations.add(reservation);
+    }
+
+    public void removeReservation(Reservation reservation) {
+        reservations.remove(reservation);
     }
 
     @Override
@@ -146,28 +184,19 @@ public class User {
 
         User user = (User) o;
 
-        if (!getId().equals(user.getId()))
-            return false;
         if (!getName().equals(user.getName()))
             return false;
         if (!getSurname().equals(user.getSurname()))
             return false;
-        if (!getEmail().equals(user.getEmail()))
-            return false;
-        if (getAddress() != null ? !getAddress().equals(user.getAddress()) : user.getAddress() != null)
-            return false;
-        return getDateOfBirth().equals(user.getDateOfBirth());
+        return getEmail().equals(user.getEmail());
 
     }
 
     @Override
     public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + getName().hashCode();
+        int result = getName().hashCode();
         result = 31 * result + getSurname().hashCode();
         result = 31 * result + getEmail().hashCode();
-        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
-        result = 31 * result + getDateOfBirth().hashCode();
         return result;
     }
 }

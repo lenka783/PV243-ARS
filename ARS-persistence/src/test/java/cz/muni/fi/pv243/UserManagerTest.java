@@ -6,7 +6,9 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import cz.muni.fi.pv243.ars.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.manager.UserManager;
+import cz.muni.fi.pv243.ars.model.Offer;
 import cz.muni.fi.pv243.ars.model.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -32,9 +34,13 @@ public class UserManagerTest {
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap
-            .create(WebArchive.class)
-            .addClass(User.class)
-            .addAsResource("META-INF/test-persistence.xml");
+            .create(WebArchive.class, "test.war")
+            .addPackage(User.class.getPackage())
+            .addPackage(UserManager.class.getPackage())
+            .addPackage(UserRole.class.getPackage())
+            .addPackage(Offer.class.getPackage())
+            .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test

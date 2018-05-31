@@ -5,5 +5,6 @@ package cz.muni.fi.pv243.ars.enumeration;
  */
 public enum UserRole {
     HOST,
-    TENANT
+    TENANT,
+    ADMIN
 }

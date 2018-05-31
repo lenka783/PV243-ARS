@@ -1,5 +1,7 @@
 package cz.muni.fi.pv243.ars.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
  * Created by jsmolar on 5/17/18.
  */
 @Entity
-public class Address {
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue
