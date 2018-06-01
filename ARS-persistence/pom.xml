@@ -57,6 +57,7 @@
       <version>1.1.5.Final</version>
     </dependency>
 
+    <!--For arquilian-->
     <dependency>
       <groupId>org.wildfly.arquillian</groupId>
       <artifactId>wildfly-arquillian-container-managed</artifactId>
@@ -69,6 +70,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.jboss.arquillian.protocol</groupId>
       <artifactId>arquillian-protocol-servlet</artifactId>

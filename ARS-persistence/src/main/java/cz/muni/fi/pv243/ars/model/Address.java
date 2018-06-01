@@ -34,6 +34,9 @@ public class Address implements Serializable {
     @PrimaryKeyJoinColumn
     private Offer offer;
 
+    public Address(){
+    }
+
     public Address(String street, String city, String state, String country, String postCode) {
         this.street = street;
         this.city = city;

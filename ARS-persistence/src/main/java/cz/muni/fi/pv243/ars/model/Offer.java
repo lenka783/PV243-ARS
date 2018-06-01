@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
@@ -40,6 +41,9 @@ public class Offer {
 
     @NotNull
     private Boolean isSmokerFriendly;
+
+    @ManyToOne
+    private User user;
 
     public Long getId() {
         return id;

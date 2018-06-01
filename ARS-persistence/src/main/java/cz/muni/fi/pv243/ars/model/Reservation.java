@@ -2,7 +2,6 @@ package cz.muni.fi.pv243.ars.model;
 
 import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,9 +20,12 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @NotNull
     private Offer offer;
+
+    @ManyToOne
+    private User user;
 
     @NotNull
     private Date from;

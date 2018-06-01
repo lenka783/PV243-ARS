@@ -7,10 +7,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.MapKeyEnumerated;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
@@ -49,16 +53,18 @@ public class User implements Serializable {
     private String password;
 
     @AddressConstraint
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Address address;
 
-    @NotNull
     private Date dateOfBirth;
 
     @NotNull
     private Boolean isActive = true;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    @ElementCollection
+    @CollectionTable(name="user_roles")
+    @MapKeyEnumerated(EnumType.STRING)
+    @Column(name="roles")
     private Set<UserRole> roles = new HashSet();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
