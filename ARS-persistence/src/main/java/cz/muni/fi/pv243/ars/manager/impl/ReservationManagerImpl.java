@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Lenka Smitalova on 5/29/2018
  */
 
-public class ReservationManagerImpl extends AbstractManager<Reservation> implements ReservationManager {
+public class ReservationManagerImpl implements ReservationManager {
 
     @PersistenceContext
     private EntityManager entityManager;

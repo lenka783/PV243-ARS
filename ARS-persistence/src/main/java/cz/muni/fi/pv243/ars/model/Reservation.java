@@ -1,9 +1,14 @@
 package cz.muni.fi.pv243.ars.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.util.Objects;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by jsmolar on 5/19/18.
@@ -15,10 +20,6 @@ public class Reservation {
     @GeneratedValue
     @Column(name = "reservation_id")
     private Long id;
-
-    @ManyToOne
-    @NotNull
-    private Role host;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @NotNull
@@ -39,14 +40,6 @@ public class Reservation {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Role getHost() {
-        return host;
-    }
-
-    public void setHost(Role host) {
-        this.host = host;
     }
 
     public Offer getOffer() {
@@ -83,25 +76,31 @@ public class Reservation {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || !(o instanceof Reservation)) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
         Reservation that = (Reservation) o;
-        return getId() == that.getId() &&
-                getHost().equals(that.getHost()) &&
-                Objects.equals(getOffer(), that.getOffer()) &&
-                getFrom().equals(that.getFrom()) &&
-                getTo().equals(that.getTo()) &&
-                getNumberOfPeople() == that.getNumberOfPeople();
+
+        if (!getOffer().equals(that.getOffer()))
+            return false;
+        if (!getFrom().equals(that.getFrom()))
+            return false;
+        if (!getTo().equals(that.getTo()))
+            return false;
+        return getNumberOfPeople() != null ?
+            getNumberOfPeople().equals(that.getNumberOfPeople()) :
+            that.getNumberOfPeople() == null;
+
     }
 
     @Override
     public int hashCode() {
-        int result = 37 * getId().hashCode();
-        result = result + 37 * getHost().hashCode()
-                    + 37 * getOffer().hashCode()
-                    + 37 * getFrom().hashCode()
-                    + 37 * getTo().hashCode()
-                    + 37 * getNumberOfPeople().hashCode();
+        int result = getOffer().hashCode();
+        result = 31 * result + getFrom().hashCode();
+        result = 31 * result + getTo().hashCode();
+        result = 31 * result + (getNumberOfPeople() != null ? getNumberOfPeople().hashCode() : 0);
         return result;
     }
 }

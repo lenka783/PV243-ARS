@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by mminatova on 5/29/18.
  */
-public class OfferManagerImpl extends AbstractManager<Offer> implements OfferManager {
+public class OfferManagerImpl implements OfferManager {
 
     @PersistenceContext
     private EntityManager entityManager;

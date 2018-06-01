@@ -1,10 +1,16 @@
 package cz.muni.fi.pv243.ars.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+
 import cz.muni.fi.pv243.ars.enumeration.AccomodationType;
 import cz.muni.fi.pv243.ars.validation.AddressConstraint;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Created by jsmolar on 5/19/18.
@@ -16,10 +22,6 @@ public class Offer {
     @GeneratedValue
     @Column(name = "offer_id")
     private Long id;
-
-    @NotNull
-    @ManyToOne
-    private Role tenant;
 
     @NotNull
     @AddressConstraint
@@ -45,14 +47,6 @@ public class Offer {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Role getTenant() {
-        return tenant;
-    }
-
-    public void setTenant(Role tenant) {
-        this.tenant = tenant;
     }
 
     public Address getAddress() {
@@ -97,28 +91,34 @@ public class Offer {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || !(o instanceof Offer)) return false;
-
-        final Offer offer = (Offer) o;
-
-        if (id != null ? !id.equals(offer.id) : offer.id != null) return false;
-        if (tenant != null ? !tenant.equals(offer.tenant) : offer.tenant != null) return false;
-        if (address != null ? !address.equals(offer.address) : offer.address != null) return false;
-        if (capacity != null ? !capacity.equals(offer.capacity) : offer.capacity != null) return false;
-        if (accomodationType != offer.accomodationType) return false;
-        if (isAnimalFriendly != null ? !isAnimalFriendly.equals(offer.isAnimalFriendly) : offer.isAnimalFriendly != null)
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
             return false;
-        return isSmokerFriendly != null ? isSmokerFriendly.equals(offer.isSmokerFriendly) : offer.isSmokerFriendly == null;
+
+        Offer offer = (Offer) o;
+
+        if (!getAddress().equals(offer.getAddress()))
+            return false;
+        if (!getCapacity().equals(offer.getCapacity()))
+            return false;
+        if (getAccomodationType() != offer.getAccomodationType())
+            return false;
+        if (isAnimalFriendly != null ?
+            !isAnimalFriendly.equals(offer.isAnimalFriendly) :
+            offer.isAnimalFriendly != null)
+            return false;
+        return isSmokerFriendly != null ?
+            isSmokerFriendly.equals(offer.isSmokerFriendly) :
+            offer.isSmokerFriendly == null;
+
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (tenant != null ? tenant.hashCode() : 0);
-        result = 7 * result + (address != null ? address.hashCode() : 0);
-        result = 23 * result + (capacity != null ? capacity.hashCode() : 0);
-        result = 31 * result + (accomodationType != null ? accomodationType.hashCode() : 0);
+        int result = getAddress().hashCode();
+        result = 31 * result + getCapacity().hashCode();
+        result = 31 * result + getAccomodationType().hashCode();
         result = 31 * result + (isAnimalFriendly != null ? isAnimalFriendly.hashCode() : 0);
         result = 31 * result + (isSmokerFriendly != null ? isSmokerFriendly.hashCode() : 0);
         return result;
