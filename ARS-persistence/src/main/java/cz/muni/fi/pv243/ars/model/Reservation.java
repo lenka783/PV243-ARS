@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.ars.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -8,12 +9,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by jsmolar on 5/19/18.
  */
 @Entity
-public class Reservation {
+@XmlRootElement
+public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue

@@ -1,19 +1,18 @@
-package cz.muni.fi.pv243.ars.manager.impl;
+package cz.muni.fi.pv243.ars.repository;
 
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import cz.muni.fi.pv243.ars.manager.OfferManager;
 import cz.muni.fi.pv243.ars.model.Offer;
 
 /**
  * Created by mminatova on 5/29/18.
  */
-public class OfferManagerImpl implements OfferManager {
+public class OfferRepository {
 
-    @PersistenceContext
+    @Inject
     private EntityManager entityManager;
 
     public Offer findById(Long id) {
@@ -27,4 +26,5 @@ public class OfferManagerImpl implements OfferManager {
     public List<Offer> getAll() {
         return entityManager.createQuery("SELECT o FROM Offer o", Offer.class).getResultList();
     }
+
 }

@@ -1,8 +1,8 @@
 package cz.muni.fi.pv243.ars.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import cz.muni.fi.pv243.ars.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.validation.AddressConstraint;
@@ -29,6 +30,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by jsmolar on 5/10/18.
  */
 @Entity
+@XmlRootElement
 public class User implements Serializable {
 
     @Id
@@ -56,7 +58,7 @@ public class User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private Address address;
 
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @NotNull
     private Boolean isActive = true;
@@ -127,11 +129,11 @@ public class User implements Serializable {
         return this;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public User setDateOfBirth(Date dateOfBirth) {
+    public User setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
         return this;
     }

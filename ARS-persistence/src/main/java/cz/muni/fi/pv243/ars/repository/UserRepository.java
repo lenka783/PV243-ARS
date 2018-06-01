@@ -1,20 +1,21 @@
-package cz.muni.fi.pv243.ars.manager.impl;
+package cz.muni.fi.pv243.ars.repository;
 
 import java.util.List;
 
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
+import cz.muni.fi.pv243.ars.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.model.User;
 
 /**
  * Created by jsmolar on 5/28/18.
  */
 @Stateless
-public class UserManagerImpl {
+public class UserRepository {
 
-    @PersistenceContext
+    @Inject
     private EntityManager entityManager;
 
     public void create(User user) {
@@ -36,4 +37,11 @@ public class UserManagerImpl {
     public List<User> findAll() {
         return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
+
+    public List<User> findAllForRole(UserRole role) {
+        return entityManager.createQuery("SELECT u FROM User u where u.role= :role", User.class)
+            .setParameter("role", role)
+            .getResultList();
+    }
+
 }

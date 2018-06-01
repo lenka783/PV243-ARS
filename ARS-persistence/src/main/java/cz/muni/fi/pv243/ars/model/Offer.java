@@ -1,5 +1,7 @@
 package cz.muni.fi.pv243.ars.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import cz.muni.fi.pv243.ars.enumeration.AccomodationType;
 import cz.muni.fi.pv243.ars.validation.AddressConstraint;
@@ -17,7 +20,8 @@ import cz.muni.fi.pv243.ars.validation.AddressConstraint;
  * Created by jsmolar on 5/19/18.
  */
 @Entity
-public class Offer {
+@XmlRootElement
+public class Offer implements Serializable {
 
     @Id
     @GeneratedValue

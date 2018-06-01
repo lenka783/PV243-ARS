@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import cz.muni.fi.pv243.ars.enumeration.UserRole;
-import cz.muni.fi.pv243.ars.manager.impl.UserManagerImpl;
 import cz.muni.fi.pv243.ars.model.Address;
 import cz.muni.fi.pv243.ars.model.User;
+import cz.muni.fi.pv243.ars.repository.UserRepository;
+import cz.muni.fi.pv243.ars.utils.Resources;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -25,17 +25,18 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class UserManagerTest {
 
-    @PersistenceContext
+    @Inject
     private EntityManager entityManager;
 
     @Inject
-    private UserManagerImpl userManager;
+    private UserRepository userManager;
 
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap
             .create(WebArchive.class)
-            .addPackages(true, "cz.muni.fi.pv243.ars.manager", "cz.muni.fi.pv243.ars.model")
+            .addClass(Resources.class)
+            .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.model")
             .addPackage(UserRole.class.getPackage())
             .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");

@@ -8,11 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by jsmolar on 5/17/18.
  */
 @Entity
+@XmlRootElement
 public class Address implements Serializable {
 
     @Id
