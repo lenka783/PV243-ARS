@@ -1,8 +1,11 @@
 package cz.muni.fi.pv243.ars.persistance.validation;
 
+import java.util.Set;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.persistance.model.User;
 
 /**
@@ -17,6 +20,14 @@ public class RolesOwnershipValidator implements ConstraintValidator<RoleOwnershi
 
     @Override
     public boolean isValid(User user, ConstraintValidatorContext context) {
-        return false;
+        Set<UserRole> roles = user.getRoles();
+        if (roles.contains(UserRole.TENANT) && user.getReservations() != null) {
+            return false;
+        }
+        if (roles.contains(UserRole.HOST) && user.getOffers() != null) {
+            return false;
+        }
+
+        return true;
     }
 }

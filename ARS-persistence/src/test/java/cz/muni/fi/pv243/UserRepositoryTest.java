@@ -12,6 +12,7 @@ import javax.transaction.UserTransaction;
 
 import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.persistance.model.Address;
+import cz.muni.fi.pv243.ars.persistance.model.Offer;
 import cz.muni.fi.pv243.ars.persistance.model.User;
 import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -114,4 +115,51 @@ public class UserRepositoryTest {
         assertEquals(userRepository.findById(user.getId()), null);
         assertEquals(userCount - 1, userRepository.findAll().size());
     }
+
+    @Test
+    public void findByIdTest() {
+        User expected = ef.createUser("findUser", address);
+        entityManager.persist(expected);
+
+        User actual = userRepository.findById(expected.getId());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void findAllTest() {
+        assertEquals(userRepository.findAll().size(), 3);
+
+        User expected = ef.createUser("findAllUser", address);
+        entityManager.persist(expected);
+
+        assertEquals(userRepository.findAll().size(), 4);
+    }
+
+    @Test
+    public void createOfferForHost(Address address) {
+        User host = ef.createUser("hostUser");
+        Offer offer = ef.createOffer(address);
+
+        host.addRole(UserRole.HOST)
+            .addOffer(offer);
+
+        entityManager.persist(offer);
+        entityManager.persist(host);
+    }
+
+    @Test
+    public void createReservationForTenant() {
+
+    }
+
+    @Test
+    public void createOfferForTenant() {
+
+    }
+
+    @Test
+    public void createReservationForHost() {
+
+    }
+
 }

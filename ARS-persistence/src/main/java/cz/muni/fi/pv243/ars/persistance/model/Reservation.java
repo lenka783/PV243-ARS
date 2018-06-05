@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.ars.persistance.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,10 +32,10 @@ public class Reservation implements Serializable {
     private User user;
 
     @NotNull
-    private Date from;
+    private LocalDate from;
 
     @NotNull
-    private Date to;
+    private LocalDate to;
 
     @NotNull
     private Integer numberOfPeople;
@@ -43,40 +44,45 @@ public class Reservation implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public Reservation setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Offer getOffer() {
         return offer;
     }
 
-    public void setOffer(Offer offer) {
+    public Reservation setOffer(Offer offer) {
         this.offer = offer;
+        return this;
     }
 
-    public Date getFrom() {
+    public LocalDate getFrom() {
         return from;
     }
 
-    public void setFrom(Date from) {
+    public Reservation setFrom(LocalDate from) {
         this.from = from;
+        return this;
     }
 
-    public Date getTo() {
+    public LocalDate getTo() {
         return to;
     }
 
-    public void setTo(Date to) {
+    public Reservation setTo(LocalDate to) {
         this.to = to;
+        return this;
     }
 
     public Integer getNumberOfPeople() {
         return numberOfPeople;
     }
 
-    public void setNumberOfPeople(Integer numberOfPeople) {
+    public Reservation setNumberOfPeople(Integer numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
+        return this;
     }
 
     @Override
