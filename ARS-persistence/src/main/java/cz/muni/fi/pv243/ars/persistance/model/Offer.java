@@ -49,6 +49,18 @@ public class Offer implements Serializable {
     @ManyToOne
     private User user;
 
+    public Offer() {
+    }
+
+    public Offer(Address address, Integer capacity, AccommodationType accommodationType, Boolean isAnimalFriendly, Boolean isSmokerFriendly, User tenant) {
+        this.address = address;
+        this.capacity = capacity;
+        this.accommodationType = accommodationType;
+        this.isAnimalFriendly = isAnimalFriendly;
+        this.isSmokerFriendly = isSmokerFriendly;
+        this.user = tenant;
+    }
+
     public Long getId() {
         return id;
     }
@@ -100,6 +112,15 @@ public class Offer implements Serializable {
 
     public Offer setSmokerFriendly(Boolean smokerFriendly) {
         isSmokerFriendly = smokerFriendly;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Offer setUser(User user) {
+        this.user = user;
         return this;
     }
 

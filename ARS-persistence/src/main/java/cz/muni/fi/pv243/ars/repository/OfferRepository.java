@@ -17,6 +17,11 @@ public class OfferRepository {
     @Inject
     private EntityManager entityManager;
 
+    public Long create(Offer offer) {
+        entityManager.persist(offer);
+        return offer.getId();
+    }
+
     public Offer findById(Long id) {
         Offer offer = entityManager.find(Offer.class, id);
         if (offer == null){

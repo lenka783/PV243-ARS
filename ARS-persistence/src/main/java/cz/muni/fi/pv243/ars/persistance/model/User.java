@@ -77,6 +77,19 @@ public class User implements Serializable {
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
     private Set<Reservation> reservations = new HashSet();
 
+    public User() {
+    }
+
+    public User(String name, String surname, String email, String password, Address address, LocalDate dateOfBirth) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.address = address;
+        this.dateOfBirth = dateOfBirth;
+        this.isActive = true;
+    }
+
     public Long getId() {
         return id;
     }

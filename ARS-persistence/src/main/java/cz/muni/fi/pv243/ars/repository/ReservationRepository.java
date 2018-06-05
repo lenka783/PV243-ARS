@@ -22,18 +22,22 @@ public class ReservationRepository {
     @Inject
     private UserRepository userRepository;
 
-    public Reservation findById(Long id) {
-        Reservation reservation = entityManager.find(Reservation.class, id);
-        if (reservation == null) {
-            throw new IllegalArgumentException();
-        }
-        return reservation;
+    public Long create(Reservation reservation) {
+        entityManager.persist(reservation);
+        return reservation.getId();
     }
 
-    public List<Reservation> findAll() {
-        return entityManager
-                .createQuery("SELECT r FROM Reservation r", Reservation.class)
-                .getResultList();
+    public Reservation update(Reservation reservation) {
+        return entityManager.merge(reservation);
+    }
+
+    public void delete(Reservation reservation) {
+        entityManager.remove(reservation);
+    }
+
+    public Reservation findById(Long id) {
+        Reservation reservation = entityManager.find(Reservation.class, id);
+        return reservation;
     }
 
     public List<Reservation> findAllForUser(User user) {
