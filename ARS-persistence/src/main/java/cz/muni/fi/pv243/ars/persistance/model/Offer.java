@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.AccomodationType;
+import cz.muni.fi.pv243.ars.persistance.enumeration.AccommodationType;
 import cz.muni.fi.pv243.ars.persistance.validation.AddressConstraint;
 
 /**
@@ -38,7 +38,7 @@ public class Offer implements Serializable {
 
     @NotNull
     @Enumerated
-    private AccomodationType accomodationType;
+    private AccommodationType accommodationType;
 
     @NotNull
     private Boolean isAnimalFriendly;
@@ -52,10 +52,10 @@ public class Offer implements Serializable {
     public Offer() {
     }
 
-    public Offer(Address address, Integer capacity, AccomodationType accomodationType, Boolean isAnimalFriendly, Boolean isSmokerFriendly, User tenant) {
+    public Offer(Address address, Integer capacity, AccommodationType accommodationType, Boolean isAnimalFriendly, Boolean isSmokerFriendly, User tenant) {
         this.address = address;
         this.capacity = capacity;
-        this.accomodationType = accomodationType;
+        this.accommodationType = accommodationType;
         this.isAnimalFriendly = isAnimalFriendly;
         this.isSmokerFriendly = isSmokerFriendly;
         this.user = tenant;
@@ -65,8 +65,9 @@ public class Offer implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public Offer setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Address getAddress() {
@@ -87,12 +88,12 @@ public class Offer implements Serializable {
         return this;
     }
 
-    public AccomodationType getAccomodationType() {
-        return accomodationType;
+    public AccommodationType getAccommodationType() {
+        return accommodationType;
     }
 
-    public Offer setAccomodationType(AccomodationType accomodationType) {
-        this.accomodationType = accomodationType;
+    public Offer setAccommodationType(AccommodationType accommodationType) {
+        this.accommodationType = accommodationType;
         return this;
     }
 
@@ -136,7 +137,7 @@ public class Offer implements Serializable {
             return false;
         if (!getCapacity().equals(offer.getCapacity()))
             return false;
-        if (getAccomodationType() != offer.getAccomodationType())
+        if (getAccommodationType() != offer.getAccommodationType())
             return false;
         if (isAnimalFriendly != null ?
             !isAnimalFriendly.equals(offer.isAnimalFriendly) :
@@ -152,7 +153,7 @@ public class Offer implements Serializable {
     public int hashCode() {
         int result = getAddress().hashCode();
         result = 31 * result + getCapacity().hashCode();
-        result = 31 * result + getAccomodationType().hashCode();
+        result = 31 * result + getAccommodationType().hashCode();
         result = 31 * result + (isAnimalFriendly != null ? isAnimalFriendly.hashCode() : 0);
         result = 31 * result + (isSmokerFriendly != null ? isSmokerFriendly.hashCode() : 0);
         return result;

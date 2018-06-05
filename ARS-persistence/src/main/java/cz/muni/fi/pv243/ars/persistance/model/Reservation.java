@@ -9,8 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,10 +30,10 @@ public class Reservation implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @Temporal(TemporalType.DATE)
+    @NotNull
     private LocalDate from;
 
-    @Temporal(TemporalType.DATE)
+    @NotNull
     private LocalDate to;
 
     @NotNull
@@ -56,8 +54,9 @@ public class Reservation implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    public Reservation setId(Long id) {
         this.id = id;
+        return this;
     }
 
     public Offer getOffer() {
