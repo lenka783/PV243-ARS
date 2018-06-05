@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.persistance.validation.AddressConstraint;
+import cz.muni.fi.pv243.ars.persistance.validation.RoleOwnership;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -31,6 +32,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @XmlRootElement
+@RoleOwnership
 public class User implements Serializable {
 
     @Id
@@ -164,8 +166,9 @@ public class User implements Serializable {
         return Collections.unmodifiableSet(roles);
     }
 
-    public void addRole(UserRole role) {
+    public User addRole(UserRole role) {
         roles.add(role);
+        return this;
     }
 
     public void removeRole(UserRole role) {
@@ -176,8 +179,9 @@ public class User implements Serializable {
         return Collections.unmodifiableSet(offers);
     }
 
-    public void addOffer(Offer offer) {
+    public User addOffer(Offer offer) {
         offers.add(offer);
+        return this;
     }
 
     public void removeOffer(Offer offer) {
@@ -188,8 +192,9 @@ public class User implements Serializable {
         return Collections.unmodifiableSet(reservations);
     }
 
-    public void addReservation(Reservation reservation) {
+    public User addReservation(Reservation reservation) {
         reservations.add(reservation);
+        return this;
     }
 
     public void removeReservation(Reservation reservation) {

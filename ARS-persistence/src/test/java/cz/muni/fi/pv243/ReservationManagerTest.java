@@ -1,6 +1,6 @@
 package cz.muni.fi.pv243;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.AccomodationType;
+import cz.muni.fi.pv243.ars.persistance.enumeration.AccommodationType;
 import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.persistance.model.Address;
 import cz.muni.fi.pv243.ars.persistance.model.Offer;
@@ -113,7 +113,7 @@ public class ReservationManagerTest {
         offer = new Offer(
                 offerAddress,
                 5,
-                AccomodationType.APARTMENT,
+                AccommodationType.APARTMENT,
                 true,
                 false,
                 tenant
