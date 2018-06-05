@@ -6,6 +6,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import cz.muni.fi.pv243.ars.persistance.model.Reservation;
 import cz.muni.fi.pv243.ars.persistance.model.User;
@@ -16,7 +17,7 @@ import cz.muni.fi.pv243.ars.persistance.model.User;
 @Stateless
 public class ReservationRepository {
 
-    @Inject
+    @PersistenceContext
     private EntityManager entityManager;
 
     @Inject

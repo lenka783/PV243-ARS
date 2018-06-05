@@ -24,6 +24,11 @@
     <!-- (Which is the name given to the generated war, and hence the context root) -->
     <finalName>${project.artifactId}</finalName>
     <plugins>
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>1.2.1.Final</version>
+      </plugin>
       <!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation processors -->
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -40,11 +45,6 @@
           <!-- Java EE 6/7 doesn't require web.xml, Maven needs to catch up! -->
           <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.wildfly.plugins</groupId>
-        <artifactId>wildfly-maven-plugin</artifactId>
-        <version>1.2.1.Final</version>
       </plugin>
     </plugins>
   </build>
@@ -99,6 +99,20 @@
           <artifactId>jconsole</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+
+    <!--JSF dependency-->
+    <dependency>
+      <groupId>org.jboss.spec.javax.faces</groupId>
+      <artifactId>jboss-jsf-api_2.2_spec</artifactId>
+      <version>2.2.6</version>
+    </dependency>
+
+    <!--JAX-RS API-->
+    <dependency>
+      <groupId>org.jboss.spec.javax.ws.rs</groupId>
+      <artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+      <version>1.0.0.Final</version>
     </dependency>
 
   </dependencies>

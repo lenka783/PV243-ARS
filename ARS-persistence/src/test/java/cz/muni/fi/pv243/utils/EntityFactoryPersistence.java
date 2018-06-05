@@ -56,8 +56,8 @@ public class EntityFactoryPersistence {
     public Reservation createReservation(LocalDate from, LocalDate to, Offer offer) {
         Reservation reservation = new Reservation();
 
-        reservation.setFrom(from)
-            .setTo(to)
+        reservation.setFromDate(from)
+            .setToDate(to)
             .setNumberOfPeople(rand.nextInt(10))
             .setOffer(offer);
 

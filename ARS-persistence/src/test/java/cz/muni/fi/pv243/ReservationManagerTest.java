@@ -1,5 +1,17 @@
 package cz.muni.fi.pv243;
 
+import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDate;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+
 import cz.muni.fi.pv243.ars.persistance.enumeration.AccommodationType;
 import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.persistance.model.Address;
@@ -17,19 +29,10 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.transaction.UserTransaction;
-
-import java.time.LocalDate;
-
-import static org.junit.Assert.assertEquals;
 
 
 @RunWith(Arquillian.class)
@@ -68,7 +71,8 @@ public class ReservationManagerTest {
     private Offer offer;
 
     @Before
-    public void init() {
+    public void init() throws SystemException, NotSupportedException {
+        tx.begin();
         Address tenantAddress = new Address(
                 "Botanicka",
                 "Brno",
@@ -116,11 +120,15 @@ public class ReservationManagerTest {
                 AccommodationType.APARTMENT,
                 true,
                 false,
-                tenant
-        );
+                tenant);
         offerAddress.setUser(tenant);
 
         offer.setId(12309l);
+    }
+
+    @After
+    public void tearDown() throws SystemException {
+        tx.rollback();
     }
     /**public void init() {
         Address tenantAddress = EntityFactoryPersistance.createAddress(

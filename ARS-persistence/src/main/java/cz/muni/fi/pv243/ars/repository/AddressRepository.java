@@ -3,8 +3,8 @@ package cz.muni.fi.pv243.ars.repository;
 import java.util.List;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import cz.muni.fi.pv243.ars.persistance.model.Address;
 
@@ -14,7 +14,7 @@ import cz.muni.fi.pv243.ars.persistance.model.Address;
 @Stateless
 public class AddressRepository {
 
-    @Inject
+    @PersistenceContext
     private EntityManager entityManager;
 
     public void create(Address address) {

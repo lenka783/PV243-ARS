@@ -69,13 +69,13 @@ public class User implements Serializable {
     @CollectionTable(name="user_roles")
     @MapKeyEnumerated(EnumType.STRING)
     @Column(name="roles")
-    private Set<UserRole> roles = new HashSet();
+    private Set<UserRole> roles = new HashSet<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
-    private Set<Offer> offers = new HashSet();
+    private Set<Offer> offers = new HashSet<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
-    private Set<Reservation> reservations = new HashSet();
+    private Set<Reservation> reservations = new HashSet<>();
 
     public User() {
     }

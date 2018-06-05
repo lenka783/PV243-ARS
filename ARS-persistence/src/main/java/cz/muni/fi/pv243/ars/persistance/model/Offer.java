@@ -1,6 +1,8 @@
 package cz.muni.fi.pv243.ars.persistance.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +11,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -48,6 +51,23 @@ public class Offer implements Serializable {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
+    private Set<Reservation> reservation = new HashSet<>();
+
+    public Offer() {
+    }
+
+    public Offer(Address address, Integer capacity,
+        AccommodationType accommodationType, Boolean isAnimalFriendly, Boolean isSmokerFriendly,
+        User user) {
+        this.address = address;
+        this.capacity = capacity;
+        this.accommodationType = accommodationType;
+        this.isAnimalFriendly = isAnimalFriendly;
+        this.isSmokerFriendly = isSmokerFriendly;
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

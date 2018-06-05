@@ -1,7 +1,6 @@
 package cz.muni.fi.pv243.ars.persistance.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -32,13 +31,24 @@ public class Reservation implements Serializable {
     private User user;
 
     @NotNull
-    private LocalDate from;
+    private LocalDate fromDate;
 
     @NotNull
-    private LocalDate to;
+    private LocalDate toDate;
 
     @NotNull
     private Integer numberOfPeople;
+
+    public Reservation() {
+    }
+
+    public Reservation(Offer offer, User user, LocalDate from, LocalDate to, Integer numberOfPeople) {
+        this.offer = offer;
+        this.user = user;
+        this.fromDate = from;
+        this.toDate = to;
+        this.numberOfPeople = numberOfPeople;
+    }
 
     public Long getId() {
         return id;
@@ -58,21 +68,21 @@ public class Reservation implements Serializable {
         return this;
     }
 
-    public LocalDate getFrom() {
-        return from;
+    public LocalDate getFromDate() {
+        return fromDate;
     }
 
-    public Reservation setFrom(LocalDate from) {
-        this.from = from;
+    public Reservation setFromDate(LocalDate from) {
+        this.fromDate = from;
         return this;
     }
 
-    public LocalDate getTo() {
-        return to;
+    public LocalDate getToDate() {
+        return toDate;
     }
 
-    public Reservation setTo(LocalDate to) {
-        this.to = to;
+    public Reservation setToDate(LocalDate to) {
+        this.toDate = to;
         return this;
     }
 
@@ -96,9 +106,9 @@ public class Reservation implements Serializable {
 
         if (!getOffer().equals(that.getOffer()))
             return false;
-        if (!getFrom().equals(that.getFrom()))
+        if (!getFromDate().equals(that.getFromDate()))
             return false;
-        if (!getTo().equals(that.getTo()))
+        if (!getToDate().equals(that.getToDate()))
             return false;
         return getNumberOfPeople() != null ?
             getNumberOfPeople().equals(that.getNumberOfPeople()) :
@@ -109,8 +119,8 @@ public class Reservation implements Serializable {
     @Override
     public int hashCode() {
         int result = getOffer().hashCode();
-        result = 31 * result + getFrom().hashCode();
-        result = 31 * result + getTo().hashCode();
+        result = 31 * result + getFromDate().hashCode();
+        result = 31 * result + getToDate().hashCode();
         result = 31 * result + (getNumberOfPeople() != null ? getNumberOfPeople().hashCode() : 0);
         return result;
     }
