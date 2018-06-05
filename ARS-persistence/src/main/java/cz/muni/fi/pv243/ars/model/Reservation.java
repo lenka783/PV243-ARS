@@ -1,13 +1,8 @@
 package cz.muni.fi.pv243.ars.model;
 
-import java.sql.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * Created by jsmolar on 5/19/18.
@@ -20,21 +15,31 @@ public class Reservation {
     @Column(name = "reservation_id")
     private Long id;
 
-    @ManyToOne
-    @NotNull
+    @ManyToOne(cascade = CascadeType.ALL)
     private Offer offer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
 
-    @NotNull
+    @Temporal(TemporalType.DATE)
     private Date from;
 
-    @NotNull
+    @Temporal(TemporalType.DATE)
     private Date to;
 
     @NotNull
     private Integer numberOfPeople;
+
+    public Reservation() {
+    }
+
+    public Reservation(Offer offer, User user, Date from, Date to, Integer numberOfPeople) {
+        this.offer = offer;
+        this.user = user;
+        this.from = from;
+        this.to = to;
+        this.numberOfPeople = numberOfPeople;
+    }
 
     public Long getId() {
         return id;
@@ -50,6 +55,14 @@ public class Reservation {
 
     public void setOffer(Offer offer) {
         this.offer = offer;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Date getFrom() {

@@ -16,6 +16,11 @@ public class OfferManagerImpl implements OfferManager {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public Long create(Offer offer) {
+        entityManager.persist(offer);
+        return offer.getId();
+    }
+
     public Offer findById(Long id) {
         Offer offer = entityManager.find(Offer.class, id);
         if (offer == null){
@@ -27,4 +32,5 @@ public class OfferManagerImpl implements OfferManager {
     public List<Offer> getAll() {
         return entityManager.createQuery("SELECT o FROM Offer o", Offer.class).getResultList();
     }
+
 }

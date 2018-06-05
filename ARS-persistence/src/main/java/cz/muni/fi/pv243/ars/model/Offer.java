@@ -45,6 +45,18 @@ public class Offer {
     @ManyToOne
     private User user;
 
+    public Offer() {
+    }
+
+    public Offer(Address address, Integer capacity, AccomodationType accomodationType, Boolean isAnimalFriendly, Boolean isSmokerFriendly, User tenant) {
+        this.address = address;
+        this.capacity = capacity;
+        this.accomodationType = accomodationType;
+        this.isAnimalFriendly = isAnimalFriendly;
+        this.isSmokerFriendly = isSmokerFriendly;
+        this.user = tenant;
+    }
+
     public Long getId() {
         return id;
     }
@@ -91,6 +103,14 @@ public class Offer {
 
     public void setSmokerFriendly(Boolean smokerFriendly) {
         isSmokerFriendly = smokerFriendly;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

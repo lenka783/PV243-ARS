@@ -1,8 +1,10 @@
 package cz.muni.fi.pv243.utils;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Random;
 
+import cz.muni.fi.pv243.ars.enumeration.AccomodationType;
 import cz.muni.fi.pv243.ars.model.Address;
 import cz.muni.fi.pv243.ars.model.Offer;
 import cz.muni.fi.pv243.ars.model.Reservation;
@@ -24,7 +26,19 @@ public class EntityFactoryPersistance {
         return user;
     }
 
-    public Address createAddress(String city, String country, String street) {
+    public static User createUser(String name, String surname, Address address, LocalDate dateOfBirth, String psw, String email) {
+        User user = new User();
+        user.setName(name)
+                .setSurname(surname)
+                .setAddress(address)
+                .setDateOfBirth(dateOfBirth)
+                .setPassword(psw)
+                .setEmail(email);
+
+        return user;
+    }
+
+    public static Address createAddress(String city, String country, String street) {
         Address address = new Address();
         Random rand = new Random();
 
@@ -36,14 +50,27 @@ public class EntityFactoryPersistance {
         return address;
     }
 
-    public Offer createOffer() {
+    public static Offer createOffer(
+            Address address, User tenant, int capacity,
+            AccomodationType accType, boolean isAnimalFriendly, boolean isSmokerFriendly) {
         Offer offer = new Offer();
+        offer.setAddress(address);
+        offer.setAccomodationType(accType);
+        offer.setAnimalFriendly(isAnimalFriendly);
+        offer.setSmokerFriendly(isSmokerFriendly);
+        offer.setCapacity(capacity);
+        offer.setUser(tenant);
 
         return offer;
     }
 
-    public Reservation createReservation() {
+    public static Reservation createReservation(Offer offer, User user, Date from, Date to, int numberOfPeople) {
         Reservation reservation = new Reservation();
+        reservation.setOffer(offer);
+        reservation.setUser(user);
+        reservation.setFrom(from);
+        reservation.setTo(to);
+        reservation.setNumberOfPeople(numberOfPeople);
 
         return reservation;
     }
