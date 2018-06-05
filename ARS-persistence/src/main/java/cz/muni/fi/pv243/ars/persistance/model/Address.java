@@ -119,8 +119,6 @@ public class Address implements Serializable {
 
         Address address = (Address) o;
 
-        if (!getId().equals(address.getId()))
-            return false;
         if (getStreet() != null ? !getStreet().equals(address.getStreet()) : address.getStreet() != null)
             return false;
         if (getCity() != null ? !getCity().equals(address.getCity()) : address.getCity() != null)
@@ -129,21 +127,17 @@ public class Address implements Serializable {
             return false;
         if (getCountry() != null ? !getCountry().equals(address.getCountry()) : address.getCountry() != null)
             return false;
-        if (getPostCode() != null ? !getPostCode().equals(address.getPostCode()) : address.getPostCode() != null)
-            return false;
-        return getUser().equals(address.getUser());
+        return getPostCode() != null ? getPostCode().equals(address.getPostCode()) : address.getPostCode() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + (getStreet() != null ? getStreet().hashCode() : 0);
+        int result = getStreet() != null ? getStreet().hashCode() : 0;
         result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
         result = 31 * result + (getState() != null ? getState().hashCode() : 0);
         result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
         result = 31 * result + (getPostCode() != null ? getPostCode().hashCode() : 0);
-        result = 31 * result + getUser().hashCode();
         return result;
     }
 

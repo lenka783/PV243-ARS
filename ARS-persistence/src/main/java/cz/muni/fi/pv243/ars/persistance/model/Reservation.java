@@ -1,10 +1,10 @@
 package cz.muni.fi.pv243.ars.persistance.model;
 
-import java.time.LocalDate;
 import java.io.Serializable;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,10 +24,11 @@ public class Reservation implements Serializable {
     @Column(name = "reservation_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @NotNull
     private Offer offer;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User user;
 
     @NotNull
@@ -38,17 +39,6 @@ public class Reservation implements Serializable {
 
     @NotNull
     private Integer numberOfPeople;
-
-    public Reservation() {
-    }
-
-    public Reservation(Offer offer, User user, LocalDate from, LocalDate to, Integer numberOfPeople) {
-        this.offer = offer;
-        this.user = user;
-        this.from = from;
-        this.to = to;
-        this.numberOfPeople = numberOfPeople;
-    }
 
     public Long getId() {
         return id;
@@ -65,15 +55,6 @@ public class Reservation implements Serializable {
 
     public Reservation setOffer(Offer offer) {
         this.offer = offer;
-        return this;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public Reservation setUser(User user) {
-        this.user = user;
         return this;
     }
 

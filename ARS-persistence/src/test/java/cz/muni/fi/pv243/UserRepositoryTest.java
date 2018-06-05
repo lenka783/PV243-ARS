@@ -2,6 +2,8 @@ package cz.muni.fi.pv243;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,6 +15,7 @@ import javax.transaction.UserTransaction;
 import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.persistance.model.Address;
 import cz.muni.fi.pv243.ars.persistance.model.Offer;
+import cz.muni.fi.pv243.ars.persistance.model.Reservation;
 import cz.muni.fi.pv243.ars.persistance.model.User;
 import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -153,12 +156,21 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void createOfferForTenant() {
+    public void createReservationForHost() {
+        User host = ef.createUser("hostUser");
+        Offer offer = ef.createOffer(address);
+        Reservation reservation = ef.createReservation(LocalDate.now(), LocalDate.now().plusWeeks(1), offer);
 
+        host.addRole(UserRole.HOST)
+            .addReservation(reservation);
+
+        entityManager.persist(offer);
+        entityManager.persist(reservation);
+        entityManager.persist(host);
     }
 
     @Test
-    public void createReservationForHost() {
+    public void createOfferForTenant() {
 
     }
 

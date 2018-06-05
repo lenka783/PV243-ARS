@@ -64,31 +64,4 @@ public class EntityFactoryPersistence {
         return reservation;
     }
 
-
-
-    public static Offer createOffer(
-            Address address, User tenant, int capacity,
-            AccommodationType accType, boolean isAnimalFriendly, boolean isSmokerFriendly) {
-        Offer offer = new Offer();
-        offer.setAddress(address)
-                .setAccommodationType(accType)
-                .setAnimalFriendly(isAnimalFriendly)
-                .setSmokerFriendly(isSmokerFriendly)
-                .setCapacity(capacity)
-                .setUser(tenant);
-
-        return offer;
-    }
-
-    public static Reservation createReservation(Offer offer, User user, LocalDate from, LocalDate to, int numberOfPeople) {
-        Reservation reservation = new Reservation();
-        reservation.setOffer(offer)
-                .setUser(user)
-                .setFrom(from)
-                .setTo(to)
-                .setNumberOfPeople(numberOfPeople);
-
-        return reservation;
-    }
-
 }
