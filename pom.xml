@@ -22,7 +22,6 @@
 
   <modules>
     <module>ARS-persistence</module>
-    <module>ARS-business</module>
   </modules>
 
 </project>

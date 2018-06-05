@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.validation;
+package cz.muni.fi.pv243.ars.persistance.validation;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

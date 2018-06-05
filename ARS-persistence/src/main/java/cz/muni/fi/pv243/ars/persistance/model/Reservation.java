@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.model;
+package cz.muni.fi.pv243.ars.persistance.model;
 
 import java.io.Serializable;
 import java.sql.Date;

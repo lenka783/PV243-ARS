@@ -2,14 +2,16 @@ package cz.muni.fi.pv243.ars.repository;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import cz.muni.fi.pv243.ars.model.Offer;
+import cz.muni.fi.pv243.ars.persistance.model.Offer;
 
 /**
  * Created by mminatova on 5/29/18.
  */
+@Stateless
 public class OfferRepository {
 
     @Inject

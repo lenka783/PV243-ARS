@@ -6,8 +6,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import cz.muni.fi.pv243.ars.enumeration.UserRole;
-import cz.muni.fi.pv243.ars.model.User;
+import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
+import cz.muni.fi.pv243.ars.persistance.model.User;
 
 /**
  * Created by jsmolar on 5/28/18.

@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.model;
+package cz.muni.fi.pv243.ars.persistance.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,8 +21,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cz.muni.fi.pv243.ars.enumeration.UserRole;
-import cz.muni.fi.pv243.ars.validation.AddressConstraint;
+import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
+import cz.muni.fi.pv243.ars.persistance.validation.AddressConstraint;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 

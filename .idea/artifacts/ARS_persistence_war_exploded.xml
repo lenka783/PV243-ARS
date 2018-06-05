@@ -40,9 +40,12 @@
           <element id="library" level="project" name="Maven: org.jboss.shrinkwrap:shrinkwrap-impl-base:1.2.2" />
           <element id="library" level="project" name="Maven: org.jboss.shrinkwrap:shrinkwrap-spi:1.2.2" />
           <element id="library" level="project" name="Maven: org.jboss.spec.javax.ejb:jboss-ejb-api_3.2_spec:1.0.0.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.arquillian.container:arquillian-container-spi:1.1.13.Final" />
-          <element id="library" level="project" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:2.0.0-alpha-10" />
-          <element id="library" level="project" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:2.0.0-alpha-10" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.protocol:arquillian-protocol-servlet:1.1.5.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.arquillian.container:arquillian-container-spi:1.1.5.Final" />
+          <element id="library" level="project" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-api-base:2.0.0-alpha-5" />
+          <element id="library" level="project" name="Maven: org.jboss.shrinkwrap.descriptors:shrinkwrap-descriptors-spi:2.0.0-alpha-5" />
+          <element id="library" level="project" name="Maven: org.easytesting:fest-assert:1.4" />
+          <element id="library" level="project" name="Maven: org.easytesting:fest-util:1.1.6" />
           <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
           <element id="library" level="project" name="Maven: org.jboss.arquillian.core:arquillian-core-api:1.1.13.Final" />
         </element>

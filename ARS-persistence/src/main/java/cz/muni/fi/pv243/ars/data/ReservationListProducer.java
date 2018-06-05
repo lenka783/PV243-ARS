@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.data.reservation;
+package cz.muni.fi.pv243.ars.data;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import cz.muni.fi.pv243.ars.model.Reservation;
-import cz.muni.fi.pv243.ars.model.User;
+import cz.muni.fi.pv243.ars.persistance.model.Reservation;
+import cz.muni.fi.pv243.ars.persistance.model.User;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 
 /**

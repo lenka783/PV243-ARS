@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.controller;
+package cz.muni.fi.pv243.ars.controller;
 
 import javax.enterprise.inject.Model;
 

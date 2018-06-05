@@ -5,7 +5,7 @@
   <defaultProtocol type="Servlet 3.0" />
   <container qualifier="jboss" default="true">
     <configuration>
-      <!--<property name="allowConnectingToRunningServer">true</property>-->
+      <property name="allowConnectingToRunningServer">true</property>
       <property name="jbossHome">/home/jsmolar/Programs/wildfly-10.0.0.Final</property>
     </configuration>
   </container>

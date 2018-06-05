@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.model;
+package cz.muni.fi.pv243.ars.persistance.model;
 
 import java.io.Serializable;
 
@@ -13,8 +13,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cz.muni.fi.pv243.ars.enumeration.AccomodationType;
-import cz.muni.fi.pv243.ars.validation.AddressConstraint;
+import cz.muni.fi.pv243.ars.persistance.enumeration.AccomodationType;
+import cz.muni.fi.pv243.ars.persistance.validation.AddressConstraint;
 
 /**
  * Created by jsmolar on 5/19/18.
