@@ -1,14 +1,16 @@
 package cz.muni.fi.pv243;
 
-import cz.muni.fi.pv243.ars.enumeration.AccomodationType;
-import cz.muni.fi.pv243.ars.enumeration.UserRole;
-import cz.muni.fi.pv243.ars.manager.impl.OfferManagerImpl;
-import cz.muni.fi.pv243.ars.manager.impl.ReservationManagerImpl;
-import cz.muni.fi.pv243.ars.manager.impl.UserManagerImpl;
-import cz.muni.fi.pv243.ars.model.Address;
-import cz.muni.fi.pv243.ars.model.Offer;
-import cz.muni.fi.pv243.ars.model.Reservation;
-import cz.muni.fi.pv243.ars.model.User;
+import cz.muni.fi.pv243.ars.persistance.enumeration.AccomodationType;
+import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
+import cz.muni.fi.pv243.ars.persistance.model.Address;
+import cz.muni.fi.pv243.ars.persistance.model.Offer;
+import cz.muni.fi.pv243.ars.persistance.model.Reservation;
+import cz.muni.fi.pv243.ars.persistance.model.User;
+import cz.muni.fi.pv243.ars.repository.AddressRepository;
+import cz.muni.fi.pv243.ars.repository.ReservationRepository;
+import cz.muni.fi.pv243.ars.repository.UserRepository;
+import cz.muni.fi.pv243.ars.utils.Resources;
+import cz.muni.fi.pv243.utils.EntityFactoryPersistence;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -22,34 +24,48 @@ import org.junit.runner.RunWith;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
+import javax.transaction.UserTransaction;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 
+
 @RunWith(Arquillian.class)
 public class ReservationManagerTest {
 
-    @PersistenceContext
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     private EntityManager entityManager;
 
     @Inject
-    private ReservationManagerImpl reservationManager;
+    private ReservationRepository reservationRepository;
 
-    private User tenant;
-    private User host;
-    private Offer offer;
+    @Inject
+    private UserTransaction tx;
+
+    @Inject
+    private UserRepository userRepository;
+
+    @Inject
+    private AddressRepository addressRepository;
+
+    private EntityFactoryPersistence ef = new EntityFactoryPersistence();
 
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap
                 .create(WebArchive.class)
-                .addPackages(true, "cz.muni.fi.pv243.ars.manager", "cz.muni.fi.pv243.ars.model")
+                .addClasses(Resources.class, EntityFactoryPersistence.class)
+                .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistance.model")
                 .addPackage(UserRole.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
+
+    private User tenant;
+    private User host;
+    private Offer offer;
 
     @Before
     public void init() {
@@ -132,11 +148,11 @@ public class ReservationManagerTest {
         Reservation expected = new Reservation(
                 offer,
                 host,
-                Date.valueOf("2018-06-16"),
-                Date.valueOf("2018-06-28"),
+                LocalDate.of(2018,6, 16),
+                LocalDate.of(2018, 6, 28),
                 4);
 
-        reservationManager.create(expected);
+        reservationRepository.create(expected);
 
         Reservation actual = entityManager.find(Reservation.class, expected.getId());
         assertEquals(expected, actual);

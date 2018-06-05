@@ -26,8 +26,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ARS" target="1.5" />
-      <module name="ARS-persistence" target="1.5" />
+      <module name="ARS-business" target="1.8" />
+      <module name="ARS-persistence" target="1.8" />
+      <module name="PV243-ARS" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
