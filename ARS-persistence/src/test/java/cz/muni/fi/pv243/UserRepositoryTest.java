@@ -25,6 +25,7 @@ import cz.muni.fi.pv243.ars.utils.Resources;
 import cz.muni.fi.pv243.utils.EntityFactoryPersistence;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.spi.ArquillianProxyException;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -168,7 +169,7 @@ public class UserRepositoryTest {
 
     }
 
-    @Test
+    @Test(expected = ArquillianProxyException.class)
     public void createReservationForHost() {
         User host = ef.createUser("hostUser");
         Offer offer = ef.createOffer(address);

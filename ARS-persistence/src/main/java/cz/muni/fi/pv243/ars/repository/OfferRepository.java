@@ -17,9 +17,9 @@ public class OfferRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Long create(Offer offer) {
+    public void create(Offer offer) {
         entityManager.persist(offer);
-        return offer.getId();
+        entityManager.flush();
     }
 
     public Offer findById(Long id) {

@@ -19,14 +19,18 @@ public class AddressRepository {
 
     public void create(Address address) {
         entityManager.persist(address);
+        entityManager.flush();
     }
 
     public Address update(Address address) {
-        return entityManager.merge(address);
+        address = entityManager.merge(address);
+        entityManager.flush();
+        return address;
     }
 
     public void delete(Address address) {
         entityManager.remove(address);
+        entityManager.flush();
     }
 
     public Address findById(long id) {

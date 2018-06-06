@@ -23,9 +23,9 @@ public class ReservationRepository {
     @Inject
     private UserRepository userRepository;
 
-    public Long create(Reservation reservation) {
+    public void create(Reservation reservation) {
         entityManager.persist(reservation);
-        return reservation.getId();
+        entityManager.flush();
     }
 
     public Reservation update(Reservation reservation) {
