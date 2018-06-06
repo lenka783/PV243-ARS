@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import cz.muni.fi.pv243.ars.persistance.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
 
 /**
  * Created by mminatova on 5/29/18.

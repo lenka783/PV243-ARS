@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import cz.muni.fi.pv243.ars.persistance.model.Address;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
 
 /**
  * Created by jsmolar on 6/4/18.

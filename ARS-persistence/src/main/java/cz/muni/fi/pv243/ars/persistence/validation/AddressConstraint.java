@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.persistance.validation;
+package cz.muni.fi.pv243.ars.persistence.validation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

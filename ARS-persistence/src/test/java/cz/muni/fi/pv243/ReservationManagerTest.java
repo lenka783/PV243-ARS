@@ -12,12 +12,12 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
-import cz.muni.fi.pv243.ars.persistance.model.Address;
-import cz.muni.fi.pv243.ars.persistance.model.Offer;
-import cz.muni.fi.pv243.ars.persistance.model.Reservation;
-import cz.muni.fi.pv243.ars.persistance.model.User;
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.enumeration.UserRole;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -60,7 +60,7 @@ public class ReservationManagerTest {
         return ShrinkWrap
                 .create(WebArchive.class)
                 .addClasses(Resources.class, EntityFactoryPersistence.class)
-                .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistance.model")
+                .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistence.model")
                 .addPackage(UserRole.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");

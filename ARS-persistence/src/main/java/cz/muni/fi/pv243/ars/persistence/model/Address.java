@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.persistance.model;
+package cz.muni.fi.pv243.ars.persistence.model;
 
 import java.io.Serializable;
 

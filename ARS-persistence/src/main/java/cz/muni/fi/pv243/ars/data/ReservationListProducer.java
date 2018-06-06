@@ -8,8 +8,8 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import cz.muni.fi.pv243.ars.persistance.model.Reservation;
-import cz.muni.fi.pv243.ars.persistance.model.User;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 
 /**

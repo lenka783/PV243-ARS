@@ -8,8 +8,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import cz.muni.fi.pv243.ars.persistance.model.Reservation;
-import cz.muni.fi.pv243.ars.persistance.model.User;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 
 /**
  * Created by Lenka Smitalova on 5/29/2018
