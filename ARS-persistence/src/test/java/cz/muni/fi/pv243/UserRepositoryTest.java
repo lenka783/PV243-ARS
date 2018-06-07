@@ -12,17 +12,20 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
-import cz.muni.fi.pv243.ars.persistance.model.Address;
-import cz.muni.fi.pv243.ars.persistance.model.Offer;
-import cz.muni.fi.pv243.ars.persistance.model.Reservation;
-import cz.muni.fi.pv243.ars.persistance.model.User;
+import cz.muni.fi.pv243.ars.persistence.enumeration.UserRole;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 import cz.muni.fi.pv243.ars.repository.AddressRepository;
+import cz.muni.fi.pv243.ars.repository.OfferRepository;
+import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
 import cz.muni.fi.pv243.ars.utils.Resources;
 import cz.muni.fi.pv243.utils.EntityFactoryPersistence;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.spi.ArquillianProxyException;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -50,6 +53,12 @@ public class UserRepositoryTest {
     @Inject
     private AddressRepository addressRepository;
 
+    @Inject
+    private OfferRepository offerRepository;
+
+    @Inject
+    private ReservationRepository reservationRepository;
+
     private EntityFactoryPersistence ef = new EntityFactoryPersistence();
 
     @Deployment
@@ -57,7 +66,7 @@ public class UserRepositoryTest {
         return ShrinkWrap
             .create(WebArchive.class)
             .addClasses(Resources.class, EntityFactoryPersistence.class)
-            .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistance.model")
+            .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistence")
             .addPackage(UserRole.class.getPackage())
             .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
             .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
@@ -73,9 +82,9 @@ public class UserRepositoryTest {
         User user2 = ef.createUser("user2Test", address);
         User user3 = ef.createUser("user3Test", address);
 
-        entityManager.persist(user1);
-        entityManager.persist(user2);
-        entityManager.persist(user3);
+        userRepository.create(user1);
+        userRepository.create(user2);
+        userRepository.create(user3);
     }
 
     @After
@@ -85,32 +94,35 @@ public class UserRepositoryTest {
 
     @Test
     public void createUserTest() {
-        User expected = ef.createUser("testUser", address);
+        System.out.println("create test user");
+        User expected = ef.createUser("testUser");
 
         userRepository.create(expected);
 
-        User actual = entityManager.find(User.class, expected.getId());
+        User actual = userRepository.findById(expected.getId());
         assertEquals(expected, actual);
     }
 
     @Test
     public void updateUserTest() {
+        System.out.println("update test user");
         User expected = ef.createUser("updateUser", address);
-        entityManager.persist(expected);
-        assertEquals(entityManager.find(User.class, expected.getId()), expected);
+        userRepository.create(expected);
+        assertEquals(userRepository.findById(expected.getId()), expected);
 
         expected.setEmail("updatedTestEmail@example.com");
         userRepository.update(expected);
 
-        User actual = entityManager.find(User.class, expected.getId());
+        User actual = userRepository.findById(expected.getId());
         assertEquals(expected, actual);
         assertEquals(expected.getEmail(), actual.getEmail());
     }
 
     @Test
     public void deleteUserTest() {
+        System.out.println("delete test user");
         User user = ef.createUser("userForDelete");
-        entityManager.persist(user);
+        userRepository.create(user);
 
         int userCount = userRepository.findAll().size();
         userRepository.delete(user);
@@ -121,8 +133,9 @@ public class UserRepositoryTest {
 
     @Test
     public void findByIdTest() {
+        System.out.println("find by id test user");
         User expected = ef.createUser("findUser", address);
-        entityManager.persist(expected);
+        userRepository.create(expected);
 
         User actual = userRepository.findById(expected.getId());
         assertEquals(expected, actual);
@@ -130,10 +143,11 @@ public class UserRepositoryTest {
 
     @Test
     public void findAllTest() {
+        System.out.println("find all test user");
         assertEquals(userRepository.findAll().size(), 3);
 
         User expected = ef.createUser("findAllUser", address);
-        entityManager.persist(expected);
+        userRepository.create(expected);
 
         assertEquals(userRepository.findAll().size(), 4);
     }
@@ -146,8 +160,8 @@ public class UserRepositoryTest {
         host.addRole(UserRole.HOST)
             .addOffer(offer);
 
-        entityManager.persist(offer);
-        entityManager.persist(host);
+        offerRepository.create(offer);
+        userRepository.create(host);
     }
 
     @Test
@@ -155,7 +169,7 @@ public class UserRepositoryTest {
 
     }
 
-    @Test
+    @Test(expected = ArquillianProxyException.class)
     public void createReservationForHost() {
         User host = ef.createUser("hostUser");
         Offer offer = ef.createOffer(address);
@@ -164,9 +178,9 @@ public class UserRepositoryTest {
         host.addRole(UserRole.HOST)
             .addReservation(reservation);
 
-        entityManager.persist(offer);
-        entityManager.persist(reservation);
-        entityManager.persist(host);
+        offerRepository.create(offer);
+        reservationRepository.create(reservation);
+        userRepository.create(host);
     }
 
     @Test

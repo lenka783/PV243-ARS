@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.persistance.validation;
+package cz.muni.fi.pv243.ars.persistence.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,8 +15,7 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {RolesOwnershipValidator.class})
 public @interface RoleOwnership {
-    String message () default "total price must be 50 or greater for online order. " +
-        "Found: ${validatedValue.totalPrice}";
+    String message () default "Validation of User failed";
     Class<?>[] groups () default {};
     Class<? extends Payload>[] payload () default {};
 }

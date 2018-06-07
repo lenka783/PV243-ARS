@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.persistance.enumeration;
+package cz.muni.fi.pv243.ars.persistence.enumeration;
 
 /**
  * Created by jsmolar on 4/26/18.

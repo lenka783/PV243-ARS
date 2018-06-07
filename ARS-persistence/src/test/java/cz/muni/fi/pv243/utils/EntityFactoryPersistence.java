@@ -3,11 +3,11 @@ package cz.muni.fi.pv243.utils;
 import java.time.LocalDate;
 import java.util.Random;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistance.model.Address;
-import cz.muni.fi.pv243.ars.persistance.model.Offer;
-import cz.muni.fi.pv243.ars.persistance.model.Reservation;
-import cz.muni.fi.pv243.ars.persistance.model.User;
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 
 /**
  * Created by jsmolar on 6/1/18.

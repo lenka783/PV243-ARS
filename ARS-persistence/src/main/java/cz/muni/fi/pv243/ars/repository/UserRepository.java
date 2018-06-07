@@ -6,8 +6,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
-import cz.muni.fi.pv243.ars.persistance.model.User;
+import cz.muni.fi.pv243.ars.persistence.enumeration.UserRole;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 
 /**
  * Created by jsmolar on 5/28/18.
@@ -20,14 +20,18 @@ public class UserRepository {
 
     public void create(User user) {
         entityManager.persist(user);
+        entityManager.flush();
     }
 
     public User update(User user) {
-        return entityManager.merge(user);
+        user = entityManager.merge(user);
+        entityManager.flush();
+        return user;
     }
 
     public void delete(User user) {
         entityManager.remove(user);
+        entityManager.flush();
     }
 
     public User findById(long id) {

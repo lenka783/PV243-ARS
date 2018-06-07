@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.persistance.model;
+package cz.muni.fi.pv243.ars.persistence.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -16,8 +16,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistance.validation.AddressConstraint;
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
 
 /**
  * Created by jsmolar on 5/19/18.
@@ -36,17 +36,14 @@ public class Offer implements Serializable {
     @OneToOne(mappedBy = "offer", cascade = CascadeType.ALL)
     private Address address;
 
-    @NotNull
     private Integer capacity;
 
     @NotNull
     @Enumerated
     private AccommodationType accommodationType;
 
-    @NotNull
     private Boolean isAnimalFriendly;
 
-    @NotNull
     private Boolean isSmokerFriendly;
 
     @ManyToOne

@@ -12,13 +12,14 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
-import cz.muni.fi.pv243.ars.persistance.model.Address;
-import cz.muni.fi.pv243.ars.persistance.model.Offer;
-import cz.muni.fi.pv243.ars.persistance.model.Reservation;
-import cz.muni.fi.pv243.ars.persistance.model.User;
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.enumeration.UserRole;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 import cz.muni.fi.pv243.ars.repository.AddressRepository;
+import cz.muni.fi.pv243.ars.repository.OfferRepository;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
 import cz.muni.fi.pv243.ars.utils.Resources;
@@ -42,13 +43,16 @@ public class ReservationManagerTest {
     private EntityManager entityManager;
 
     @Inject
-    private ReservationRepository reservationRepository;
-
-    @Inject
     private UserTransaction tx;
 
     @Inject
     private UserRepository userRepository;
+
+    @Inject
+    private ReservationRepository reservationRepository;
+
+    @Inject
+    private OfferRepository offerRepository;
 
     @Inject
     private AddressRepository addressRepository;
@@ -60,7 +64,7 @@ public class ReservationManagerTest {
         return ShrinkWrap
                 .create(WebArchive.class)
                 .addClasses(Resources.class, EntityFactoryPersistence.class)
-                .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistance.model")
+                .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistence")
                 .addPackage(UserRole.class.getPackage())
                 .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
@@ -73,57 +77,60 @@ public class ReservationManagerTest {
     @Before
     public void init() throws SystemException, NotSupportedException {
         tx.begin();
-        Address tenantAddress = new Address(
-                "Botanicka",
-                "Brno",
-                "CR",
-                "",
-                "61800").setId(23l);
-        Address offerAddress = new Address(
-                "Main",
-                "Praha",
-                "CR",
-                "",
-                "92339").setId(2342l);
-        Address hostAddress = new Address(
-                "Technologicka",
-                "Brno",
-                "CR",
-                "",
-                "23984").setId(42l);
-
-        tenant = new User(
-                "Adam",
-                "Black",
-                "adam.black@mail.com",
-                "12345667",
-                tenantAddress,
-                LocalDate.now()
-        );
-        tenant.setId(190l);
-        tenantAddress.setUser(tenant);
-
-        host = new User(
-                "Adam",
-                "Black",
-                "adam.black@mail.com",
-                "12345667",
-                hostAddress,
-                LocalDate.now()
-        );
-        host.setId(19023l);
-        hostAddress.setUser(host);
-
-        offer = new Offer(
-                offerAddress,
-                5,
-                AccommodationType.APARTMENT,
-                true,
-                false,
-                tenant);
-        offerAddress.setUser(tenant);
-
-        offer.setId(12309l);
+//        Address tenantAddress = new Address(
+//                "Botanicka",
+//                "Brno",
+//                "CR",
+//                "",
+//                "61800").setId(23l);
+//        Address offerAddress = new Address(
+//                "Main",
+//                "Praha",
+//                "CR",
+//                "",
+//                "92339").setId(2342l);
+//        Address hostAddress = new Address(
+//                "Technologicka",
+//                "Brno",
+//                "CR",
+//                "",
+//                "23984").setId(42l);
+//
+//        tenant = new User(
+//                "Adam",
+//                "Black",
+//                "adam.black@mail.com",
+//                "12345667",
+//                tenantAddress,
+//                LocalDate.now()
+//        );
+//        tenant.setId(190l);
+//
+//        host = new User(
+//                "Adam",
+//                "Black",
+//                "adam.black@mail.com",
+//                "12345667",
+//                hostAddress,
+//                LocalDate.now()
+//        );
+//        host.setId(19023l);
+//        hostAddress.setUser(host);
+//
+//        userRepository.create(host);
+//
+//        offer = new Offer(
+//                offerAddress,
+//                5,
+//                AccommodationType.APARTMENT,
+//                true,
+//                false,
+//                tenant);
+//        offerAddress.setUser(tenant);
+//
+//        offer.setId(12309l);
+//
+//        offerRepository.create(offer);
     }
 
     @After
@@ -151,7 +158,7 @@ public class ReservationManagerTest {
                 offerAddress, tenant, 5, AccomodationType.APARTMENT, false, true);
     }*/
 
-    @Test
+//    @Test
     public void createReservationTest() {
         Reservation expected = new Reservation(
                 offer,
@@ -164,5 +171,23 @@ public class ReservationManagerTest {
 
         Reservation actual = entityManager.find(Reservation.class, expected.getId());
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testA() {
+        Address address = ef.createAddress("Bratislava", "Slovakia", "Bajkalska");
+        User user = ef.createUser("testUser", address);
+        userRepository.create(user);
+
+        offer = new Offer(address,5, AccommodationType.APARTMENT, true, false, tenant);
+        offerRepository.create(offer);
+
+        Reservation expected = new Reservation(
+            offer,
+            host,
+            LocalDate.of(2018,6, 16),
+            LocalDate.of(2018, 6, 28),
+            4);
+        reservationRepository.create(expected);
     }
 }
