@@ -71,10 +71,10 @@ public class User implements Serializable {
     @Column(name="roles")
     private Set<UserRole> roles = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tenant")
     private Set<Offer> offers = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "host")
     private Set<Reservation> reservations = new HashSet<>();
 
     public User() {
@@ -194,6 +194,7 @@ public class User implements Serializable {
 
     public User addReservation(Reservation reservation) {
         reservations.add(reservation);
+        reservation.setHost(this);
         return this;
     }
 

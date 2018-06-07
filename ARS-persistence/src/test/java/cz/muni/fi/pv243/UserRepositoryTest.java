@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -169,7 +170,7 @@ public class UserRepositoryTest {
 
     }
 
-    @Test(expected = ArquillianProxyException.class)
+    @Test(expected = EJBTransactionRolledbackException.class)
     public void createReservationForHost() {
         User host = ef.createUser("hostUser");
         Offer offer = ef.createOffer(address);

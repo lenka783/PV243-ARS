@@ -8,9 +8,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
+import javax.transaction.*;
 
 import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
 import cz.muni.fi.pv243.ars.persistence.enumeration.UserRole;
@@ -77,95 +75,38 @@ public class ReservationManagerTest {
     @Before
     public void init() throws SystemException, NotSupportedException {
         tx.begin();
-//        Address tenantAddress = new Address(
-//                "Botanicka",
-//                "Brno",
-//                "CR",
-//                "",
-//                "61800").setId(23l);
-//        Address offerAddress = new Address(
-//                "Main",
-//                "Praha",
-//                "CR",
-//                "",
-//                "92339").setId(2342l);
-//        Address hostAddress = new Address(
-//                "Technologicka",
-//                "Brno",
-//                "CR",
-//                "",
-//                "23984").setId(42l);
-//
-//        tenant = new User(
-//                "Adam",
-//                "Black",
-//                "adam.black@mail.com",
-//                "12345667",
-//                tenantAddress,
-//                LocalDate.now()
-//        );
-//        tenant.setId(190l);
-//
-//        host = new User(
-//                "Adam",
-//                "Black",
-//                "adam.black@mail.com",
-//                "12345667",
-//                hostAddress,
-//                LocalDate.now()
-//        );
-//        host.setId(19023l);
-//        hostAddress.setUser(host);
-//
-//        userRepository.create(host);
-//
-//        offer = new Offer(
-//                offerAddress,
-//                5,
-//                AccommodationType.APARTMENT,
-//                true,
-//                false,
-//                tenant);
-//        offerAddress.setUser(tenant);
-//
-//        offer.setId(12309l);
-//
-//        offerRepository.create(offer);
+
+        Address tenantAddress = ef.createAddress("Brno", "CR", "Botanicka");
+        Address offerAddress = ef.createAddress("Praha", "CR", "Main");
+        Address hostAddress = ef.createAddress("Brno", "CR", "Technologicky park");
+
+        addressRepository.create(tenantAddress);
+        addressRepository.create(offerAddress);
+        addressRepository.create(hostAddress);
+
+        tenant = ef.createUser("Adam", tenantAddress);
+        host = ef.createUser("John", hostAddress);
+
+        userRepository.create(tenant);
+        userRepository.create(host);
+
+        offer = ef.createOffer(offerAddress);
+
+        offerRepository.create(offer);
     }
 
     @After
     public void tearDown() throws SystemException {
         tx.rollback();
     }
-    /**public void init() {
-        Address tenantAddress = EntityFactoryPersistance.createAddress(
-                "Brno",
-                "CR",
-                "Botanicka");
-        Address offerAddress = EntityFactoryPersistance.createAddress(
-                "Praha",
-                "CR",
-                "Main");
-        tenant = EntityFactoryPersistance.createUser(
-                "Adam",
-                "Black",
-                tenantAddress,
-                LocalDate.now(),
-                "12345667",
-                "adam.black@mail.com");
 
-        offer = EntityFactoryPersistance.createOffer(
-                offerAddress, tenant, 5, AccomodationType.APARTMENT, false, true);
-    }*/
-
-//    @Test
+    @Test
     public void createReservationTest() {
-        Reservation expected = new Reservation(
-                offer,
-                host,
-                LocalDate.of(2018,6, 16),
-                LocalDate.of(2018, 6, 28),
-                4);
+        Reservation expected = ef.createReservation(
+                LocalDate.now(),
+                LocalDate.now().plusWeeks(1),
+                offer
+        );
 
         reservationRepository.create(expected);
 
@@ -174,20 +115,79 @@ public class ReservationManagerTest {
     }
 
     @Test
-    public void testA() {
-        Address address = ef.createAddress("Bratislava", "Slovakia", "Bajkalska");
-        User user = ef.createUser("testUser", address);
-        userRepository.create(user);
-
-        offer = new Offer(address,5, AccommodationType.APARTMENT, true, false, tenant);
-        offerRepository.create(offer);
-
-        Reservation expected = new Reservation(
-            offer,
-            host,
-            LocalDate.of(2018,6, 16),
-            LocalDate.of(2018, 6, 28),
-            4);
+    public void updateReservationTest() {
+        Reservation expected = ef.createReservation(
+                LocalDate.now().plusWeeks(1),
+                LocalDate.now().plusWeeks(2),
+                offer
+        );
         reservationRepository.create(expected);
+        host.addReservation(expected);
+        userRepository.update(host);
+
+        assertEquals(expected, reservationRepository.findById(expected.getId()));
+
+        expected.setFromDate(LocalDate.now());
+        expected = reservationRepository.update(expected);
+
+        Reservation actual = reservationRepository.findById(expected.getId());
+        assertEquals(expected, actual);
+        assertEquals(expected.getFromDate(), actual.getFromDate());
+    }
+
+    @Test
+    public void deleteReservationTest() {
+        Reservation expected = ef.createReservation(
+                LocalDate.now().plusWeeks(1),
+                LocalDate.now().plusWeeks(2),
+                offer
+        );
+        reservationRepository.create(expected);
+        host.addReservation(expected);
+        userRepository.update(host);
+
+        int reservationCountBeforeDelete = reservationRepository.findAllForUser(host).size();
+
+        reservationRepository.delete(expected);
+
+        Reservation actual = reservationRepository.findById(expected.getId());
+        assertEquals(null, actual);
+        assertEquals(reservationCountBeforeDelete - 1, reservationRepository.findAllForUser(host).size());
+    }
+
+    @Test
+    public void findReservationByIdTest() {
+        Reservation expected = ef.createReservation(
+                LocalDate.now().plusWeeks(1),
+                LocalDate.now().plusWeeks(2),
+                offer
+        );
+        reservationRepository.create(expected);
+        assertEquals(expected, reservationRepository.findById(expected.getId()));
+
+        expected.setFromDate(LocalDate.now());
+        expected = reservationRepository.update(expected);
+
+        Reservation actual = reservationRepository.findById(expected.getId());
+        assertEquals(expected, actual);
+        assertEquals(expected.getFromDate(), actual.getFromDate());
+    }
+
+    @Test
+    public void findAllReservationsTest() {
+        Reservation expected = ef.createReservation(
+                LocalDate.now().plusWeeks(1),
+                LocalDate.now().plusWeeks(2),
+                offer
+        );
+        reservationRepository.create(expected);
+        assertEquals(expected, reservationRepository.findById(expected.getId()));
+
+        expected.setFromDate(LocalDate.now());
+        expected = reservationRepository.update(expected);
+
+        Reservation actual = reservationRepository.findById(expected.getId());
+        assertEquals(expected, actual);
+        assertEquals(expected.getFromDate(), actual.getFromDate());
     }
 }

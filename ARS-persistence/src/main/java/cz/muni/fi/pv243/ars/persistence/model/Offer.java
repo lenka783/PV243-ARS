@@ -47,24 +47,10 @@ public class Offer implements Serializable {
     private Boolean isSmokerFriendly;
 
     @ManyToOne
-    private User user;
+    private User tenant;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
     private Set<Reservation> reservation = new HashSet<>();
-
-    public Offer() {
-    }
-
-    public Offer(Address address, Integer capacity,
-        AccommodationType accommodationType, Boolean isAnimalFriendly, Boolean isSmokerFriendly,
-        User user) {
-        this.address = address;
-        this.capacity = capacity;
-        this.accommodationType = accommodationType;
-        this.isAnimalFriendly = isAnimalFriendly;
-        this.isSmokerFriendly = isSmokerFriendly;
-        this.user = user;
-    }
 
     public Long getId() {
         return id;
