@@ -2,7 +2,6 @@ package cz.muni.fi.pv243.ars.persistence.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -19,7 +18,6 @@ public class Address implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "address_id")
     private Long id;
 
     private String street;

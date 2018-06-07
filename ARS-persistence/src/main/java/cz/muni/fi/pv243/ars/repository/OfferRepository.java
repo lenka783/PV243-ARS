@@ -22,6 +22,17 @@ public class OfferRepository {
         entityManager.flush();
     }
 
+    public Offer update(Offer offer) {
+        offer = entityManager.merge(offer);
+        entityManager.flush();
+        return offer;
+    }
+
+    public void delete(Offer offer) {
+        entityManager.remove(offer);
+        entityManager.flush();
+    }
+
     public Offer findById(Long id) {
         Offer offer = entityManager.find(Offer.class, id);
         if (offer == null){
@@ -30,7 +41,7 @@ public class OfferRepository {
         return offer;
     }
 
-    public List<Offer> getAll() {
+    public List<Offer> findAll() {
         return entityManager.createQuery("SELECT o FROM Offer o", Offer.class).getResultList();
     }
 

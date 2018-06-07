@@ -3,7 +3,6 @@ package cz.muni.fi.pv243.ars.persistence.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,7 +19,6 @@ public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "reservation_id")
     private Long id;
 
     @ManyToOne

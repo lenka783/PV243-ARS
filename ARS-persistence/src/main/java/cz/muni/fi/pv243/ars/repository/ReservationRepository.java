@@ -29,11 +29,14 @@ public class ReservationRepository {
     }
 
     public Reservation update(Reservation reservation) {
-        return entityManager.merge(reservation);
+        reservation = entityManager.merge(reservation);
+        entityManager.flush();
+        return reservation;
     }
 
     public void delete(Reservation reservation) {
         entityManager.remove(reservation);
+        entityManager.flush();
     }
 
     public Reservation findById(Long id) {
