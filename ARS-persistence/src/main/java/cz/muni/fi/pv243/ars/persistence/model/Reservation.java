@@ -1,5 +1,7 @@
 package cz.muni.fi.pv243.ars.persistence.model;
 
+import cz.muni.fi.pv243.ars.persistence.validation.ReservationDateRangeConstraint;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -12,19 +14,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
+@ReservationDateRangeConstraint
 public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "reservation_id")
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "offer_id")
     @NotNull
     private Offer offer;
 
     @ManyToOne
     @JoinColumn(name = "host_id")
+    @NotNull
     private User host;
 
     @NotNull

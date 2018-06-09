@@ -70,6 +70,14 @@
                 <f:facet name="header">Id</f:facet>
                 #{_offer.id}
             </h:column>
+            <h:column>
+                <f:facet name="header">Type</f:facet>
+                #{_offer.accommodationType}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Capacity</f:facet>
+                #{_offer.capacity}
+            </h:column>
         </h:dataTable>
     </ui:define>
 </ui:composition>

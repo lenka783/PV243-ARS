@@ -170,7 +170,7 @@ public class UserRepositoryTest {
 
     }
 
-    @Test(expected = EJBTransactionRolledbackException.class)
+    @Test(expected = ArquillianProxyException.class)
     public void createReservationForHost() {
         User host = ef.createUser("hostUser");
         Offer offer = ef.createOffer(address);

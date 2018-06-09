@@ -193,7 +193,6 @@ public class User implements Serializable {
 
     public User addReservation(Reservation reservation) {
         reservations.add(reservation);
-        reservation.setHost(this);
         return this;
     }
 

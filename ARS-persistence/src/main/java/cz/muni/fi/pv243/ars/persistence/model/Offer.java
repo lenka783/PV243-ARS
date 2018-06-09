@@ -47,7 +47,7 @@ public class Offer implements Serializable {
     private User tenant;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
-    private Set<Reservation> reservation = new HashSet<>();
+    private Set<Reservation> reservations = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -101,6 +101,15 @@ public class Offer implements Serializable {
     public Offer setSmokerFriendly(Boolean smokerFriendly) {
         isSmokerFriendly = smokerFriendly;
         return this;
+    }
+
+    public Offer addReservation(Reservation reservation) {
+        reservations.add(reservation);
+        return this;
+    }
+
+    public void removeReservation(Reservation reservation) {
+        reservations.remove(reservation);
     }
 
     @Override
