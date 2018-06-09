@@ -3,11 +3,11 @@ package cz.muni.fi.pv243.utils;
 import java.time.LocalDate;
 import java.util.Random;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistance.model.Address;
-import cz.muni.fi.pv243.ars.persistance.model.Offer;
-import cz.muni.fi.pv243.ars.persistance.model.Reservation;
-import cz.muni.fi.pv243.ars.persistance.model.User;
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 
 /**
  * Created by jsmolar on 6/1/18.
@@ -46,9 +46,20 @@ public class EntityFactoryPersistence {
         Offer offer = new Offer();
 
         offer.setAccommodationType(AccommodationType.HOUSE)
-            .setAddress(address)
-            .setAnimalFriendly(true)
-            .setCapacity(rand.nextInt(10));
+                .setAddress(address)
+                .setAnimalFriendly(true)
+                .setCapacity(rand.nextInt(10));
+
+        return offer;
+    }
+
+    public Offer createOffer(Address address, User tenant) {
+        Offer offer = new Offer();
+
+        offer.setAccommodationType(AccommodationType.HOUSE)
+                .setAddress(address)
+                .setAnimalFriendly(true)
+                .setCapacity(rand.nextInt(10));
 
         return offer;
     }
@@ -57,10 +68,24 @@ public class EntityFactoryPersistence {
         Reservation reservation = new Reservation();
 
         reservation.setFromDate(from)
-            .setToDate(to)
-            .setNumberOfPeople(rand.nextInt(10))
-            .setOffer(offer);
+                .setToDate(to)
+                .setNumberOfPeople(rand.nextInt(10))
+                .setOffer(offer);
 
+        return reservation;
+    }
+
+    public Reservation createReservation(LocalDate from, LocalDate to, Offer offer, User host) {
+        Reservation reservation = new Reservation();
+
+        reservation.setFromDate(from)
+                .setToDate(to)
+                .setNumberOfPeople(rand.nextInt(10))
+                .setHost(host);
+
+        if (offer != null) {
+            reservation.setOffer(offer);
+        }
         return reservation;
     }
 

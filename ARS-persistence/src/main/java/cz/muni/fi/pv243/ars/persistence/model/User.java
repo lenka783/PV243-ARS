@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.persistance.model;
+package cz.muni.fi.pv243.ars.persistence.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -21,9 +21,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.UserRole;
-import cz.muni.fi.pv243.ars.persistance.validation.AddressConstraint;
-import cz.muni.fi.pv243.ars.persistance.validation.RoleOwnership;
+import cz.muni.fi.pv243.ars.persistence.enumeration.UserRole;
+import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
+import cz.muni.fi.pv243.ars.persistence.validation.RoleOwnership;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -37,7 +37,6 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "user_id")
     private Long id;
 
     @NotNull
@@ -71,10 +70,10 @@ public class User implements Serializable {
     @Column(name="roles")
     private Set<UserRole> roles = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tenant")
     private Set<Offer> offers = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "host")
     private Set<Reservation> reservations = new HashSet<>();
 
     public User() {

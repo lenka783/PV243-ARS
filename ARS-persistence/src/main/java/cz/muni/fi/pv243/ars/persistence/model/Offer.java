@@ -1,11 +1,10 @@
-package cz.muni.fi.pv243.ars.persistance.model;
+package cz.muni.fi.pv243.ars.persistence.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -16,8 +15,8 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import cz.muni.fi.pv243.ars.persistance.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistance.validation.AddressConstraint;
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
 
 /**
  * Created by jsmolar on 5/19/18.
@@ -28,7 +27,6 @@ public class Offer implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "offer_id")
     private Long id;
 
     @NotNull
@@ -36,38 +34,20 @@ public class Offer implements Serializable {
     @OneToOne(mappedBy = "offer", cascade = CascadeType.ALL)
     private Address address;
 
-    @NotNull
     private Integer capacity;
 
-    @NotNull
     @Enumerated
     private AccommodationType accommodationType;
 
-    @NotNull
     private Boolean isAnimalFriendly;
 
-    @NotNull
     private Boolean isSmokerFriendly;
 
     @ManyToOne
-    private User user;
+    private User tenant;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
-    private Set<Reservation> reservation = new HashSet<>();
-
-    public Offer() {
-    }
-
-    public Offer(Address address, Integer capacity,
-        AccommodationType accommodationType, Boolean isAnimalFriendly, Boolean isSmokerFriendly,
-        User user) {
-        this.address = address;
-        this.capacity = capacity;
-        this.accommodationType = accommodationType;
-        this.isAnimalFriendly = isAnimalFriendly;
-        this.isSmokerFriendly = isSmokerFriendly;
-        this.user = user;
-    }
+    private Set<Reservation> reservations = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -121,6 +101,15 @@ public class Offer implements Serializable {
     public Offer setSmokerFriendly(Boolean smokerFriendly) {
         isSmokerFriendly = smokerFriendly;
         return this;
+    }
+
+    public Offer addReservation(Reservation reservation) {
+        reservations.add(reservation);
+        return this;
+    }
+
+    public void removeReservation(Reservation reservation) {
+        reservations.remove(reservation);
     }
 
     @Override

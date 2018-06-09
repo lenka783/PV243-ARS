@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import cz.muni.fi.pv243.ars.persistance.model.Address;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
 
 /**
  * Created by jsmolar on 6/4/18.
@@ -19,14 +19,18 @@ public class AddressRepository {
 
     public void create(Address address) {
         entityManager.persist(address);
+        entityManager.flush();
     }
 
     public Address update(Address address) {
-        return entityManager.merge(address);
+        address = entityManager.merge(address);
+        entityManager.flush();
+        return address;
     }
 
     public void delete(Address address) {
         entityManager.remove(address);
+        entityManager.flush();
     }
 
     public Address findById(long id) {

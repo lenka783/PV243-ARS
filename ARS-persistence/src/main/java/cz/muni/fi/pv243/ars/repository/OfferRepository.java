@@ -6,7 +6,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import cz.muni.fi.pv243.ars.persistance.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
 
 /**
  * Created by mminatova on 5/29/18.
@@ -17,9 +17,20 @@ public class OfferRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Long create(Offer offer) {
+    public void create(Offer offer) {
         entityManager.persist(offer);
-        return offer.getId();
+        entityManager.flush();
+    }
+
+    public Offer update(Offer offer) {
+        offer = entityManager.merge(offer);
+        entityManager.flush();
+        return offer;
+    }
+
+    public void delete(Offer offer) {
+        entityManager.remove(offer);
+        entityManager.flush();
     }
 
     public Offer findById(Long id) {
@@ -30,7 +41,7 @@ public class OfferRepository {
         return offer;
     }
 
-    public List<Offer> getAll() {
+    public List<Offer> findAll() {
         return entityManager.createQuery("SELECT o FROM Offer o", Offer.class).getResultList();
     }
 
