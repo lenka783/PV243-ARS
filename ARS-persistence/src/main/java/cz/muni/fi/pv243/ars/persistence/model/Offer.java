@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -28,7 +27,6 @@ public class Offer implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "offer_id")
     private Long id;
 
     @NotNull
@@ -38,7 +36,6 @@ public class Offer implements Serializable {
 
     private Integer capacity;
 
-    @NotNull
     @Enumerated
     private AccommodationType accommodationType;
 

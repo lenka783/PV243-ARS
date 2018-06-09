@@ -37,7 +37,6 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "user_id")
     private Long id;
 
     @NotNull
