@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -28,7 +27,6 @@ public class Offer implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "offer_id")
     private Long id;
 
     @NotNull
@@ -38,7 +36,6 @@ public class Offer implements Serializable {
 
     private Integer capacity;
 
-    @NotNull
     @Enumerated
     private AccommodationType accommodationType;
 
@@ -50,21 +47,7 @@ public class Offer implements Serializable {
     private User user;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
-    private Set<Reservation> reservation = new HashSet<>();
-
-    public Offer() {
-    }
-
-    public Offer(Address address, Integer capacity,
-        AccommodationType accommodationType, Boolean isAnimalFriendly, Boolean isSmokerFriendly,
-        User user) {
-        this.address = address;
-        this.capacity = capacity;
-        this.accommodationType = accommodationType;
-        this.isAnimalFriendly = isAnimalFriendly;
-        this.isSmokerFriendly = isSmokerFriendly;
-        this.user = user;
-    }
+    private Set<Reservation> reservations = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -118,6 +101,15 @@ public class Offer implements Serializable {
     public Offer setSmokerFriendly(Boolean smokerFriendly) {
         isSmokerFriendly = smokerFriendly;
         return this;
+    }
+
+    public Offer addReservation(Reservation reservation) {
+        reservations.add(reservation);
+        return this;
+    }
+
+    public void removeReservation(Reservation reservation) {
+        reservations.remove(reservation);
     }
 
     @Override

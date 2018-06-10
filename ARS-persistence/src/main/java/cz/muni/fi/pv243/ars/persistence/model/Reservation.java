@@ -1,13 +1,11 @@
 package cz.muni.fi.pv243.ars.persistence.model;
 
+import cz.muni.fi.pv243.ars.persistence.validation.ReservationDateRangeConstraint;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -16,18 +14,21 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
+@ReservationDateRangeConstraint
 public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(name = "reservation_id")
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "offer_id")
     @NotNull
     private Offer offer;
 
     @ManyToOne
+    @JoinColumn(name = "host_id")
+    @NotNull
     private User user;
 
     @NotNull
@@ -38,17 +39,6 @@ public class Reservation implements Serializable {
 
     @NotNull
     private Integer numberOfPeople;
-
-    public Reservation() {
-    }
-
-    public Reservation(Offer offer, User user, LocalDate from, LocalDate to, Integer numberOfPeople) {
-        this.offer = offer;
-        this.user = user;
-        this.fromDate = from;
-        this.toDate = to;
-        this.numberOfPeople = numberOfPeople;
-    }
 
     public Long getId() {
         return id;
@@ -65,6 +55,15 @@ public class Reservation implements Serializable {
 
     public Reservation setOffer(Offer offer) {
         this.offer = offer;
+        return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Reservation setUser(User host) {
+        this.user = host;
         return this;
     }
 

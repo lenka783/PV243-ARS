@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h1>Welcome ARS!</h1>
+
+        <div>
+            <p>You have successfully deployed a Java EE Enterprise
+                Application.</p>
+        </div>
+        <h:form id="loginForm">
+            <h2>Login</h2>
+            <table frame="box">
+                <tr>
+                    <td><h:outputLabel value=" Email: " /></td>
+                    <td><h:inputText id="email" value="#{user.email}"
+                                     required="true" requiredMessage="email field must not be empty" />
+                    </td>
+                    <td><h:message for="email" style="color:red" /></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Password: "/></td>
+                    <td><h:inputText id="password" value="#{user.password}"
+                                     required="true" requiredMessage="password field must not be empty"/>
+                    </td>
+                    <td><h:message for="password" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:commandButton value="Sign in" action="#{user.login}"/></td>
+                    <td/>
+                    <td><h:outputLabel value="Not a member yet"/>
+                        <h:outputLink value="register.xhtml">Sign Up</h:outputLink>
+                    </td>
+                </tr>
+            </table>
+        </h:form>
+    </ui:define>
+</ui:composition>

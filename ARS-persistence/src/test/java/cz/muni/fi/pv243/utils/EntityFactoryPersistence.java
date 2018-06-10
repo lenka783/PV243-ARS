@@ -46,9 +46,20 @@ public class EntityFactoryPersistence {
         Offer offer = new Offer();
 
         offer.setAccommodationType(AccommodationType.HOUSE)
-            .setAddress(address)
-            .setAnimalFriendly(true)
-            .setCapacity(rand.nextInt(10));
+                .setAddress(address)
+                .setAnimalFriendly(true)
+                .setCapacity(rand.nextInt(10));
+
+        return offer;
+    }
+
+    public Offer createOffer(Address address, User tenant) {
+        Offer offer = new Offer();
+
+        offer.setAccommodationType(AccommodationType.HOUSE)
+                .setAddress(address)
+                .setAnimalFriendly(true)
+                .setCapacity(rand.nextInt(10));
 
         return offer;
     }
@@ -57,9 +68,21 @@ public class EntityFactoryPersistence {
         Reservation reservation = new Reservation();
 
         reservation.setFromDate(from)
-            .setToDate(to)
-            .setNumberOfPeople(rand.nextInt(10))
-            .setOffer(offer);
+                .setToDate(to)
+                .setNumberOfPeople(rand.nextInt(10))
+                .setOffer(offer);
+
+        return reservation;
+    }
+
+    public Reservation createReservation(LocalDate from, LocalDate to, Offer offer, User host) {
+        Reservation reservation = new Reservation();
+
+        reservation.setFromDate(from)
+                .setToDate(to)
+                .setNumberOfPeople(rand.nextInt(10))
+                .setUser(host)
+                .setOffer(offer);
 
         return reservation;
     }
