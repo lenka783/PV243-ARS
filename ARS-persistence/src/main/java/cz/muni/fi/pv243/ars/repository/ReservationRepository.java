@@ -36,7 +36,7 @@ public class ReservationRepository {
     }
 
     public void delete(Reservation reservation) {
-        User host = reservation.getHost();
+        User host = reservation.getUser();
         if (host != null) {
             host.removeReservation(reservation);
         }

@@ -125,7 +125,7 @@ public class ReservationRepositoryTest {
 
         Reservation actual = entityManager.find(Reservation.class, expected.getId());
         assertEquals(expected, actual);
-        assertTrue(entityManager.find(User.class, expected.getHost().getId()).getReservations().contains(expected));
+        assertTrue(entityManager.find(User.class, expected.getUser().getId()).getReservations().contains(expected));
     }
 
     @Test(expected = ArquillianProxyException.class)
@@ -188,7 +188,7 @@ public class ReservationRepositoryTest {
         host.addReservation(expected);
         reservationRepository.create(expected);
         int reservationCount = reservationRepository.findAll().size();
-        int reservationForUserCount = reservationRepository.findAllForUser(expected.getHost()).size();
+        int reservationForUserCount = reservationRepository.findAllForUser(expected.getUser()).size();
 
         reservationRepository.delete(expected);
 

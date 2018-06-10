@@ -81,11 +81,9 @@ public class EntityFactoryPersistence {
         reservation.setFromDate(from)
                 .setToDate(to)
                 .setNumberOfPeople(rand.nextInt(10))
-                .setHost(host);
+                .setUser(host)
+                .setOffer(offer);
 
-        if (offer != null) {
-            reservation.setOffer(offer);
-        }
         return reservation;
     }
 
