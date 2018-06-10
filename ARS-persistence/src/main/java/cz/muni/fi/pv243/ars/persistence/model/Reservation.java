@@ -29,7 +29,7 @@ public class Reservation implements Serializable {
     @ManyToOne
     @JoinColumn(name = "host_id")
     @NotNull
-    private User host;
+    private User user;
 
     @NotNull
     private LocalDate fromDate;
@@ -58,12 +58,12 @@ public class Reservation implements Serializable {
         return this;
     }
 
-    public User getHost() {
-        return host;
+    public User getUser() {
+        return user;
     }
 
-    public Reservation setHost(User host) {
-        this.host = host;
+    public Reservation setUser(User host) {
+        this.user = host;
         return this;
     }
 

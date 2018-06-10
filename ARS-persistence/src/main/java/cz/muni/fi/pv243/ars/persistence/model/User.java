@@ -70,10 +70,10 @@ public class User implements Serializable {
     @Column(name="roles")
     private Set<UserRole> roles = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "tenant")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
     private Set<Offer> offers = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "host")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
     private Set<Reservation> reservations = new HashSet<>();
 
     public User() {

@@ -44,7 +44,7 @@ public class Offer implements Serializable {
     private Boolean isSmokerFriendly;
 
     @ManyToOne
-    private User tenant;
+    private User user;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
     private Set<Reservation> reservations = new HashSet<>();
