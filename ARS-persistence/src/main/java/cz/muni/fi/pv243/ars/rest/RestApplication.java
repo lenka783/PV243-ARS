@@ -6,7 +6,7 @@ import javax.ws.rs.core.Application;
 /**
  * Created by mminatova on 9/6/18.
  */
-@ApplicationPath("/")
+@ApplicationPath("/services/")
 //TODO: @DeclareRoles({ "admin", "user" })
 public class RestApplication extends Application {
 }

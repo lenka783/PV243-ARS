@@ -6,6 +6,7 @@ import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by mminatova on 9/6/18.
  */
-@Path("/offers")
+@Path("/address")
 @RequestScoped
 public class AddressRESTService {
 
@@ -23,14 +24,25 @@ public class AddressRESTService {
     private AddressRepository addressRepository;
 
     @GET
-    @Produces("application/json")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<Address> listAll(){
         return addressRepository.findAll();
     }
 
+    @GET
+    @Path("/{id:[0-9][0-9]*}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAddress(@PathParam("id") Long id) {
+        Address byId = addressRepository.findById(id);
+        if (byId == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.ok(byId).build();
+    }
+
     @POST
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response create(Address address) {
         if (address == null) {
             return Response.status(Status.BAD_REQUEST).build();
@@ -42,8 +54,8 @@ public class AddressRESTService {
     }
 
     @PUT
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response update(Address address) {
         if (address == null) {
             return Response.status(Status.BAD_REQUEST).build();
@@ -54,28 +66,29 @@ public class AddressRESTService {
         }
         addressRepository.update(address);
 
-        return Response.noContent().build();
+        return Response.ok().build();
     }
 
     @DELETE
     @Path("/{id:[0-9][0-9]*}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteById(@PathParam("id") Long id) {
         Address byId = addressRepository.findById(id);
         if (byId == null){
             return Response.status(Status.NOT_FOUND).build();
         }
         addressRepository.delete(byId);
-        return Response.noContent().build();
+        return Response.ok().build();
     }
 
     @DELETE
-    @Consumes("application/json")
-    @Produces("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response delete(Address address) {
         if (addressRepository.findById(address.getId()) == null)
             return Response.status(Status.NOT_FOUND).build();
         addressRepository.delete(address);
-        return Response.noContent().build();
+        return Response.ok().build();
     }
 
 }
