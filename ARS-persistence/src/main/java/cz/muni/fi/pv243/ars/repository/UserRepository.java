@@ -30,7 +30,7 @@ public class UserRepository {
     }
 
     public void delete(User user) {
-        entityManager.remove(user);
+        entityManager.remove(entityManager.merge(user));
         entityManager.flush();
     }
 

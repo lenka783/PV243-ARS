@@ -44,7 +44,7 @@ public class ReservationRepository {
         if (offer != null) {
             offer.removeReservation(reservation);
         }
-        entityManager.remove(reservation);
+        entityManager.remove(entityManager.merge(reservation));
         entityManager.flush();
     }
 

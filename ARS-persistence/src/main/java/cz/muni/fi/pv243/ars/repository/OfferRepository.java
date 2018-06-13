@@ -29,7 +29,7 @@ public class OfferRepository {
     }
 
     public void delete(Offer offer) {
-        entityManager.remove(offer);
+        entityManager.remove(entityManager.merge(offer));
         entityManager.flush();
     }
 
