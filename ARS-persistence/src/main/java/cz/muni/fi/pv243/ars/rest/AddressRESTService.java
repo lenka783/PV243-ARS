@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by mminatova on 9/6/18.
  */
-@Path("/address")
+@Path("/addresses")
 @RequestScoped
 public class AddressRESTService {
 
