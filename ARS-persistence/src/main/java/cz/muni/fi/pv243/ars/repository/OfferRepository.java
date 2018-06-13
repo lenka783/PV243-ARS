@@ -35,9 +35,6 @@ public class OfferRepository {
 
     public Offer findById(Long id) {
         Offer offer = entityManager.find(Offer.class, id);
-        if (offer == null){
-            throw new IllegalArgumentException();
-        }
         return offer;
     }
 
