@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 
 /**
  * Created by mminatova on 5/29/18.
@@ -45,4 +46,9 @@ public class OfferRepository {
         return entityManager.createQuery("SELECT o FROM Offer o", Offer.class).getResultList();
     }
 
+    public List<Offer> findAllForUser(User user) {
+        return entityManager.createQuery("SELECT o FROM Offer o where o.user= :user", Offer.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
 }
