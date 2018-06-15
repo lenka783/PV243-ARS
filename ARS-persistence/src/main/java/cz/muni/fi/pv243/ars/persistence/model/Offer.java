@@ -94,6 +94,15 @@ public class Offer implements Serializable {
         return this;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
     public Boolean getSmokerFriendly() {
         return isSmokerFriendly;
     }
