@@ -1,7 +1,7 @@
 package cz.muni.fi.pv243.ars.rest;
 
-import cz.muni.fi.pv243.ars.persistence.model.User;
-import cz.muni.fi.pv243.ars.repository.UserRepository;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -11,28 +11,29 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.net.URI;
 import java.util.List;
-
 /**
- * Created by jsmolar on 6/5/18.
+ * Created by mminatova on 9/6/18.
  */
-@Path("/users")
+@Path("/reservations")
 @RequestScoped
-public class UserRESTService {
+public class ReservationRESTService {
 
     @Inject
-    private UserRepository userRepository;
+    private ReservationRepository reservationRepository;
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> listAll(){
-        return userRepository.findAll();
+    public List<Reservation> listAll()
+    {
+        return reservationRepository.findAll();
     }
 
     @GET
     @Path("/{id:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id") Long id) {
-        User byId = userRepository.findById(id);
+    public Response getReservation(@PathParam("id") Long id) {
+        Reservation byId = reservationRepository.findById(id);
         if (byId == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -42,28 +43,28 @@ public class UserRESTService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(User user) {
-        if (user == null) {
+    public Response create(Reservation reservation) {
+        if (reservation == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        userRepository.create(user);
-        URI url = UriBuilder.fromResource(getClass()).path(user.getId().toString()).build();
-        return Response.created(url).entity(user).build();
+        reservationRepository.create(reservation);
+        URI url = UriBuilder.fromResource(getClass()).path(reservation.getId().toString()).build();
+        return Response.created(url).entity(reservation).build();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(User user) {
-        if (user == null) {
+    public Response update(Reservation reservation) {
+        if (reservation == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        if (userRepository.findById(user.getId()) == null) {
+        if (reservationRepository.findById(reservation.getId()) == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        userRepository.update(user);
+        reservationRepository.update(reservation);
 
         return Response.ok().build();
     }
@@ -72,22 +73,23 @@ public class UserRESTService {
     @Path("/{id:[0-9][0-9]*}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteById(@PathParam("id") Long id) {
-        User byId = userRepository.findById(id);
+        Reservation byId = reservationRepository.findById(id);
         if (byId == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        userRepository.delete(byId);
+        reservationRepository.delete(byId);
         return Response.ok().build();
     }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(User user) {
-        if (userRepository.findById(user.getId()) == null)
+    public Response delete(Reservation reservation) {
+        if (reservationRepository.findById(reservation.getId()) == null)
             return Response.status(Response.Status.NOT_FOUND).build();
-        userRepository.delete(user);
+        reservationRepository.delete(reservation);
         return Response.ok().build();
     }
+
 
 }

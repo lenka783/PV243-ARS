@@ -29,7 +29,7 @@ public class AddressRepository {
     }
 
     public void delete(Address address) {
-        entityManager.remove(address);
+        entityManager.remove(entityManager.merge(address));
         entityManager.flush();
     }
 

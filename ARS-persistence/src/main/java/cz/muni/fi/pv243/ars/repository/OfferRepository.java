@@ -30,15 +30,12 @@ public class OfferRepository {
     }
 
     public void delete(Offer offer) {
-        entityManager.remove(offer);
+        entityManager.remove(entityManager.merge(offer));
         entityManager.flush();
     }
 
     public Offer findById(Long id) {
         Offer offer = entityManager.find(Offer.class, id);
-        if (offer == null){
-            throw new IllegalArgumentException();
-        }
         return offer;
     }
 
