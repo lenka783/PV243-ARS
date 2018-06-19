@@ -1,19 +1,17 @@
 package cz.muni.fi.pv243.ars.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.*;
 
 /**
  * Created by jsmolar on 5/17/18.
  */
 @Entity
-@XmlRootElement
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Address implements Serializable {
 
     @Id
@@ -26,11 +24,11 @@ public class Address implements Serializable {
     private String country;
     private String postCode;
 
-    @OneToOne
+    @OneToOne(mappedBy = "address")
     @PrimaryKeyJoinColumn
     private User user;
 
-    @OneToOne
+    @OneToOne(mappedBy = "address")
     @PrimaryKeyJoinColumn
     private Offer offer;
 

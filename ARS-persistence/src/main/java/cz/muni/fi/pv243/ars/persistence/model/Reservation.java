@@ -1,5 +1,7 @@
 package cz.muni.fi.pv243.ars.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import cz.muni.fi.pv243.ars.persistence.validation.ReservationDateRangeConstraint;
 
 import java.io.Serializable;
@@ -7,14 +9,13 @@ import java.time.LocalDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by jsmolar on 5/19/18.
  */
 @Entity
-@XmlRootElement
 @ReservationDateRangeConstraint
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Reservation implements Serializable {
 
     @Id
@@ -28,7 +29,6 @@ public class Reservation implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "host_id")
-    @NotNull
     private User user;
 
     @NotNull
@@ -117,10 +117,10 @@ public class Reservation implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = getOffer().hashCode();
+        int result = getOffer() != null ? getOffer().hashCode() : 0;
         result = 31 * result + getFromDate().hashCode();
         result = 31 * result + getToDate().hashCode();
-        result = 31 * result + (getNumberOfPeople() != null ? getNumberOfPeople().hashCode() : 0);
+        result = 31 * result + getNumberOfPeople().hashCode();
         return result;
     }
 }
