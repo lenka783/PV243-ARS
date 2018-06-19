@@ -27,7 +27,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -62,9 +62,11 @@ public class User implements Serializable {
     private Set<UserRole> roles = new HashSet<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Set<Offer> offers = new HashSet<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 
     public User() {

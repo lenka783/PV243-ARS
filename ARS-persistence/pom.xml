@@ -141,6 +141,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- RichFaces -->
+        <dependency>
+            <groupId>org.richfaces</groupId>
+            <artifactId>richfaces</artifactId>
+            <version>4.5.17.Final</version>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value="#{offersPageBean.selectedId}"/>
+        <f:viewAction action="#{offersPageBean.loadOffer}"/>
+    </f:metadata>
+    <ui:define name="content">
+
+        <h:form id="form">
+            <h:panelGrid columns="2">
+                <h:outputText value="ID:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.id}"/>
+                <h:outputText value="Type:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.accommodationType}"/>
+                <h:outputText value="Email:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.capacity}"/>
+                <h:outputText value="Animal friendly:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.animalFriendly}"/>
+                <h:outputText value="Smoker friendly:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.smokerFriendly}"/>
+            </h:panelGrid>
+
+            <h:commandButton value="Create reservation"
+                             action="offerDetails?faces-redirect=true&amp;includeViewParams=true"/>
+            <br/>
+            <h:link value="Back" outcome="home.xhtml"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

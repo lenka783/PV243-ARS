@@ -19,16 +19,13 @@ import javax.validation.constraints.NotNull;
 public class Reservation implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "offer_id")
-    @NotNull
     private Offer offer;
 
     @ManyToOne
-    @JoinColumn(name = "host_id")
     private User user;
 
     @NotNull
@@ -39,6 +36,9 @@ public class Reservation implements Serializable {
 
     @NotNull
     private Integer numberOfPeople;
+
+    @NotNull
+    private int assignedId;
 
     public Long getId() {
         return id;
@@ -94,6 +94,15 @@ public class Reservation implements Serializable {
         return this;
     }
 
+    public int getAssignedId() {
+        return assignedId;
+    }
+
+    public Reservation setAssignedId(int assignedId) {
+        this.assignedId = assignedId;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -109,6 +118,8 @@ public class Reservation implements Serializable {
             return false;
         if (!getToDate().equals(that.getToDate()))
             return false;
+        if (getAssignedId() !=(that.getAssignedId()))
+            return false;
         return getNumberOfPeople() != null ?
             getNumberOfPeople().equals(that.getNumberOfPeople()) :
             that.getNumberOfPeople() == null;
@@ -117,7 +128,7 @@ public class Reservation implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = getOffer() != null ? getOffer().hashCode() : 0;
+        int result = 31 * getAssignedId();
         result = 31 * result + getFromDate().hashCode();
         result = 31 * result + getToDate().hashCode();
         result = 31 * result + getNumberOfPeople().hashCode();

@@ -20,7 +20,7 @@ import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
 public class Offer implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -41,6 +41,7 @@ public class Offer implements Serializable {
     private User user;
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
+    @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 
     public Long getId() {

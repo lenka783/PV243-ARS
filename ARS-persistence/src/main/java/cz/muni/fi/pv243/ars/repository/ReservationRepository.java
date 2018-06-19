@@ -25,6 +25,7 @@ public class ReservationRepository {
     private UserRepository userRepository;
 
     public void create(Reservation reservation) {
+        reservation.setAssignedId(getAssignedId(reservation));
         entityManager.persist(reservation);
         entityManager.flush();
     }
@@ -68,4 +69,8 @@ public class ReservationRepository {
         return result;
     }
 
+    private int getAssignedId(Reservation reservation) {
+        Offer offer = reservation.getOffer();
+        return offer.hashCode();
+    }
 }
