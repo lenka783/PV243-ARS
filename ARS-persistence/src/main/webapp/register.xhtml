@@ -2,6 +2,8 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:r="http://richfaces.org/rich"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h1>Welcome ARS!</h1>
@@ -17,44 +19,44 @@
             <table frame="box">
                 <tr>
                     <td><h:outputLabel value=" Name: " /></td>
-                    <td><h:inputText id="name" value="#{user.name}"
+                    <td><h:inputText id="name" value="#{registerInfoBean.name}"
                                      required="true" requiredMessage="Name must not be empty" /></td>
                     <td><h:message for="name" style="color:red" /></td>
                 </tr>
                 <tr>
                     <td><h:outputLabel value=" Surname: " /></td>
-                    <td><h:inputText id="surname" value="#{user.surname}"
+                    <td><h:inputText id="surname" value="#{registerInfoBean.surname}"
                                      required="true" requiredMessage="Surname must not be empty" /></td>
                     <td><h:message for="surname" style="color:red" /></td>
                 </tr>
                 <tr>
                     <td><h:outputLabel value=" Email: " /></td>
-                    <td><h:inputText id="email" value="#{user.email}"
+                    <td><h:inputText id="email" value="#{registerInfoBean.email}"
                                      required="true" requiredMessage="Email must not be empty" />
                     </td>
                     <td><h:message for="email" style="color:red" /></td>
                 </tr>
                 <tr>
-                    <td><h:outputLabel value=" Password: "/></td>
-                    <td><h:inputText id="password" value="#{user.password}"
-                                     required="true" requiredMessage="Password must not be empty"/>
+                    <td><h:outputLabel value=" Date of birth : "/></td>
+                    <td>
+                        <a4j:outputPanel layout="block">
+                            <r:calendar id="dateOfBirth"
+                                        value="#{registerInfoBean.dateOfBirth}" locale="#{calendarBean.locale}"
+                                        popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}"
+                                        required="true" requiredMessage="Date of birth must not be empty">
+                            </r:calendar>
+                        </a4j:outputPanel>
                     </td>
-                    <td><h:message for="password" style="color: red"/></td>
+                    <td><h:message for="dateOfBirth" style="color: red"/></td>
                 </tr>
                 <tr>
-                    <td><h:outputLabel value=" Date of birth (DD/MM/YYYY): "/></td>
-                    <td><h:inputText id="dateOfBirth" value="#{user.dateOfBirth}"
-                                     required="true" requiredMessage="Date of birth must not be empty">
-
-                        <f:convertDateTime pattern="DD/MM/YYYY"/>
-                    </h:inputText></td>
-                    <td><h:message for="password" style="color: red"/></td>
+                    <td><h:commandButton value="Change password" action="changePassword"/></td>
                 </tr>
                 <tr>
-                    <td><h:commandButton value="Register" action="#{user.register}"/></td>
+                    <td><h:commandButton value="Register" action="home"/></td>
                 </tr>
                 <tr>
-                    <td><h:outputLink value="index.xhtml">Home</h:outputLink></td>
+                    <td><h:outputLink value="index">Home</h:outputLink></td>
                 </tr>
             </table>
         </h:form>
