@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.data;
+package cz.muni.fi.pv243.ars.beans;
 
 import java.util.List;
 

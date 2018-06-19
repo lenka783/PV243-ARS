@@ -15,23 +15,23 @@
             <table frame="box">
                 <tr>
                     <td><h:outputLabel value=" Email: " /></td>
-                    <td><h:inputText id="email" value="#{user.email}"
+                    <td><h:inputText id="email" value="#{loginInfoBean.email}"
                                      required="true" requiredMessage="email field must not be empty" />
                     </td>
                     <td><h:message for="email" style="color:red" /></td>
                 </tr>
                 <tr>
                     <td><h:outputLabel value=" Password: "/></td>
-                    <td><h:inputText id="password" value="#{user.password}"
+                    <td><h:inputSecret id="password" value="#{loginInfoBean.password}"
                                      required="true" requiredMessage="password field must not be empty"/>
                     </td>
                     <td><h:message for="password" style="color: red"/></td>
                 </tr>
                 <tr>
-                    <td><h:commandButton value="Sign in" action="#{user.login}"/></td>
+                    <td><h:commandButton value="Sign in" action="home"/></td>
                     <td/>
                     <td><h:outputLabel value="Not a member yet"/>
-                        <h:outputLink value="register.xhtml">Sign Up</h:outputLink>
+                        <h:outputLink value="register">Sign Up</h:outputLink>
                     </td>
                 </tr>
             </table>
