@@ -1,4 +1,4 @@
-package cz.muni.fi.pv243.ars.beans;
+package cz.muni.fi.pv243.ars.producers;
 
 import java.util.List;
 

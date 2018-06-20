@@ -38,6 +38,19 @@ public class UserRepository {
         return entityManager.find(User.class, id);
     }
 
+    public User findByKCid(String keycloakPrincipal) {
+        List<User> result =  entityManager.createQuery(
+            "SELECT u FROM User u where u.keycloakPrincipal= :keycloakPrincipal", User.class)
+            .setParameter("keycloakPrincipal", keycloakPrincipal)
+            .getResultList();
+
+        if(!result.isEmpty()) {
+            return result.get(0);
+        }
+
+        return null;
+    }
+
     public List<User> findAll() {
         return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }

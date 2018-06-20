@@ -17,30 +17,60 @@
 -->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:f="http://java.sun.com/jsf/core"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h1>Welcome ARS!</h1>
 
-        <div>
-            <p>You have successfully deployed a Java EE Enterprise
-                Application.</p>
-        </div>
+        <h:form id="menu">
+            <!--<h:panelGrid columns="4" columnClasses="titleCell">-->
+                <h:commandButton value="User" action="/userProfile.jsf?faces-redirect=true"/>
+                <!--<h:link value="Go to actor detail" outcome="actorDetail?userid=0" />-->
+                <!--<h:commandButton value="Click Me" type="button" onclick="alert('h:commandButton');" />-->
+                <!--<h:commandButton value="Click Me" type="button" onclick="alert('h:commandButton');" />-->
+            <!--</h:panelGrid>-->
+        </h:form>
 
         <h:form id="reg">
             <h2>ARS - Accommodation Reservation System!</h2>
             <h:panelGrid columns="2" columnClasses="titleCell">
-
-                <h:outputLabel value="Already a member" />
-                <h:outputLink value="login">Sign In</h:outputLink>
-
-                <h:outputLabel value="Not a member yet" />
-                <h:outputLink value="register">Sign Up</h:outputLink>
+                <c:if test="#{userController.loggedIn}">
+                    <h:commandButton value="Log In" action="/login.jsf?faces-redirect=true"/>
+                </c:if>
+                <c:if test="#{userController.loggedIn eq false}">
+                    <h:commandButton value="Log Out" action="#{userController.logOut}"/>
+                </c:if>
 
             </h:panelGrid>
-
         </h:form>
+
+        <h2>Latest offers for you!</h2>
+        <h:panelGroup rendered="#{empty offers}">
+            <em>There are not any available offer at this moment. Give it a shot later!</em>
+        </h:panelGroup>
+        <h:dataTable var="_offer" value="#{offers}"
+                     rendered="#{not empty offers}"
+                     styleClass="simpletablestyle">
+            <h:column>
+                <f:facet name="header">Place</f:facet>
+                #{_offer.address}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type of housing</f:facet>
+                #{_offer.accommodationType}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Capacity</f:facet>
+                #{_offer.capacity}
+            </h:column>
+            <!--<h:column>-->
+                <!--<f:facet name="header">REST URL</f:facet>-->
+                <!--<a-->
+                    <!--href="#{request.contextPath}/rest/members/#{_member.id}">/rest/members/#{_member.id}</a>-->
+            <!--</h:column>-->
+        </h:dataTable>
 
     </ui:define>
 </ui:composition>

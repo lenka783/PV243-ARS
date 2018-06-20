@@ -1,40 +1,11 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
-        <h1>Welcome ARS!</h1>
-
-        <div>
-            <p>You have successfully deployed a Java EE Enterprise
-                Application.</p>
-        </div>
-        <h:form id="loginForm">
-            <h2>Login</h2>
-            <table frame="box">
-                <tr>
-                    <td><h:outputLabel value=" Email: " /></td>
-                    <td><h:inputText id="email" value="#{loginInfoBean.email}"
-                                     required="true" requiredMessage="email field must not be empty" />
-                    </td>
-                    <td><h:message for="email" style="color:red" /></td>
-                </tr>
-                <tr>
-                    <td><h:outputLabel value=" Password: "/></td>
-                    <td><h:inputSecret id="password" value="#{loginInfoBean.password}"
-                                     required="true" requiredMessage="password field must not be empty"/>
-                    </td>
-                    <td><h:message for="password" style="color: red"/></td>
-                </tr>
-                <tr>
-                    <td><h:commandButton value="Sign in" action="home"/></td>
-                    <td/>
-                    <td><h:outputLabel value="Not a member yet"/>
-                        <h:outputLink value="register">Sign Up</h:outputLink>
-                    </td>
-                </tr>
-            </table>
+        <h:outputLabel value="Wellcome #{userController.userName}"/>
+        <h:form>
+            <h:commandButton value="Back home" action="/index.jsf?faces-redirect=true"/>
         </h:form>
     </ui:define>
 </ui:composition>
