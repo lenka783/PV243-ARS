@@ -20,6 +20,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:o="http://omnifaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h1>Welcome ARS!</h1>
@@ -66,11 +67,13 @@
                 #{_offer.capacity}
             </h:column>
             <!--<h:column>-->
-                <!--<f:facet name="header">REST URL</f:facet>-->
+                <!--<f:facet sender="header">REST URL</f:facet>-->
                 <!--<a-->
                     <!--href="#{request.contextPath}/rest/members/#{_member.id}">/rest/members/#{_member.id}</a>-->
             <!--</h:column>-->
         </h:dataTable>
+
+        <o:resourceInclude path="/offerComments.jsp" />
 
     </ui:define>
 </ui:composition>

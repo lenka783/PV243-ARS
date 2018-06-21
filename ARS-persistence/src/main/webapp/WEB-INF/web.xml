@@ -20,36 +20,36 @@
          version="3.0">
 
   <!--<servlet>-->
-    <!--<servlet-name>SecuredServlet</servlet-name>-->
+    <!--<servlet-sender>SecuredServlet</servlet-sender>-->
     <!--<servlet-class>cz.muni.fi.pv243.ars.servlet.SecuredServlet</servlet-class>-->
     <!--<load-on-startup>1</load-on-startup>-->
   <!--</servlet>-->
 
   <!--<servlet-mapping>-->
-    <!--<servlet-name>SecuredServlet</servlet-name>-->
+    <!--<servlet-sender>SecuredServlet</servlet-sender>-->
     <!--<url-pattern>/services/*</url-pattern>-->
   <!--</servlet-mapping>-->
 
   <!--<servlet>-->
-    <!--<servlet-name>Faces Servlet</servlet-name>-->
+    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
     <!--<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>-->
     <!--<load-on-startup>1</load-on-startup>-->
   <!--</servlet>-->
 
   <!--<servlet-mapping>-->
-    <!--<servlet-name>Faces Servlet</servlet-name>-->
+    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
     <!--<url-pattern>/faces/*</url-pattern>-->
   <!--</servlet-mapping>-->
   <!--<servlet-mapping>-->
-    <!--<servlet-name>Faces Servlet</servlet-name>-->
+    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
     <!--<url-pattern>*.jsf</url-pattern>-->
   <!--</servlet-mapping>-->
   <!--<servlet-mapping>-->
-    <!--<servlet-name>Faces Servlet</servlet-name>-->
+    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
     <!--<url-pattern>*.faces</url-pattern>-->
   <!--</servlet-mapping>-->
   <!--<servlet-mapping>-->
-    <!--<servlet-name>Faces Servlet</servlet-name>-->
+    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
     <!--<url-pattern>*.xhtml</url-pattern>-->
   <!--</servlet-mapping>-->
 
@@ -76,4 +76,5 @@
   <security-role>
     <role-name>admin</role-name>
   </security-role>
+
 </web-app>
