@@ -1,37 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
-        <h2>Offers</h2>
-        <h:panelGroup rendered="#{empty offersPageBean.offers}">
-            <em>Places for you to visit!</em>
-        </h:panelGroup>
-        <h:form>
-            <h:dataTable if="offers" var="_offer" value="#{offersPageBean.offers}"
-                         rendered="#{not empty offersPageBean.offers}"
-                         styleClass="simpletablestyle">
-                <h:column>
-                    <f:facet name="header">Id</f:facet>
-                    #{_offer.id}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Type</f:facet>
-                    #{_offer.accommodationType}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Capacity</f:facet>
-                    #{_offer.capacity}
-                </h:column>
-                <h:column>
-                    <f:facet name="header"></f:facet>
-                    <h:link value="Show" outcome="offerDetails">
-                        <f:param name="id" value="#{_offer.id}"/>
-                    </h:link>
-                </h:column>
-            </h:dataTable>
-            <h:commandButton value="Edit user info" action="userInfoPage.xhtml"/>
+        <h1>Welcome!</h1>
+
+
+        <h:form id="reg">
+            <h2>ARS - Accommodation Reservation System!</h2>
+            <h:panelGrid columns="2" columnClasses="titleCell">
+
+                <h:link value="Show my reservations" outcome="reservations.xhtml"/>
+                <br/>
+                <h:link value="Show offers" outcome="offers.xhtml"/>
+                <br/>
+                <h:link value="Create new offer" outcome="createOffer.xhtml"/>
+                <br/>
+                <h:link value="Edit user info" outcome="userInfoPage.xhtml"/>
+
+            </h:panelGrid>
+
         </h:form>
+
     </ui:define>
 </ui:composition>

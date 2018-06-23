@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h2>Offers</h2>
+        <h:panelGroup rendered="#{empty offersPageBean.offers}">
+            <em>Places for you to visit!</em>
+        </h:panelGroup>
+        <h:form>
+            <rich:panel id="offerFilterPanel">
+                <p>Destination:
+                <rich:select id="locationFilter" mode="cachedAjax" minChars="1"
+                             var='capital' itemValue="${offerFilterBean.locationFilter}" itemLabel="#{location}"/></p>
+                <p>Check in:
+                <a4j:outputPanel layout="block">
+                    <rich:calendar id="checkInFilter"
+                                   value="#{offerFilterBean.checkInFilter}" locale="#{calendarBean.locale}"
+                                   popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}">
+                    </rich:calendar>
+                </a4j:outputPanel></p>
+                <p>Check out:
+                <a4j:outputPanel layout="block">
+                    <rich:calendar id="checkOutFilter"
+                                   value="#{offerFilterBean.checkOutFilter}" locale="#{calendarBean.locale}"
+                                   popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}">
+                    </rich:calendar>
+                </a4j:outputPanel></p>
+                <p>Accommodation type:
+                <h:selectOneMenu value="#{offerFilterBean.accommodationTypeFilter}">
+                    <f:selectItems value="#{offer.accommodationType}"/>
+                    <a4j:ajax render="offersTable" execute="@this" event="change"/>
+                </h:selectOneMenu></p>
+                <p>Capacity:
+                <rich:inputNumberSlider value="#{offerFilterBean.capacityFilter}" showInput="false" maxValue="15"
+                                        showTooltip="false">
+                    <a4j:ajax render="offersTable" />
+                </rich:inputNumberSlider></p>
+                <p>Animal friendly:
+                <h:selectBooleanCheckbox value="#{offerFilterBean.animalFriendlyFilter}" >
+                    <a4j:ajax event="click" render="offersTable" />
+                </h:selectBooleanCheckbox></p>
+                <p>Smoker friendly:
+                <h:selectBooleanCheckbox value="#{offerFilterBean.smokerFriendlyFilter}" >
+                    <a4j:ajax event="click" render="offersTable" />
+                </h:selectBooleanCheckbox></p>
+            </rich:panel>
+            <rich:dataTable id="offersTable" value="#{offersPageBean.offers}" var="offer"
+                            selectionMode="none">
+                <rich:column>
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{offer.id}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Accommodation type</f:facet>
+                    <h:outputText value="#{offer.accommodationType}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Location</f:facet>
+                    <h:outputText value="#{offer.address.city}, #{offer.address.state}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Price</f:facet>
+                    <h:outputText value="#{offer.price}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Capacity</f:facet>
+                    <h:outputText value="#{offer.capacity}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Smoker friendly</f:facet>
+                    <h:outputText value="#{offer.smokerFriendly}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Animal friendly</f:facet>
+                    <h:outputText value="#{offer.animalFriendly}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Details</f:facet>
+                    <h:link value="Show" outcome="offerDetails">
+                        <f:param name="id" value="#{offer.id}"/>
+                    </h:link>
+                </rich:column>
+            </rich:dataTable>
+            <h:link value="Back" outcome="home.xhtml"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

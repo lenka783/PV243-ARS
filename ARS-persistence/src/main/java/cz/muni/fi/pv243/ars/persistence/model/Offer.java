@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -30,6 +31,9 @@ public class Offer implements Serializable {
 
     private Integer capacity;
 
+    @Min(0)
+    private Integer price;
+
     @Enumerated(EnumType.STRING)
     private AccommodationType accommodationType;
 
@@ -40,7 +44,7 @@ public class Offer implements Serializable {
     @ManyToOne
     private User user;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer", fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 
@@ -114,6 +118,14 @@ public class Offer implements Serializable {
 
     public void removeReservation(Reservation reservation) {
         reservations.remove(reservation);
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     @Override

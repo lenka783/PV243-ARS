@@ -23,11 +23,11 @@ INSERT INTO user_roles (user_id,roles) VALUES (1,'TENANT');
 INSERT INTO user_roles (user_id,roles) VALUES (2,'TENANT');
 INSERT INTO user_roles (user_id,roles) VALUES (3,'HOST');
 
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id) VALUES (0,4,'APARTMENT',false,true,4, 1);
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id) VALUES (1,9,'HOUSE',true,true,5,2);
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id) VALUES (2,8,'HOUSE',true,true,6,2);
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id) VALUES (3,2,'ROOM',true,false,7,1);
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id) VALUES (4,1,'ROOM',false,false,8,2);
+INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (0,4,'APARTMENT',false,true,4, 1,2700);
+INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (1,9,'HOUSE',true,true,5,2,3750);
+INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (2,8,'HOUSE',true,true,6,2,3000);
+INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (3,2,'ROOM',true,false,7,1,350);
+INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (4,1,'ROOM',false,false,8,2,300);
 
 INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id,assignedId) VALUES (0,'2018-07-31','2018-08-12',8,2,3,2);
 INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id,assignedId) VALUES (1,'2018-06-30','2018-07-25',1,4,1,4);

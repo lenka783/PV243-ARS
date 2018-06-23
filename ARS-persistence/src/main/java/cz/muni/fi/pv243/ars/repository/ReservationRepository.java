@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.ars.repository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import cz.muni.fi.pv243.ars.persistence.model.User;
  * Created by Lenka Smitalova on 5/29/2018
  */
 @Stateless
-public class ReservationRepository {
+public class ReservationRepository implements Serializable {
 
     @PersistenceContext
     private EntityManager entityManager;
