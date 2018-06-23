@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
@@ -28,6 +29,9 @@ public class Offer implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Size(min = 1, max = 60)
+    private String name;
 
     @NotNull
     @AddressConstraint
@@ -56,6 +60,14 @@ public class Offer implements Serializable {
     public Offer setId(Long id) {
         this.id = id;
         return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Address getAddress() {

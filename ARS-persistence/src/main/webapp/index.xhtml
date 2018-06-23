@@ -20,7 +20,6 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:o="http://omnifaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h1>Welcome ARS!</h1>
@@ -55,25 +54,24 @@
                      rendered="#{not empty offers}"
                      styleClass="simpletablestyle">
             <h:column>
-                <f:facet name="header">Place</f:facet>
-                #{_offer.address}
+                <f:facet name="header">Description</f:facet>
+                <h:form>
+                    <h:commandLink value="#{_offer.name}" action="#{offerController.openOfferDetailPage(_offer.id)}"/>
+                </h:form>
             </h:column>
             <h:column>
-                <f:facet name="header">Type of housing</f:facet>
+                <f:facet name="header">Place</f:facet>
+                #{addressBean.getFriendlyLocation((_offer.address))}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type</f:facet>
                 #{_offer.accommodationType}
             </h:column>
             <h:column>
                 <f:facet name="header">Capacity</f:facet>
                 #{_offer.capacity}
             </h:column>
-            <!--<h:column>-->
-                <!--<f:facet sender="header">REST URL</f:facet>-->
-                <!--<a-->
-                    <!--href="#{request.contextPath}/rest/members/#{_member.id}">/rest/members/#{_member.id}</a>-->
-            <!--</h:column>-->
         </h:dataTable>
-
-        <o:resourceInclude path="/offerComments.jsp" />
 
     </ui:define>
 </ui:composition>

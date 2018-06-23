@@ -2,6 +2,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:o="http://omnifaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
         <f:viewParam name="id" value="#{offersPageBean.selectedId}"/>
@@ -28,6 +29,8 @@
             <br/>
             <h:link value="Back" outcome="home"/>
         </h:form>
+
+        <o:resourceInclude path="/offerComments.jsp" />
 
     </ui:define>
 </ui:composition>
