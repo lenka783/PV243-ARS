@@ -17,7 +17,7 @@ import javax.websocket.server.ServerEndpoint;
 /**
  * Created by jsmolar on 6/21/18.
  */
-@ServerEndpoint(value = "/offer/comments")
+@ServerEndpoint(value = "/offer/{id}/comments")
 public class OfferCommentsWS {
 
     @Inject

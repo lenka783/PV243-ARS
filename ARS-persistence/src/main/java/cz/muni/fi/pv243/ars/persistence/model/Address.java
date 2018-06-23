@@ -26,11 +26,11 @@ public class Address implements Serializable {
     private String country;
     private String postCode;
 
-    @OneToOne
+    @OneToOne(mappedBy = "address")
     @PrimaryKeyJoinColumn
     private User user;
 
-    @OneToOne
+    @OneToOne(mappedBy = "address")
     @PrimaryKeyJoinColumn
     private Offer offer;
 

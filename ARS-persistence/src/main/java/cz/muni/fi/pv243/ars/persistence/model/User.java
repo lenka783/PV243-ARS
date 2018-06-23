@@ -59,7 +59,7 @@ public class User implements Serializable {
     private String password;
 
     @AddressConstraint
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     private LocalDate dateOfBirth;

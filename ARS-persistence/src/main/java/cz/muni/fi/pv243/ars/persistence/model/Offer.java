@@ -30,12 +30,13 @@ public class Offer implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Size(min = 1, max = 60)
+    @NotNull
+    @Size(min = 1, max = 25)
     private String name;
 
     @NotNull
     @AddressConstraint
-    @OneToOne(mappedBy = "offer", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     private Integer capacity;
@@ -66,8 +67,9 @@ public class Offer implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    public Offer setName(String name) {
         this.name = name;
+        return this;
     }
 
     public Address getAddress() {
@@ -142,29 +144,19 @@ public class Offer implements Serializable {
 
         Offer offer = (Offer) o;
 
+        if (!getName().equals(offer.getName()))
+            return false;
         if (!getAddress().equals(offer.getAddress()))
             return false;
-        if (!getCapacity().equals(offer.getCapacity()))
-            return false;
-        if (getAccommodationType() != offer.getAccommodationType())
-            return false;
-        if (isAnimalFriendly != null ?
-            !isAnimalFriendly.equals(offer.isAnimalFriendly) :
-            offer.isAnimalFriendly != null)
-            return false;
-        return isSmokerFriendly != null ?
-            isSmokerFriendly.equals(offer.isSmokerFriendly) :
-            offer.isSmokerFriendly == null;
+        return getAccommodationType() == offer.getAccommodationType();
 
     }
 
     @Override
     public int hashCode() {
-        int result = getAddress().hashCode();
-        result = 31 * result + getCapacity().hashCode();
+        int result = getName().hashCode();
+        result = 31 * result + getAddress().hashCode();
         result = 31 * result + getAccommodationType().hashCode();
-        result = 31 * result + (isAnimalFriendly != null ? isAnimalFriendly.hashCode() : 0);
-        result = 31 * result + (isSmokerFriendly != null ? isSmokerFriendly.hashCode() : 0);
         return result;
     }
 }
