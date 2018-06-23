@@ -3,7 +3,7 @@ $(document).ready(openWebSocket);
 
 function openWebSocket() {
     var wsProtocol = window.location.protocol == "https:" ? "wss" : "ws";
-    var wsURI = wsProtocol + '://' + window.location.host + '/ARS-persistence/offer/comments';
+    var wsURI = wsProtocol + '://' + window.location.host + '/ARS-persistence/comments/' + getUrlVars()['offer_id'];
     websocket = new WebSocket(wsURI);
     
     websocket.onmessage = function (event) {
@@ -20,7 +20,6 @@ function openWebSocket() {
 function waitForSocketConnection(socket) {
     setTimeout(function() {
         if (socket.readyState === 1) {
-            document.getElementById('hellomessage').value = "connection is seccessful";
             return;
         } else {
             waitForSocketConnection(socket);
@@ -42,4 +41,12 @@ function sendWebSocketMessage() {
 
 function addComment(comment) {
     document.getElementById('commentsArea').value += comment + '\n';
+}
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
 }

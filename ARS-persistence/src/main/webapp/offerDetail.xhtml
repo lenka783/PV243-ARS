@@ -5,7 +5,7 @@
                 xmlns:o="http://omnifaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
-        <f:viewParam name="id" value="#{offersPageBean.selectedId}"/>
+        <f:viewParam name="offer_id" value="#{offersPageBean.selectedId}"/>
         <f:viewAction action="#{offersPageBean.loadOffer}"/>
     </f:metadata>
     <ui:define name="content">

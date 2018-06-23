@@ -23,7 +23,7 @@
                 </div>
                 <div>
                     <input id="comment" type="text" size="40" style="width: 100%"/>
-                    <input type="button" id="Send" onclick="sendWebSocketMessage();" value="Send"/>
+                    <input type="button" id="Send" onclick="sendWebSocketMessage()" value="Send"/>
                 </div>
             </fieldset>
         </div>

@@ -25,9 +25,9 @@ public class OfferController {
     @Inject
     private OfferRepository offerRepository;
 
-    public void openOfferDetailPage(int id) throws IOException {
+    public void openOfferDetailPage(int offer_id) throws IOException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect("offerDetail.jsf?id=" + id);
+        context.redirect("offerDetail.jsf?offer_id=" + offer_id);
     }
 
 }
