@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h2>User informations</h2>
+        <h:form>
+            <table frame="box">
+                <tr>
+                    <td><h:outputLabel value=" Name: " /></td>
+                    <td><h:outputText id="name" value="#{userInfoBean.name}"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Surname: " /></td>
+                    <td><h:inputText id="surname" value="#{userInfoBean.surname}"
+                                     required="true" requiredMessage="Surname must not be empty" /></td>
+                    <td><h:message for="surname" style="color:red" /></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Email: " /></td>
+                    <td><h:outputText id="email" value="#{userInfoBean.email}"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Date of birth : "/></td>
+                    <td><h:outputText value="#{userInfoBean.dateOfBirth}">
+                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>f
+                    </h:outputText></td>
+                </tr>
+                <tr>
+                    <td><h:commandButton value="Change password" action="home.xhtml"/></td>
+                </tr>
+                <tr>
+                    <td><h:link value="Back" outcome="home.xhtml"/></td>
+                </tr>
+            </table>
+        </h:form>
+    </ui:define>
+</ui:composition>

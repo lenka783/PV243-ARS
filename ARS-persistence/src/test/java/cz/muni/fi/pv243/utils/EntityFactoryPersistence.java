@@ -70,6 +70,7 @@ public class EntityFactoryPersistence {
         reservation.setFromDate(from)
                 .setToDate(to)
                 .setNumberOfPeople(rand.nextInt(10))
+                .setAssignedId(offer.hashCode())
                 .setOffer(offer);
 
         return reservation;
@@ -81,6 +82,7 @@ public class EntityFactoryPersistence {
         reservation.setFromDate(from)
                 .setToDate(to)
                 .setNumberOfPeople(rand.nextInt(10))
+                .setAssignedId(offer.hashCode())
                 .setUser(host)
                 .setOffer(offer);
 

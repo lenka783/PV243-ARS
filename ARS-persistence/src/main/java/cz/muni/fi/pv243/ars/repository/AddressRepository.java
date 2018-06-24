@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.ars.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -12,7 +13,7 @@ import cz.muni.fi.pv243.ars.persistence.model.Address;
  * Created by jsmolar on 6/4/18.
  */
 @Stateless
-public class AddressRepository {
+public class AddressRepository implements Serializable {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -29,7 +30,7 @@ public class AddressRepository {
     }
 
     public void delete(Address address) {
-        entityManager.remove(address);
+        entityManager.remove(entityManager.merge(address));
         entityManager.flush();
     }
 

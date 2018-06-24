@@ -22,7 +22,7 @@
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
    <persistence-unit name="primary" >
       <!-- If you are running in a production environment, add a managed
-         data source, this example data source is just for development and testing! -->
+         beans source, this example beans source is just for development and testing! -->
       <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
       <properties>
          <!-- Properties for Hibernate -->

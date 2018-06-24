@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.ars.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -13,7 +14,7 @@ import cz.muni.fi.pv243.ars.persistence.model.User;
  * Created by mminatova on 5/29/18.
  */
 @Stateless
-public class OfferRepository {
+public class OfferRepository implements Serializable {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,15 +31,12 @@ public class OfferRepository {
     }
 
     public void delete(Offer offer) {
-        entityManager.remove(offer);
+        entityManager.remove(entityManager.merge(offer));
         entityManager.flush();
     }
 
     public Offer findById(Long id) {
         Offer offer = entityManager.find(Offer.class, id);
-        if (offer == null){
-            throw new IllegalArgumentException();
-        }
         return offer;
     }
 

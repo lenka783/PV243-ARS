@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="id" value="#{offersPageBean.selectedId}"/>
+        <f:viewAction action="#{offersPageBean.loadOffer}"/>
+    </f:metadata>
+    <ui:define name="content">
+
+        <h:form id="form">
+            <h:panelGrid columns="2">
+                <h:outputText value="ID:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.id}"/>
+                <h:outputText value="Type:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.accommodationType}"/>
+                <h:outputText value="Email:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.capacity}"/>
+                <h:outputText value="Animal friendly:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.animalFriendly}"/>
+                <h:outputText value="Smoker friendly:"/>
+                <h:outputText value="#{offersPageBean.selectedOffer.smokerFriendly}"/>
+            </h:panelGrid>
+            <table>
+                <tr>
+                    <td>Set dates for reservation: </td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Check in date : "/></td>
+                    <td>
+                        <a4j:outputPanel layout="block">
+                            <rich:calendar id="checkIn"
+                                           value="#{createReservationBean.checkInDate}" locale="#{calendarBean.locale}"
+                                           popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}"
+                                           required="true" requiredMessage="Date of birth must not be empty">
+                            </rich:calendar>
+                        </a4j:outputPanel>
+                    </td>
+                    <td><h:message for="checkIn" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Check out date : "/></td>
+                    <td>
+                        <a4j:outputPanel layout="block">
+                            <rich:calendar id="checkOut"
+                                           value="#{createReservationBean.checkOutDate}" locale="#{calendarBean.locale}"
+                                           popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}"
+                                           required="true" requiredMessage="Date of birth must not be empty">
+                            </rich:calendar>
+                        </a4j:outputPanel>
+                    </td>
+                    <td><h:message for="checkOut" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Number of tenants : "/></td>
+                    <td>
+                        <rich:inputNumberSlider id="numberOfTenants" showArrows="true" step="1"
+                                                value="#{createReservationBean.numberOfPeople}"
+                                                maxValue="#{offersPageBean.selectedOffer.capacity}"
+                                                minValue="1" >
+                        </rich:inputNumberSlider>
+                    </td>
+                    <td><h:message for="numberOfTenants" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:commandButton value="Create reservation"
+                                         action="#{createReservationBean.create(offersPageBean.selectedOffer)}">
+                    </h:commandButton></td>
+                </tr>
+                <tr>
+                    <td><h:link value="Back" outcome="offers.xhtml"/></td>
+                </tr>
+            </table>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.ars.repository;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -13,7 +14,7 @@ import cz.muni.fi.pv243.ars.persistence.model.User;
  * Created by jsmolar on 5/28/18.
  */
 @Stateless
-public class UserRepository {
+public class UserRepository implements Serializable {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -30,7 +31,7 @@ public class UserRepository {
     }
 
     public void delete(User user) {
-        entityManager.remove(user);
+        entityManager.remove(entityManager.merge(user));
         entityManager.flush();
     }
 

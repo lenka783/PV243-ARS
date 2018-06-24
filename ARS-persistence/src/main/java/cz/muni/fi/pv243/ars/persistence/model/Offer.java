@@ -4,17 +4,12 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
 import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
 
@@ -22,21 +17,24 @@ import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
  * Created by jsmolar on 5/19/18.
  */
 @Entity
-@XmlRootElement
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Offer implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @AddressConstraint
-    @OneToOne(mappedBy = "offer", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     private Integer capacity;
 
-    @Enumerated
+    @Min(0)
+    private Integer price;
+
+    @Enumerated(EnumType.STRING)
     private AccommodationType accommodationType;
 
     private Boolean isAnimalFriendly;
@@ -46,7 +44,8 @@ public class Offer implements Serializable {
     @ManyToOne
     private User user;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer", fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 
     public Long getId() {
@@ -119,6 +118,14 @@ public class Offer implements Serializable {
 
     public void removeReservation(Reservation reservation) {
         reservations.remove(reservation);
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 
     @Override

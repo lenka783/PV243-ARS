@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <table>
+                <tr><td>
+                    <h:outputText value="Accommodation type"/>
+                    <h:inputText value="#{createOfferBean.accommodationType}"/>
+                </td></tr>
+                <tr><td>
+                    <h:outputText value="Street"/>
+                    <h:inputText value="#{createOfferBean.addressBean.street}"/>
+                </td></tr>
+                <tr><td>
+                    <h:outputText value="City"/>
+                    <h:inputText value="#{createOfferBean.addressBean.city}"/>
+                </td></tr>
+                <tr><td>
+                    <h:outputText value="State"/>
+                    <h:inputText value="#{createOfferBean.addressBean.state}"/>
+                </td></tr>
+                <tr><td>
+                    <h:outputText value="Country"/>
+                    <h:inputText value="#{createOfferBean.addressBean.country}"/>
+                </td></tr>
+                <tr><td>
+                    <h:outputText value="ZIP"/>
+                    <h:inputText value="#{createOfferBean.addressBean.postCode}"/>
+                </td></tr>
+                <tr><td>
+                    <h:outputText value="Price"/>
+                    <h:inputText value="#{createOfferBean.price}"/>
+                </td></tr>
+                <tr><td>
+                    <h:outputText value="Capacity"/>
+                    <h:inputText value="#{createOfferBean.capacity}"/>
+                </td></tr>
+                <tr><td>
+                    <h:outputText value="Smoker friendly"/>
+                    <h:selectBooleanCheckbox value="#{createOfferBean.smokerFriendly}"/>
+                </td></tr>
+                <tr><td>
+                    <h:outputText value="Animal friendly"/>
+                    <h:selectBooleanCheckbox value="#{createOfferBean.animalFriendly}"/>
+                </td></tr>
+                <tr>
+                    <td><h:commandButton value="Create createOfferBean" action="#{createOfferBean.create}"/></td>
+                </tr>
+            </table>
+            <h:link value="Back" outcome="home.xhtml"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

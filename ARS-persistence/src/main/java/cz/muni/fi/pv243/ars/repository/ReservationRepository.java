@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.ars.repository;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import cz.muni.fi.pv243.ars.persistence.model.User;
  * Created by Lenka Smitalova on 5/29/2018
  */
 @Stateless
-public class ReservationRepository {
+public class ReservationRepository implements Serializable {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -25,6 +26,7 @@ public class ReservationRepository {
     private UserRepository userRepository;
 
     public void create(Reservation reservation) {
+        reservation.setAssignedId(getAssignedId(reservation));
         entityManager.persist(reservation);
         entityManager.flush();
     }
@@ -44,7 +46,7 @@ public class ReservationRepository {
         if (offer != null) {
             offer.removeReservation(reservation);
         }
-        entityManager.remove(reservation);
+        entityManager.remove(entityManager.merge(reservation));
         entityManager.flush();
     }
 
@@ -68,4 +70,8 @@ public class ReservationRepository {
         return result;
     }
 
+    private int getAssignedId(Reservation reservation) {
+        Offer offer = reservation.getOffer();
+        return offer.hashCode();
+    }
 }
