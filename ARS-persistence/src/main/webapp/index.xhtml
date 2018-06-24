@@ -37,12 +37,11 @@
             <h2>ARS - Accommodation Reservation System!</h2>
             <h:panelGrid columns="2" columnClasses="titleCell">
                 <c:if test="#{userController.loggedIn}">
-                    <h:commandButton value="Log In" action="/login.jsf?faces-redirect=true"/>
+                    <h:commandButton value="Log In" action="#{userController.logIn}"/>
                 </c:if>
                 <c:if test="#{userController.loggedIn eq false}">
                     <h:commandButton value="Log Out" action="#{userController.logOut}"/>
                 </c:if>
-
             </h:panelGrid>
         </h:form>
 
