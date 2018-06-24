@@ -12,9 +12,6 @@
     <ui:define name="content">
 
         <h:form id="form">
-            <rich:panel >
-
-            </rich:panel>
             <h:panelGrid columns="2">
                 <h:outputText value="ID:"/>
                 <h:outputText value="#{offersPageBean.selectedOffer.id}"/>
@@ -27,7 +24,6 @@
                 <h:outputText value="Smoker friendly:"/>
                 <h:outputText value="#{offersPageBean.selectedOffer.smokerFriendly}"/>
             </h:panelGrid>
-
             <table>
                 <tr>
                     <td>Set dates for reservation: </td>
