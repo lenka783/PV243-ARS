@@ -4,7 +4,7 @@
   "ssl-required": "external",
   "resource": "ARS-persistence",
   "credentials": {
-    "secret": "951811ff-67d6-46fc-b79b-ea5787954e55"
+    "secret": "ff4d35a1-79ff-4133-adbc-550aaad6f5d4"
   },
   "confidential-port": 0,
   "policy-enforcer": {}

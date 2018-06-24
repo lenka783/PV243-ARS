@@ -7,23 +7,23 @@
                 xmlns:o="http://omnifaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
-        <f:viewParam name="offer_id" value="#{offersPageBean.selectedId}"/>
-        <f:viewAction action="#{offersPageBean.loadOffer}"/>
+        <f:viewParam name="offer_id" value="#{offersBean.selectedId}"/>
+        <f:viewAction action="#{offersBean.loadOffer}"/>
     </f:metadata>
     <ui:define name="content">
 
         <h:form id="form">
             <h:panelGrid columns="2">
                 <h:outputText value="ID:"/>
-                <h:outputText value="#{offersPageBean.selectedOffer.id}"/>
+                <h:outputText value="#{offersBean.selectedOffer.id}"/>
                 <h:outputText value="Type:"/>
-                <h:outputText value="#{offersPageBean.selectedOffer.accommodationType}"/>
+                <h:outputText value="#{offersBean.selectedOffer.accommodationType}"/>
                 <h:outputText value="Email:"/>
-                <h:outputText value="#{offersPageBean.selectedOffer.capacity}"/>
+                <h:outputText value="#{offersBean.selectedOffer.capacity}"/>
                 <h:outputText value="Animal friendly:"/>
-                <h:outputText value="#{offersPageBean.selectedOffer.animalFriendly}"/>
+                <h:outputText value="#{offersBean.selectedOffer.animalFriendly}"/>
                 <h:outputText value="Smoker friendly:"/>
-                <h:outputText value="#{offersPageBean.selectedOffer.smokerFriendly}"/>
+                <h:outputText value="#{offersBean.selectedOffer.smokerFriendly}"/>
             </h:panelGrid>
             <table>
                 <tr>
@@ -60,7 +60,7 @@
                     <td>
                         <rich:inputNumberSlider id="numberOfTenants" showArrows="true" step="1"
                                                 value="#{createReservationBean.numberOfPeople}"
-                                                maxValue="#{offersPageBean.selectedOffer.capacity}"
+                                                maxValue="#{offersBean.selectedOffer.capacity}"
                                                 minValue="1" >
                         </rich:inputNumberSlider>
                     </td>
@@ -68,7 +68,7 @@
                 </tr>
                 <tr>
                     <td><h:commandButton value="Create reservation"
-                                         action="#{createReservationBean.create(offersPageBean.selectedOffer)}">
+                                         action="#{createReservationBean.create(offersBean.selectedOffer)}">
                     </h:commandButton></td>
                 </tr>
                 <tr>

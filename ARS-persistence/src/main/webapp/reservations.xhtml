@@ -8,10 +8,10 @@
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h2>Reservations</h2>
-        <h:panelGroup rendered="#{empty reservationsPageBean.reservations}">
+        <h:panelGroup rendered="#{empty reservationsBean.reservations}">
             <em>Places for you to visit!</em>
         </h:panelGroup>
-        <rich:dataTable id="reservationsTable" value="#{reservationsPageBean.reservations}" var="reservation"
+        <rich:dataTable id="reservationsTable" value="#{reservationsBean.reservations}" var="reservation"
                         selectionMode="none">
             <rich:column>
                 <f:facet name="header">Id</f:facet>

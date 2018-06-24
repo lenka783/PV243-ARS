@@ -8,7 +8,7 @@
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h2>Offers</h2>
-        <h:panelGroup rendered="#{empty offersPageBean.offers}">
+        <h:panelGroup rendered="#{empty offersBean.offers}">
             <em>Places for you to visit!</em>
         </h:panelGroup>
         <h:form>
@@ -49,7 +49,7 @@
                     <a4j:ajax event="click" render="offersTable" />
                 </h:selectBooleanCheckbox></p>
             </rich:panel>
-            <rich:dataTable id="offersTable" value="#{offersPageBean.offers}" var="offer"
+            <rich:dataTable id="offersTable" value="#{offersBean.offers}" var="offer"
                             selectionMode="none">
                 <rich:column>
                     <f:facet name="header">Id</f:facet>

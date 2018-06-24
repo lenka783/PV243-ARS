@@ -65,7 +65,6 @@ public class User implements Serializable {
     private Set<UserRole> roles = new HashSet<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
     private Set<Offer> offers = new HashSet<>();
 
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)

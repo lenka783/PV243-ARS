@@ -45,32 +45,32 @@
             </h:panelGrid>
         </h:form>
 
-        <!--<h2>Latest offers for you!</h2>-->
-        <!--<h:panelGroup rendered="#{empty offers}">-->
-            <!--<em>There are not any available offer at this moment. Give it a shot later!</em>-->
-        <!--</h:panelGroup>-->
-        <!--<h:dataTable var="_offer" value="#{offers}"-->
-                     <!--rendered="#{not empty offers}"-->
-                     <!--styleClass="simpletablestyle">-->
-            <!--<h:column>-->
-                <!--<f:facet name="header">Description</f:facet>-->
-                <!--<h:form>-->
-                    <!--<h:commandLink value="#{_offer.name}" action="#{offerController.openOfferDetailPage(_offer.id)}"/>-->
-                <!--</h:form>-->
-            <!--</h:column>-->
-            <!--<h:column>-->
-                <!--<f:facet name="header">Place</f:facet>-->
-                <!--#{address.getFriendlyLocation((_offer.address))}-->
-            <!--</h:column>-->
-            <!--<h:column>-->
-                <!--<f:facet name="header">Type</f:facet>-->
-                <!--#{_offer.accommodationType}-->
-            <!--</h:column>-->
-            <!--<h:column>-->
-                <!--<f:facet name="header">Capacity</f:facet>-->
-                <!--#{_offer.capacity}-->
-            <!--</h:column>-->
-        <!--</h:dataTable>-->
+        <h2>Latest offers for you!</h2>
+        <h:panelGroup rendered="#{empty offersBean.offers}">
+            <em>There are not any available offer at this moment. Give it a shot later!</em>
+        </h:panelGroup>
+        <h:dataTable var="_offer" value="#{offersBean.offers}"
+                     rendered="#{not empty offersBean.offers}"
+                     styleClass="simpletablestyle">
+            <h:column>
+                <f:facet name="header">Description</f:facet>
+                <h:form>
+                    <h:commandLink value="#{_offer.name}" action="#{offerController.openOfferDetailPage(_offer.id)}"/>
+                </h:form>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Place</f:facet>
+                #{address.getFriendlyLocation((_offer.address))}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type</f:facet>
+                #{_offer.accommodationType}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Capacity</f:facet>
+                #{_offer.capacity}
+            </h:column>
+        </h:dataTable>
 
     </ui:define>
 </ui:composition>

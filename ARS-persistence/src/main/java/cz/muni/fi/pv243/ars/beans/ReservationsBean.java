@@ -20,7 +20,7 @@ import java.util.List;
  */
 @SessionScoped
 @Named
-public class ReservationsPageBean implements Serializable {
+public class ReservationsBean implements Serializable {
 
     @Inject
     private ReservationRepository reservationRepository;

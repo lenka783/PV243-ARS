@@ -16,7 +16,7 @@ import java.util.List;
  */
 @SessionScoped
 @Named
-public class OffersPageBean implements Serializable {
+public class OffersBean implements Serializable {
 
     @Inject
     private OfferRepository offerRepository;
@@ -35,6 +35,7 @@ public class OffersPageBean implements Serializable {
     @PostConstruct
     public void getAvailableOffers() {
         offers = offerRepository.findAllForUser(userRepository.findById(0l));
+        //offers = offerRepository.findAll();
     }
 
     public void loadOffer() {

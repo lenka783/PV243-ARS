@@ -24,7 +24,7 @@ public class CreateReservationBean {
     private UserRepository userRepository;
 
     @ManagedProperty(value = "#{OffersPageBean}")
-    private OffersPageBean offersPageBean;
+    private OffersBean offersBean;
 
     private Date checkInDate;
     private Date checkOutDate;
