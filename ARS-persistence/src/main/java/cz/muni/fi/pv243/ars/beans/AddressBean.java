@@ -12,6 +12,8 @@ import cz.muni.fi.pv243.ars.persistence.model.Address;
 @RequestScoped
 public class AddressBean {
 
+
+
     public String getFriendlyLocation(Address address) {
         return address.getCity() + ", " + address.getCountry().toUpperCase();
     }

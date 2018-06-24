@@ -161,7 +161,7 @@ public class OfferRepositoryTest {
         assertEquals(allForUser.size(), 0);
 
         Offer offer = ef.createOffer(address);
-        offer.setUser(user);
+        user.addOffer(offer);
         offerRepository.create(offer);
 
         assertEquals(offerRepository.findAllForUser(user).size(), 1);

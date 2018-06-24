@@ -49,7 +49,8 @@ public class EntityFactoryPersistence {
                 .setName("testName" + rand.nextInt(1000))
                 .setAddress(address)
                 .setAnimalFriendly(true)
-                .setCapacity(rand.nextInt(10));
+                .setCapacity(rand.nextInt(10))
+                .setPrice(rand.nextInt(5000));
 
         return offer;
     }
@@ -61,7 +62,8 @@ public class EntityFactoryPersistence {
                 .setName("testName" + rand.nextInt(1000))
                 .setAddress(address)
                 .setAnimalFriendly(true)
-                .setCapacity(rand.nextInt(10));
+                .setCapacity(rand.nextInt(10))
+                .setPrice(rand.nextInt(5000));
 
         return offer;
     }
@@ -72,6 +74,7 @@ public class EntityFactoryPersistence {
         reservation.setFromDate(from)
                 .setToDate(to)
                 .setNumberOfPeople(rand.nextInt(10))
+                .setAssignedId(offer.hashCode())
                 .setOffer(offer);
 
         return reservation;
@@ -83,6 +86,7 @@ public class EntityFactoryPersistence {
         reservation.setFromDate(from)
                 .setToDate(to)
                 .setNumberOfPeople(rand.nextInt(10))
+                .setAssignedId(offer.hashCode())
                 .setUser(host)
                 .setOffer(offer);
 

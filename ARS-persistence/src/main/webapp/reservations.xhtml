@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h2>Reservations</h2>
+        <h:panelGroup rendered="#{empty reservationsBean.reservations}">
+            <em>Places for you to visit!</em>
+        </h:panelGroup>
+        <rich:dataTable id="reservationsTable" value="#{reservationsBean.reservations}" var="reservation"
+                        selectionMode="none">
+            <rich:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{reservation.id}"/>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">Location</f:facet>
+                <h:outputText value="#{reservation.offer.address.city}"/>
+            </rich:column>
+            <rich:column>
+                <f:facet name="header">Details</f:facet>
+                <h:link value="Show" outcome="reservationDetails">
+                    <f:param name="id" value="#{reservation.id}"/>
+                </h:link>
+            </rich:column>
+        </rich:dataTable>
+        <h:link value="Back" outcome="home.xhtml"/>
+    </ui:define>
+</ui:composition>

@@ -46,11 +46,11 @@
         </h:form>
 
         <h2>Latest offers for you!</h2>
-        <h:panelGroup rendered="#{empty offers}">
+        <h:panelGroup rendered="#{empty offersBean.offers}">
             <em>There are not any available offer at this moment. Give it a shot later!</em>
         </h:panelGroup>
-        <h:dataTable var="_offer" value="#{offers}"
-                     rendered="#{not empty offers}"
+        <h:dataTable var="_offer" value="#{offersBean.offers}"
+                     rendered="#{not empty offersBean.offers}"
                      styleClass="simpletablestyle">
             <h:column>
                 <f:facet name="header">Description</f:facet>
@@ -60,7 +60,7 @@
             </h:column>
             <h:column>
                 <f:facet name="header">Place</f:facet>
-                #{addressBean.getFriendlyLocation((_offer.address))}
+                #{address.getFriendlyLocation((_offer.address))}
             </h:column>
             <h:column>
                 <f:facet name="header">Type</f:facet>

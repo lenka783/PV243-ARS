@@ -12,6 +12,8 @@ import javax.persistence.PersistenceContext;
  */
 public class Resources {
 
+    public static final String REST_SERVICE_BASE_URI = "http://localhost:8080/ARS-persistence/services/";
+
     @Produces
     @PersistenceContext
     private EntityManager em;
