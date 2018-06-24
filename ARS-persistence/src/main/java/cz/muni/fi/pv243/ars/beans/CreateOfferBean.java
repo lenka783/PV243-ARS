@@ -7,10 +7,8 @@ import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,8 +28,7 @@ public class CreateOfferBean implements Serializable {
     private AddressRepository addressRepository;
 
     private AccommodationType accommodationType;
-    @ManagedProperty(value = "AddressBean")
-    private AddressBean addressBean = new AddressBean();
+    private Address address = new Address();
     private Integer price;
     private Integer capacity;
     private boolean animalFriendly;
@@ -45,12 +42,12 @@ public class CreateOfferBean implements Serializable {
         this.accommodationType = accommodationType;
     }
 
-    public AddressBean getAddressBean() {
-        return addressBean;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setAddressBean(AddressBean addressBean) {
-        this.addressBean = addressBean;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public Integer getPrice() {
@@ -86,7 +83,6 @@ public class CreateOfferBean implements Serializable {
     }
 
     public String create() {
-        Address address = createAddress();
         Offer offer = new Offer();
         offer.setAccommodationType(accommodationType);
         offer.setAddress(address);
@@ -105,19 +101,5 @@ public class CreateOfferBean implements Serializable {
             return "offers";
         }
         return "offers";
-    }
-
-    private Address createAddress() {
-        Address address = new Address();
-
-        address.setCity(addressBean.getCity());
-        address.setCountry(addressBean.getCountry());
-        address.setPostCode(addressBean.getPostCode());
-        address.setState(addressBean.getState());
-        address.setStreet(addressBean.getStreet());
-        System.out.println("address created");
-        //addressRepository.create(address);
-        System.out.println("address saved");
-        return address;
     }
 }

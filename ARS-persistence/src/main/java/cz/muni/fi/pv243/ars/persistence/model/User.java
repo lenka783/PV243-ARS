@@ -17,6 +17,7 @@ import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
 import cz.muni.fi.pv243.ars.persistence.validation.RoleOwnership;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.keycloak.KeycloakPrincipal;
 
 /**
  * Created by jsmolar on 5/10/18.
@@ -29,6 +30,8 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String keycloakPrincipal;
 
     @NotNull
     @Size(min = 1, max = 25)
@@ -88,6 +91,15 @@ public class User implements Serializable {
 
     public User setId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public String getKeycloakPrincipal() {
+        return keycloakPrincipal;
+    }
+
+    public User setKeycloakPrincipal(String keycloakPrincipal) {
+        this.keycloakPrincipal = keycloakPrincipal;
         return this;
     }
 

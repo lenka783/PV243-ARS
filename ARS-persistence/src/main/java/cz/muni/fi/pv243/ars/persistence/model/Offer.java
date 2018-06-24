@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -25,15 +26,22 @@ public class Offer implements Serializable {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 25)
+    private String name;
+
+    @NotNull
     @AddressConstraint
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
+    @NotNull
     private Integer capacity;
 
+    @NotNull
     @Min(0)
     private Integer price;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private AccommodationType accommodationType;
 
@@ -54,6 +62,15 @@ public class Offer implements Serializable {
 
     public Offer setId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Offer setName(String name) {
+        this.name = name;
         return this;
     }
 
@@ -137,29 +154,19 @@ public class Offer implements Serializable {
 
         Offer offer = (Offer) o;
 
+        if (!getName().equals(offer.getName()))
+            return false;
         if (!getAddress().equals(offer.getAddress()))
             return false;
-        if (!getCapacity().equals(offer.getCapacity()))
-            return false;
-        if (getAccommodationType() != offer.getAccommodationType())
-            return false;
-        if (isAnimalFriendly != null ?
-            !isAnimalFriendly.equals(offer.isAnimalFriendly) :
-            offer.isAnimalFriendly != null)
-            return false;
-        return isSmokerFriendly != null ?
-            isSmokerFriendly.equals(offer.isSmokerFriendly) :
-            offer.isSmokerFriendly == null;
+        return getAccommodationType() == offer.getAccommodationType();
 
     }
 
     @Override
     public int hashCode() {
-        int result = getAddress().hashCode();
-        result = 31 * result + getCapacity().hashCode();
-        result = 31 * result + getAccommodationType().hashCode();
-        result = 31 * result + (isAnimalFriendly != null ? isAnimalFriendly.hashCode() : 0);
-        result = 31 * result + (isSmokerFriendly != null ? isSmokerFriendly.hashCode() : 0);
+        int result = getName() != null ? getName().hashCode() : 0;
+        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
+        result = 31 * result + (getAccommodationType() != null ? getAccommodationType().hashCode() : 0 );
         return result;
     }
 }

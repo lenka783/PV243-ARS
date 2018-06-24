@@ -2,6 +2,7 @@ package cz.muni.fi.pv243.ars.beans;
 
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
+import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -20,6 +21,9 @@ public class OffersPageBean implements Serializable {
     @Inject
     private OfferRepository offerRepository;
 
+    @Inject
+    private UserRepository userRepository;
+
     private List<Offer> offers;
     private long selectedId;
     private Offer selectedOffer;
@@ -30,7 +34,7 @@ public class OffersPageBean implements Serializable {
 
     @PostConstruct
     public void getAvailableOffers() {
-        offers = offerRepository.findAll();
+        offers = offerRepository.findAllForUser(userRepository.findById(0l));
     }
 
     public void loadOffer() {

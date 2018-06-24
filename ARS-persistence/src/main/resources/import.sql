@@ -10,27 +10,20 @@ INSERT INTO Address (id,street,city,state,country,postCode) VALUES (8,'P.O. Box 
 INSERT INTO Address (id,street,city,state,country,postCode) VALUES (9,'Ap #864-4420 Quisque Rd.','Gravilias','San José','Tunisia','5257');
 INSERT INTO Address (id,street,city,state,country,postCode) VALUES (10,'3187 Sed, Av.','Tarragona','CA','Dominica','01298-686');
 
-INSERT INTO User (id,name,surname,email,password,dateOfBirth,isActive,address_id) VALUES (0,'Quemby','Singleton','admin@ars.com','admin','1967-06-21',true,0);
-INSERT INTO User (id,name,surname,email,password,dateOfBirth,isActive,address_id) VALUES (1,'Sonya','Lang','Nam.interdum@rutrummagna.org','WZS69BZC0SJ','1931-12-29',true,1);
-INSERT INTO User (id,name,surname,email,password,dateOfBirth,isActive,address_id) VALUES (2,'Reece','Pacheco','vel@inmolestie.edu','STH44WWH6XU','1994-05-06',true,2);
-INSERT INTO User (id,name,surname,email,password,dateOfBirth,isActive,address_id) VALUES (3,'Jescie','Rodriguez','gravida.sit@condimentumeget.org','MPN85TBO6SH','1977-05-04',true,3);
+INSERT INTO User (id, keycloakPrincipal, name, surname, email, password, isActive,dateOfBirth,address_id) VALUES (0, 'e16f9057-19a2-4776-b93f-6553aa020a02', 'Jano', 'Gabor', 'chvost30@example.com', '123456', true,'1967-06-21',0);
 
 INSERT INTO user_roles (user_id,roles) VALUES (0,'ADMIN');
 INSERT INTO user_roles (user_id,roles) VALUES (0,'TENANT');
 INSERT INTO user_roles (user_id,roles) VALUES (0,'HOST');
-INSERT INTO user_roles (user_id,roles) VALUES (1,'HOST');
-INSERT INTO user_roles (user_id,roles) VALUES (1,'TENANT');
-INSERT INTO user_roles (user_id,roles) VALUES (2,'TENANT');
-INSERT INTO user_roles (user_id,roles) VALUES (3,'HOST');
 
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (0,4,'APARTMENT',false,true,4, 1,2700);
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (1,9,'HOUSE',true,true,5,2,3750);
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (2,8,'HOUSE',true,true,6,2,3000);
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (3,2,'ROOM',true,false,7,1,350);
-INSERT INTO Offer (id,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (4,1,'ROOM',false,false,8,2,300);
+INSERT INTO Offer (id,name,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (0,'Best vacation ever!',4,'APARTMENT',false,true,4, 0,2700);
+INSERT INTO Offer (id,name,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (1,'Romantic holiday',9,'HOUSE',true,true,5,0,3750);
+INSERT INTO Offer (id,name,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (2,'Family chill-out',8,'HOUSE',true,true,6,0,3000);
+INSERT INTO Offer (id,name,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (3,'Best price in town',2,'ROOM',true,false,7,0,350);
+INSERT INTO Offer (id,name,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (4,'Student home',1,'ROOM',false,false,8,0,300);
 
-INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id,assignedId) VALUES (0,'2018-07-31','2018-08-12',8,2,3,2);
-INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id,assignedId) VALUES (1,'2018-06-30','2018-07-25',1,4,1,4);
+INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id,assignedId) VALUES (0,'2018-07-31','2018-08-12',8,2,0,2);
+INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id,assignedId) VALUES (1,'2018-06-30','2018-07-25',1,4,0,4);
 INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id,assignedId) VALUES (2,'2018-04-30','2018-05-25',4,2,0,2);
 INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id,assignedId) VALUES (3,'2018-09-20','2018-09-25',1,4,0,4);
 INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id,assignedId) VALUES (4,'2018-09-30','2018-10-25',1,4,0,4);

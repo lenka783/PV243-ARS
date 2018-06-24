@@ -4,9 +4,10 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
+                xmlns:o="http://omnifaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
-        <f:viewParam name="id" value="#{offersPageBean.selectedId}"/>
+        <f:viewParam name="offer_id" value="#{offersPageBean.selectedId}"/>
         <f:viewAction action="#{offersPageBean.loadOffer}"/>
     </f:metadata>
     <ui:define name="content">
@@ -75,6 +76,8 @@
                 </tr>
             </table>
         </h:form>
+
+        <o:resourceInclude path="/offerComments.jsp" />
 
     </ui:define>
 </ui:composition>

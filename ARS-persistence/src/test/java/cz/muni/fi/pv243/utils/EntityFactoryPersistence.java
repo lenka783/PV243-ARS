@@ -46,9 +46,11 @@ public class EntityFactoryPersistence {
         Offer offer = new Offer();
 
         offer.setAccommodationType(AccommodationType.HOUSE)
+                .setName("testName" + rand.nextInt(1000))
                 .setAddress(address)
                 .setAnimalFriendly(true)
-                .setCapacity(rand.nextInt(10));
+                .setCapacity(rand.nextInt(10))
+                .setPrice(rand.nextInt(5000));
 
         return offer;
     }
@@ -57,9 +59,11 @@ public class EntityFactoryPersistence {
         Offer offer = new Offer();
 
         offer.setAccommodationType(AccommodationType.HOUSE)
+                .setName("testName" + rand.nextInt(1000))
                 .setAddress(address)
                 .setAnimalFriendly(true)
-                .setCapacity(rand.nextInt(10));
+                .setCapacity(rand.nextInt(10))
+                .setPrice(rand.nextInt(5000));
 
         return offer;
     }
