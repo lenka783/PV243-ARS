@@ -28,6 +28,7 @@ import org.keycloak.KeycloakPrincipal;
 @XmlRootElement
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User implements Serializable {
+    private static final long serialVersionUID = 1l;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,24 +38,31 @@ public class User implements Serializable {
 
     @NotNull
     @Size(min = 1, max = 25)
+    @Column(updatable = false, nullable = false)
     private String name;
 
     @NotNull
     @Size(min = 1, max = 25)
+    @Column(nullable = false)
     private String surname;
 
     @NotNull
     @NotEmpty
     @Email
+    @Column(updatable = false, nullable = false)
     private String email;
 
     @NotNull
+    @Column(updatable = false, nullable = false)
     private String password;
 
     @AddressConstraint
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @NotNull
     private Address address;
 
+    @NotNull
+    @Column(updatable = false, nullable = false)
     private LocalDate dateOfBirth;
 
     @NotNull

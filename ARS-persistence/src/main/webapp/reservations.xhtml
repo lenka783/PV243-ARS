@@ -6,6 +6,10 @@
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
                 template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="user_id" value="#{reservationsBean.userId}"/>
+        <f:viewAction action="#{reservationsBean.loadUserReservations}"/>
+    </f:metadata>
     <ui:define name="content">
         <h2>Reservations</h2>
         <h:panelGroup rendered="#{empty reservationsBean.reservations}">
@@ -28,6 +32,6 @@
                 </h:link>
             </rich:column>
         </rich:dataTable>
-        <h:link value="Back" outcome="home.xhtml"/>
+        <h:button value="Back" outcome="userProfile"/>
     </ui:define>
 </ui:composition>

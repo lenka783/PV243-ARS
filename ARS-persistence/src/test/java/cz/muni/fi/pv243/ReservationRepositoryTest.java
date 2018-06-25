@@ -138,7 +138,7 @@ public class ReservationRepositoryTest {
         reservationRepository.create(res);
     }
 
-    //@Test(expected = EJBTransactionRolledbackException.class)
+    @Test(expected = ArquillianProxyException.class)
     public void createReservationWithoutOfferTest() {
         Reservation res = ef.createReservation(
                 LocalDate.now(),

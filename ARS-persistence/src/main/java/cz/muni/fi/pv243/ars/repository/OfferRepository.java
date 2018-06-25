@@ -46,11 +46,19 @@ public class OfferRepository implements Serializable {
     }
 
     public List<Offer> findAll() {
-        List<Offer> offers = new ArrayList<>();
-        offers.addAll(entityManager
+        return entityManager
                 .createQuery("select o from Offer o", Offer.class)
-                .getResultList());
-        return offers;
+                .getResultList();
+    }
+
+    public List<Offer> findAllAvailableForUser(User user) {
+        if (user == null || user.getId() == null) {
+            return findAll();
+        }
+        return entityManager
+                .createQuery("select o from Offer o where o.user.id != :user_id", Offer.class)
+                .setParameter("user_id", user.getId())
+                .getResultList();
     }
 
     public List<Offer> findAllForUser(User user) {

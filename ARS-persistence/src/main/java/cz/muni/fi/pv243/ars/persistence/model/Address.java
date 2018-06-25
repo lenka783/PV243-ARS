@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -15,15 +16,24 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Address implements Serializable {
+    private static final long serialVersionUID = 1l;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private String street;
+
+    @NotNull
     private String city;
+
     private String state;
+
+    @NotNull
     private String country;
+
+    @NotNull
     private String postCode;
 
     @OneToOne(mappedBy = "address")
@@ -108,8 +118,6 @@ public class Address implements Serializable {
         return this;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -135,7 +143,6 @@ public class Address implements Serializable {
     public int hashCode() {
         int result = getStreet() != null ? getStreet().hashCode() : 0;
         result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
-        result = 31 * result + (getState() != null ? getState().hashCode() : 0);
         result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
         result = 31 * result + (getPostCode() != null ? getPostCode().hashCode() : 0);
         return result;

@@ -26,7 +26,7 @@ public class ReservationRepository implements Serializable {
     private UserRepository userRepository;
 
     public void create(Reservation reservation) {
-        reservation.setAssignedId(getAssignedId(reservation));
+//        reservation.setAssignedId(getAssignedId(reservation));
         entityManager.persist(reservation);
         entityManager.flush();
     }
@@ -56,11 +56,9 @@ public class ReservationRepository implements Serializable {
     }
 
     public List<Reservation> findAll() {
-        List<Reservation> result = new ArrayList<>();
-        result.addAll(entityManager
-                        .createQuery("select r from Reservation r", Reservation.class)
-                        .getResultList());
-        return result;
+        return entityManager
+                .createQuery("select r from Reservation r", Reservation.class)
+                .getResultList();
     }
 
     public List<Reservation> findAllForUser(User user) {

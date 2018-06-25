@@ -20,14 +20,17 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:a4j="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
-        <h1>Welcome ARS!</h1>
-
+        <h1>Welcome to ARS!</h1>
 
         <h:form id="menu">
             <c:if test="#{userController.loggedIn}">
-                <h:button value="User" outcome="userProfile"/>
+                <h:button value="Profile" outcome="userProfile"/>
+                <h:button value="Check all offers" outcome="offers"/>
             </c:if>
         </h:form>
 
@@ -35,40 +38,127 @@
             <h2>ARS - Accommodation Reservation System!</h2>
             <h:panelGrid columns="2" columnClasses="titleCell">
                 <c:if test="#{userController.loggedIn eq false}">
+                    <f:param name="user_id" value="#{null}"/>
                     <h:commandButton value="Log In" action="#{userController.logIn}"/>
                 </c:if>
                 <c:if test="#{userController.loggedIn}">
+                    <f:param name="user_id" value="#{userController.id}"/>
                     <h:commandButton value="Log Out" action="#{userController.logOut}"/>
                 </c:if>
             </h:panelGrid>
         </h:form>
 
-        <h2>Latest offers for you!</h2>
-        <h:panelGroup rendered="#{empty offersBean.offers}">
-            <em>There are not any available offer at this moment. Give it a shot later!</em>
-        </h:panelGroup>
-        <h:dataTable var="_offer" value="#{offersBean.offers}"
-                     rendered="#{not empty offersBean.offers}"
-                     styleClass="simpletablestyle">
-            <h:column>
-                <f:facet name="header">Description</f:facet>
-                <h:form>
-                    <h:commandLink value="#{_offer.name}" action="#{offerController.openOfferDetailPage(_offer.id)}"/>
-                </h:form>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Place</f:facet>
-                #{address.getFriendlyLocation((_offer.address))}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Type</f:facet>
-                #{_offer.accommodationType}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Capacity</f:facet>
-                #{_offer.capacity}
-            </h:column>
-        </h:dataTable>
-
+        <c:if test="#{userController.tenant}">
+            <h2>Latest offers for you!</h2>
+            <h:form>
+                <f:metadata>
+                    <f:viewParam name="user_id" value="#{offersBean.userId}"/>
+                </f:metadata>
+                <rich:dataTable id="offersTable" value="#{offersBean.offers}" var="offer">
+                    <f:facet name="noData">
+                        There are not any available offer at this moment. Give it a shot later!
+                    </f:facet>
+                    <rich:column>
+                        <f:facet name="header">Id</f:facet>
+                        <h:outputText value="#{offer.id}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">User id</f:facet>
+                        <h:outputText value="#{offer.user.id}"/>
+                    </rich:column>
+                    <rich:column filterValue="#{offerFilterBean.accommodationTypeFilter}"
+                                 filterExpression="#{fn:containsIgnoreCase(offer.accommodationType, offerFilterBean.accommodationTypeFilter)}"
+                                 filterType="custom">
+                        <f:facet name="header">
+                            <h:panelGroup>
+                                <h:outputText value="Accommodation type"/>
+                                <br/>
+                                <h:selectOneMenu value="#{offerFilterBean.accommodationTypeFilter}">
+                                    <f:selectItem itemValue="#{null}" itemLabel="--select--" />
+                                    <f:selectItems value="#{offerFilterAutocomplete.accomodationOptions}"/>
+                                    <a4j:ajax render="offersTable@body" event="change"/>
+                                </h:selectOneMenu>
+                            </h:panelGroup>
+                        </f:facet>
+                        <h:outputText value="#{offer.accommodationType}"/>
+                    </rich:column>
+                    <rich:column  filter="#{offerFilterBean.locationFilterImpl}"
+                                  filterType="custom">
+                        <f:facet name="header">
+                            <h:panelGroup>
+                                <h:outputText value="Location  "/>
+                                <br/>
+                                <a4j:jsFunction name="blurFunction" execute="autoCompleteLocation" render="offersTable@body"/>
+                                <rich:autocomplete mode="client" id="autoCompleteLocation" onblur="blurFunction()"
+                                                   autocompleteList="#{offerFilterAutocomplete.addresses}" var="address"
+                                                   fetchValue="#{address.city}" layout="div" value="#{offerFilterBean.locationFilter}">
+                                    <b>#{address.city}</b> - <i>(#{address.country}) </i>
+                                </rich:autocomplete>
+                            </h:panelGroup>
+                        </f:facet>
+                        <h:outputText value="#{offer.address.city}, #{offer.address.state}"/>
+                    </rich:column>
+                    <rich:column filter="#{offerFilterBean.priceFilterImpl}"
+                                 filterType="custom">
+                        <f:facet name="header">
+                            <h:panelGroup>
+                                <h:outputText value="Price"/>
+                                <br/>
+                                <h:outputText value="Max:"/>
+                                <h:inputText value="#{offerFilterBean.priceFilter}" maxValue="500000">
+                                    <a4j:ajax render="offersTable@body" event="blur"/>
+                                </h:inputText>
+                            </h:panelGroup>
+                        </f:facet>
+                        <h:outputText value="#{offer.price}"/>
+                    </rich:column>
+                    <rich:column filter="#{offerFilterBean.capacityFilterImpl}"
+                                 filterType="custom">
+                        <f:facet name="header">
+                            <h:panelGroup>
+                                <h:outputText value="Capacity"/>
+                                <br/>
+                                <h:outputText value="Min:"/>
+                                <rich:inputNumberSpinner value="#{offerFilterBean.capacityFilter}" minValue="1" maxValue="20"
+                                                         step="1">
+                                    <a4j:ajax render="offersTable@body" event="change"/>
+                                </rich:inputNumberSpinner>
+                            </h:panelGroup>
+                        </f:facet>
+                        <h:outputText value="#{offer.capacity}"/>
+                    </rich:column>
+                    <rich:column filterValue="#{offerFilterBean.smokerFriendlyFilter}"
+                                 filterExpression="#{offer.smokerFriendly eq offerFilterBean.smokerFriendlyFilter}"
+                                 filterType="custom">
+                        <f:facet name="header">
+                            <h:panelGroup>
+                                <h:outputText value="Smoker friendly"/>
+                                <h:selectBooleanCheckbox value="#{offerFilterBean.smokerFriendlyFilter}" >
+                                    <a4j:ajax event="click" render="offersTable" />
+                                </h:selectBooleanCheckbox>
+                            </h:panelGroup>
+                        </f:facet>
+                        <h:outputText value="#{offer.smokerFriendly}"/>
+                    </rich:column>
+                    <rich:column filterValue="#{offerFilterBean.animalFriendlyFilter}"
+                                 filterExpression="#{offer.animalFriendly eq offerFilterBean.animalFriendlyFilter}"
+                                 filterType="custom">
+                        <f:facet name="header">
+                            <h:outputText value="Animal friendly"/>
+                            <h:selectBooleanCheckbox value="#{offerFilterBean.animalFriendlyFilter}" >
+                                <a4j:ajax event="click" render="offersTable" />
+                            </h:selectBooleanCheckbox>
+                        </f:facet>
+                        <h:outputText value="#{offer.animalFriendly}"/>
+                    </rich:column>
+                    <rich:column>
+                        <f:facet name="header">Details</f:facet>
+                        <h:button value="Show" outcome="offerDetail">
+                            <f:param name="id" value="#{offer.id}"/>
+                        </h:button>
+                    </rich:column>
+                </rich:dataTable>
+            </h:form>
+        </c:if>
     </ui:define>
 </ui:composition>

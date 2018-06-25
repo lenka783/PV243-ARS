@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
 import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by jsmolar on 5/19/18.
@@ -23,6 +24,7 @@ import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
 @XmlRootElement
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Offer implements Serializable {
+    private static final long serialVersionUID = 1l;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,11 +32,13 @@ public class Offer implements Serializable {
 
     @NotNull
     @Size(min = 1, max = 25)
+    @Column(nullable = false)
     private String name;
 
     @NotNull
     @AddressConstraint
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(updatable = false)
     private Address address;
 
     @NotNull
@@ -49,16 +53,19 @@ public class Offer implements Serializable {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, updatable = false)
     private AccommodationType accommodationType;
 
     private Boolean isAnimalFriendly;
 
     private Boolean isSmokerFriendly;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
+    @JoinColumn(updatable = false)
+    @NotNull
     private User user;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer", fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
     @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 
@@ -147,8 +154,9 @@ public class Offer implements Serializable {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public Offer setPrice(Integer price) {
         this.price = price;
+        return this;
     }
 
     @Override
@@ -160,9 +168,9 @@ public class Offer implements Serializable {
 
         Offer offer = (Offer) o;
 
-        if (!getName().equals(offer.getName()))
+        if (getName() != null ? !getName().equals(offer.getName()) : offer.getName() != null)
             return false;
-        if (!getAddress().equals(offer.getAddress()))
+        if (getName() != null ? !getAddress().equals(offer.getAddress()) : offer.getAddress() != null)
             return false;
         return getAccommodationType() == offer.getAccommodationType();
 
@@ -170,9 +178,9 @@ public class Offer implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = getName() != null ? getName().hashCode() : 0;
-        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
-        result = 31 * result + (getAccommodationType() != null ? getAccommodationType().hashCode() : 0 );
+        int result = getUser() == null ? 0 : getUser().hashCode();
+        result = 31 * result + (getAddress() == null ? 0 : getAddress().hashCode());
+        result = 31 * result + (getAccommodationType() == null ? 0 : getAccommodationType().hashCode());
         return result;
     }
 }

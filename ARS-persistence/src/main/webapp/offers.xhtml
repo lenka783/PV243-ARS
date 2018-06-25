@@ -6,8 +6,11 @@
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
                 template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="user_id" value="#{offersBean.userId}"/>
+    </f:metadata>
     <ui:define name="content">
-        <h2>Offers - Places for you to visit!</h2>
+        <h2>Your offers</h2>
 
         <h:form>
             <rich:messages/>
@@ -112,6 +115,6 @@
                 </rich:column>
             </rich:dataTable>
         </h:form>
-        <h:link value="Back" outcome="home.xhtml"/>
+        <h:button value="Back" outcome="userProfile"/>
     </ui:define>
 </ui:composition>

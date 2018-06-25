@@ -30,6 +30,7 @@ public class ReservationsBean implements Serializable {
 
     private List<Reservation> reservations;
     private long selectedId;
+    private long userId;
     private Reservation selectedReservation;
     private Date checkIn;
     private Date checkOut;
@@ -38,9 +39,8 @@ public class ReservationsBean implements Serializable {
         return reservations;
     }
 
-    @PostConstruct
-    public void getUserReservations() {
-        reservations = reservationRepository.findAllForUser(userRepository.findById(0l));
+    public void loadUserReservations() {
+        reservations = reservationRepository.findAllForUser(userRepository.findById(userId));
     }
 
     public void loadReservation() {
@@ -100,4 +100,11 @@ public class ReservationsBean implements Serializable {
         return "reservations";
     }
 
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 }
