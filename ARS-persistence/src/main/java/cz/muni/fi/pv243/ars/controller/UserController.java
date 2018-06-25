@@ -32,7 +32,7 @@ public class UserController {
     private HttpServletRequest request;
 
     public boolean isLoggedIn() {
-        return request.getUserPrincipal() == null;
+        return request.getUserPrincipal() != null;
     }
 
     public void logOut() throws ServletException, IOException {
