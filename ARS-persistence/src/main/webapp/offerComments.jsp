@@ -12,6 +12,8 @@
     <script type="text/javascript" src="resources/javascript/websocket.js"></script>
 </head>
 <body>
+<%--<jsp:useBean id="commentList" class="cz.muni.fi.pv243.ars.producer.UserCommentsListProducer"/>--%>
+<%--<jsp:setProperty name="commentList" property="offerId" value="#{param.offer_id}"/>--%>
 <div>
     <div id="connect-container">
         <div>
@@ -19,6 +21,7 @@
                 <legend>User comments about offer</legend>
                 <div>
                     <textarea readonly id="commentsArea" style="width:100%; align-content: flex-start" rows="20">
+                        ${userCommentsListProducer.userComments}
                     </textarea>
                 </div>
                 <div>

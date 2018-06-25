@@ -7,7 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import cz.muni.fi.pv243.ars.persistence.model.User;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.UserComment;
 
 /**
@@ -39,9 +39,9 @@ public class UserCommentRepository implements Serializable {
         return entityManager.find(UserComment.class, id);
     }
 
-    public List<UserComment> findAllForUser(User user) {
-        return entityManager.createQuery("SELECT u FROM UserComment u where u.user= :user", UserComment.class)
-            .setParameter("user", user)
+    public List<UserComment> findAllForOffer(Offer offer) {
+        return entityManager.createQuery("SELECT u FROM UserComment u where u.offer= :offer", UserComment.class)
+            .setParameter("offer", offer)
             .getResultList();
     }
 
