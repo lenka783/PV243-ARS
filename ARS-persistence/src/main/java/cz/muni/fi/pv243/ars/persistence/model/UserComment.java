@@ -25,9 +25,12 @@ public class UserComment implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Offer offer;
+
     private String comment;
 
-    private LocalDate toDate;
+    private LocalDate creationDate;
 
     public Long getId() {
         return id;
@@ -47,6 +50,15 @@ public class UserComment implements Serializable {
         return this;
     }
 
+    public Offer getOffer() {
+        return offer;
+    }
+
+    public UserComment setOffer(Offer offer) {
+        this.offer = offer;
+        return this;
+    }
+
     public String getComment() {
         return comment;
     }
@@ -56,14 +68,13 @@ public class UserComment implements Serializable {
         return this;
     }
 
-    public LocalDate getToDate() {
-        return toDate;
+    public LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public UserComment setToDate(LocalDate toDate) {
-        this.toDate = toDate;
+    public UserComment setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
         return this;
     }
-
 
 }

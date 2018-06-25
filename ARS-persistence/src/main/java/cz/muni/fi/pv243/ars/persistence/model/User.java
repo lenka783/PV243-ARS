@@ -71,9 +71,6 @@ public class User implements Serializable {
     @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<UserComment> userComments = new HashSet<>();
-
     public User() {
     }
 
@@ -205,15 +202,6 @@ public class User implements Serializable {
 
     public void removeReservation(Reservation reservation) {
         reservations.remove(reservation);
-    }
-
-    public User addUserComment(UserComment userComment) {
-        userComments.add(userComment);
-        return this;
-    }
-
-    public void removeUserComment(UserComment userComment) {
-        userComments.remove(userComment);
     }
 
     @Override

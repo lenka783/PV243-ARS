@@ -56,6 +56,9 @@ public class Offer implements Serializable {
     @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer", fetch = FetchType.EAGER)
+    private Set<UserComment> userComments = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -143,6 +146,15 @@ public class Offer implements Serializable {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Offer addUserComment(UserComment userComment) {
+        userComments.add(userComment);
+        return this;
+    }
+
+    public void removeUserComment(UserComment userComment) {
+        userComments.remove(userComment);
     }
 
     @Override
