@@ -36,10 +36,10 @@
         <h:form id="reg">
             <h2>ARS - Accommodation Reservation System!</h2>
             <h:panelGrid columns="2" columnClasses="titleCell">
-                <c:if test="#{userController.loggedIn}">
+                <c:if test="#{userController.loggedIn eq false}">
                     <h:commandButton value="Log In" action="#{userController.logIn}"/>
                 </c:if>
-                <c:if test="#{userController.loggedIn eq false}">
+                <c:if test="#{userController.loggedIn}">
                     <h:commandButton value="Log Out" action="#{userController.logOut}"/>
                 </c:if>
             </h:panelGrid>
@@ -60,7 +60,7 @@
             </h:column>
             <h:column>
                 <f:facet name="header">Place</f:facet>
-                #{address.getFriendlyLocation((_offer.address))}
+                #{addressBean.getFriendlyLocation(_offer.address)}
             </h:column>
             <h:column>
                 <f:facet name="header">Type</f:facet>

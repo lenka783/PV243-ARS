@@ -1,9 +1,8 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import cz.muni.fi.pv243.ars.persistence.model.Offer;
-import cz.muni.fi.pv243.ars.persistence.model.Reservation;
-import cz.muni.fi.pv243.ars.repository.ReservationRepository;
-import cz.muni.fi.pv243.ars.repository.UserRepository;
+import java.io.IOException;
+import java.time.ZoneId;
+import java.util.Date;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -11,8 +10,12 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.time.ZoneId;
-import java.util.Date;
+
+import cz.muni.fi.pv243.ars.controller.UserController;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.repository.ReservationRepository;
+import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 @RequestScoped
 @Named
@@ -20,8 +23,12 @@ public class CreateReservationBean {
 
     @Inject
     private ReservationRepository reservationRepository;
+
     @Inject
     private UserRepository userRepository;
+
+    @Inject
+    private UserController userController;
 
     @ManagedProperty(value = "#{OffersPageBean}")
     private OffersBean offersBean;
@@ -54,14 +61,18 @@ public class CreateReservationBean {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public String create(Offer offer) {
+    public String create(Offer offer) throws IOException {
+        if(!userController.isLoggedIn() ) {
+            userController.logIn();
+        }
+
         try {
             Reservation reservation = new Reservation();
             reservation.setFromDate(checkInDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             reservation.setToDate(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             reservation.setNumberOfPeople(numberOfPeople);
             reservation.setOffer(offer);
-            reservation.setUser(userRepository.findById(0l));
+            reservation.setUser(userRepository.findById(userController.matchUser().getId()));
             reservationRepository.create(reservation);
             return "reservations";
         } catch (Exception e) {
