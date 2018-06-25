@@ -1,73 +1,39 @@
 package cz.muni.fi.pv243.ars.beans;
 
+import cz.muni.fi.pv243.ars.controller.UserController;
 import cz.muni.fi.pv243.ars.persistence.model.Address;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by lenka smitalova on 6/19/18.
  */
 @Named
-@RequestScoped
-public class UserInfoBean {
+@SessionScoped
+public class UserInfoBean implements Serializable {
 
-    private String name = "Admin";
-    private String surname = "Admin";
-    private String email = "admin@ars.cz";
-    private String password = "admin";
-    private Date dateOfBirth = new Date();
+    @ManagedProperty(value = "UserController")
+    private UserController userController;
 
-    @ManagedProperty(value = "#{AddressBean}")
-    private AddressBean address;
+    private User currentUser;
 
-    public String getName() {
-        return name;
+    @PostConstruct
+    public void init() {
+        currentUser = userController.matchUser();
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public User getCurrentUser() {
+        return currentUser;
     }
 
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public AddressBean getAddress() {
-        return address;
-    }
-
-    public void setAddress(AddressBean address) {
-        this.address = address;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }

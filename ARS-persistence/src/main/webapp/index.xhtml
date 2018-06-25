@@ -24,22 +24,20 @@
     <ui:define name="content">
         <h1>Welcome ARS!</h1>
 
+
         <h:form id="menu">
-            <!--<h:panelGrid columns="4" columnClasses="titleCell">-->
-                <h:commandButton value="User" action="/userProfile.jsf?faces-redirect=true"/>
-                <!--<h:link value="Go to actor detail" outcome="actorDetail?userid=0" />-->
-                <!--<h:commandButton value="Click Me" type="button" onclick="alert('h:commandButton');" />-->
-                <!--<h:commandButton value="Click Me" type="button" onclick="alert('h:commandButton');" />-->
-            <!--</h:panelGrid>-->
+            <c:if test="#{userController.loggedIn}">
+                <h:button value="User" outcome="userProfile"/>
+            </c:if>
         </h:form>
 
         <h:form id="reg">
             <h2>ARS - Accommodation Reservation System!</h2>
             <h:panelGrid columns="2" columnClasses="titleCell">
-                <c:if test="#{userController.loggedIn}">
+                <c:if test="#{userController.loggedIn eq false}">
                     <h:commandButton value="Log In" action="#{userController.logIn}"/>
                 </c:if>
-                <c:if test="#{userController.loggedIn eq false}">
+                <c:if test="#{userController.loggedIn}">
                     <h:commandButton value="Log Out" action="#{userController.logOut}"/>
                 </c:if>
             </h:panelGrid>

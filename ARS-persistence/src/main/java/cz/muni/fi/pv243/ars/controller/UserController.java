@@ -1,9 +1,11 @@
 package cz.muni.fi.pv243.ars.controller;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -20,7 +22,7 @@ import org.keycloak.KeycloakPrincipal;
  */
 @Named
 @RequestScoped
-public class UserController {
+public class UserController implements Serializable {
 
     @Inject
     private Logger log;
@@ -32,7 +34,7 @@ public class UserController {
     private HttpServletRequest request;
 
     public boolean isLoggedIn() {
-        return request.getUserPrincipal() == null;
+        return request.getUserPrincipal() != null;
     }
 
     public void logOut() throws ServletException, IOException {
@@ -58,7 +60,7 @@ public class UserController {
         log.info("Principal name: " + keycloakPrincipal.getName());
 
         User user = userRepository.findByKCid(keycloakPrincipal.getName());
-        log.info("User and KC Principal are matched. User id: " + user.getId());
+        log.info("User and KC Principal are matched. User email: " + user.getEmail());
 
         return user;
     }

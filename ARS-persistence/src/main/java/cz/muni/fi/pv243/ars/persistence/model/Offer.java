@@ -5,9 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -18,11 +20,12 @@ import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
  * Created by jsmolar on 5/19/18.
  */
 @Entity
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@XmlRootElement
+//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Offer implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
@@ -35,10 +38,13 @@ public class Offer implements Serializable {
     private Address address;
 
     @NotNull
+    @Min(0)
+    @Max(20)
     private Integer capacity;
 
     @NotNull
     @Min(0)
+    @Max(500000)
     private Integer price;
 
     @NotNull

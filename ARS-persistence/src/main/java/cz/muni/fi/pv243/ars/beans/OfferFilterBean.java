@@ -1,20 +1,20 @@
 package cz.muni.fi.pv243.ars.beans;
 
 import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import org.richfaces.model.Filter;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.model.SelectItem;
+import javax.faces.bean.ManagedBean;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
-@Named
-@RequestScoped
-public class OfferFilterBean {
+@ManagedBean(name = "offerFilterBean")
+@ViewScoped
+public class OfferFilterBean implements Serializable {
 
     private String locationFilter;
     private Date checkInFilter;
@@ -24,15 +24,6 @@ public class OfferFilterBean {
     private boolean animalFriendlyFilter;
     private boolean smokerFriendlyFilter;
     private AccommodationType accommodationTypeFilter;
-    private List<SelectItem> accomodationOptions = null;
-
-    @PostConstruct
-    public void init() {
-        accomodationOptions = new ArrayList<SelectItem>();
-        for (AccommodationType type : AccommodationType.values()) {
-            accomodationOptions.add(new SelectItem(type.name()));
-        }
-    }
 
     public Filter<?> getPriceFilterImpl() {
         return new Filter<Offer>() {
@@ -50,12 +41,45 @@ public class OfferFilterBean {
         return new Filter<Offer>() {
             public boolean accept(Offer item) {
                 Long capacity = getCapacityFilter();
-                if (capacity == null || capacity == 0 || capacity.compareTo(item.getPrice().longValue()) >= 0) {
+                if (capacity == null || capacity == 0 || capacity.compareTo(item.getCapacity().longValue()) <= 0) {
                     return true;
                 }
                 return false;
             }
         };
+    }
+
+    public Filter<?> getLocationFilterImpl() {
+        //System.out.println(locationFilter);
+        return new Filter<Offer>() {
+            public boolean accept(Offer item) {
+
+                AddressBean address = parseLocation();
+                Address itemAddress = item.getAddress();
+                if (address == null ||
+                        (address.getCity().equals(itemAddress.getCity())
+                                && address.getCountry().equals(itemAddress.getCountry()))) {
+                    return true;
+                }
+                return false;
+            }
+        };
+    }
+
+    private AddressBean parseLocation() {
+        String location = getLocationFilter();
+        if (location == null) {
+            return null;
+        }
+        String[] splitLocation = location.split(" - [(]");
+        if (splitLocation.length != 2) {
+            return null;
+        }
+        splitLocation[1].replace(")", "");
+        AddressBean addressBean = new AddressBean();
+        addressBean.setCity(splitLocation[0]);
+        addressBean.setCountry(splitLocation[1]);
+        return addressBean;
     }
 
     public String getLocationFilter() {
@@ -104,14 +128,6 @@ public class OfferFilterBean {
 
     public void setAccommodationTypeFilter(AccommodationType accommodationTypeFilter) {
         this.accommodationTypeFilter = accommodationTypeFilter;
-    }
-
-    public List<SelectItem> getAccomodationOptions() {
-        return accomodationOptions;
-    }
-
-    public void setAccomodationOptions(List<SelectItem> accomodationOptions) {
-        this.accomodationOptions = accomodationOptions;
     }
 
     public boolean isAnimalFriendlyFilter() {

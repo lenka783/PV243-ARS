@@ -5,7 +5,7 @@
     <ui:define name="content">
         <h:outputLabel value="Wellcome #{userController.userName}"/>
         <h:form>
-            <h:commandButton value="Back home" action="/index.jsf?faces-redirect=true"/>
+            <h:button value="Back home" outcome="index"/>
             <!--<h:link value="Back" outcome="home"/>-->
         </h:form>
     </ui:define>
