@@ -4,7 +4,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
-                xmlns:o="http://omnifaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
         <f:viewParam name="offer_id" value="#{offersBean.selectedId}"/>
@@ -68,14 +68,22 @@
                     </td>
                     <td><h:message for="numberOfTenants" style="color: red"/></td>
                 </tr>
-                <tr>
-                    <td><h:commandButton value="Create reservation"
-                                         action="#{createReservatzionBean.create(offersBean.selectedOffer)}">
-                    </h:commandButton></td>
-                </tr>
-                <tr>
-                    <td><h:button value="Back" outcome="index"/></td>
-                </tr>
+                <c:if test="#{offersBean.selectedOffer.id != userInfoBean.user.id}">
+                    <tr>
+                        <td><h:commandButton value="Create reservation"
+                                             action="#{createReservationBean.create(offersBean.selectedOffer)}">
+                            <f:param name="forUser" value="#{true}"/>
+                        </h:commandButton></td>
+                    </tr>
+                    <tr>
+                        <td><h:button value="Back" outcome="index"/></td>
+                    </tr>
+                </c:if>
+                <c:if test="#{offersBean.selectedOffer.id == userInfoBean.user.id}">
+                    <tr>
+                        <td><h:button value="Back" outcome="userProfile"/></td>
+                    </tr>
+                </c:if>
             </table>
         </h:form>
 

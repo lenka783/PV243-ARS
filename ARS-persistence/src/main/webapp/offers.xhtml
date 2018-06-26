@@ -7,17 +7,18 @@
                 xmlns:rich="http://richfaces.org/rich"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
-        <f:viewParam name="offers_user_id" value="#{offersBean.currentUserId}"/>
         <f:viewParam name="for_user" value="#{offersBean.forUser}"/>
         <f:viewAction action="#{offersBean.loadOffers}"/>
     </f:metadata>
     <ui:define name="content">
         <h2>Your offers</h2>
 
+        <h:link value="Create new offer" outcome="createOffer"/>
+
         <h:form>
             <rich:dataTable id="offersTable" value="#{offersBean.offers}" var="offer">
                 <f:facet name="noData">
-                    There are not any available offer at this moment. Give it a shot later!
+                    You don't have any offer created!
                 </f:facet>
                 <rich:column>
                     <f:facet name="header">Id</f:facet>
@@ -35,7 +36,7 @@
                             <h:outputText value="Accommodation type"/>
                             <br/>
                             <h:selectOneMenu value="#{offerFilterBean.accommodationTypeFilter}">
-                                <f:selectItem itemValue="#{null}" itemLabel="--select--" />
+                                <f:selectItem itemValue="#{null}" itemLabel="--all--" />
                                 <f:selectItems value="#{offerFilterAutocomplete.accomodationOptions}"/>
                                 <a4j:ajax render="offersTable@body" event="change"/>
                             </h:selectOneMenu>
@@ -115,7 +116,6 @@
                     <f:facet name="header">Details</f:facet>
                     <h:button value="Show" outcome="offerDetail">
                         <f:param name="offer_id" value="#{offer.id}"/>
-                        <f:param name="current_user_id" value="#{userController.id}"/>
                     </h:button>
                 </rich:column>
             </rich:dataTable>

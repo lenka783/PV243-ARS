@@ -24,34 +24,21 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="forUser" value="#{offersBean.forUser}"/>
+    </f:metadata>
     <ui:define name="content">
         <h1>Welcome ARS!</h1>
+        <h2>ARS - Accommodation Reservation System!</h2>
 
         <h:form id="menu">
-            <!--<h:panelGrid columns="4" columnClasses="titleCell">-->
-                <h:commandButton value="User" action="/userProfile.jsf?faces-redirect=true"/>
-                <!--<h:link value="Go to actor detail" outcome="actorDetail?userid=0" />-->
-                <!--<h:commandButton value="Click Me" type="button" onclick="alert('h:commandButton');" />-->
-                <!--<h:commandButton value="Click Me" type="button" onclick="alert('h:commandButton');" />-->
-            <!--</h:panelGrid>-->
-        </h:form>
-
-        <h:form id="reg">
-            <h2>ARS - Accommodation Reservation System!</h2>
-
+            <h:commandButton value="Profile" action="/userProfile.jsf?faces-redirect=true"/>
             <c:if test="#{userController.loggedIn}">
-                <h:button value="Profile" outcome="userProfile"/>
+                <h:commandButton value="Log Out" action="#{userController.logOut}"/>
             </c:if>
-            <h:panelGrid columns="2" columnClasses="titleCell">
-                <c:if test="#{userController.loggedIn eq false}">
-                    <f:param name="user_id" value="#{null}"/>
-                    <h:commandButton value="Log In" action="#{userController.logIn}"/>
-                </c:if>
-                <c:if test="#{userController.loggedIn}">
-                    <f:param name="user_id" value="#{userController.id}"/>
-                    <h:commandButton value="Log Out" action="#{userController.logOut}"/>
-                </c:if>
-            </h:panelGrid>
+            <c:if test="#{userController.loggedIn eq false}">
+                <h:commandButton value="Log In" action="#{userController.logIn}"/>
+            </c:if>
         </h:form>
 
         <c:if test="#{userController.tenant}">
@@ -158,7 +145,6 @@
                             <f:facet name="header">Details</f:facet>
                             <h:button value="Show" outcome="offerDetail">
                                 <f:param name="offer_id" value="#{offer.id}"/>
-                                <f:param name="current_user_id" value="#{userController.id}"/>
                             </h:button>
                         </rich:column>
                     </c:if>

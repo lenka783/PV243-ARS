@@ -1,11 +1,14 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
-        <h:outputLabel value="Wellcome #{userController.userName}"/>
+        <h:outputLabel value="Wellcome #{userInfoBean.user.name} #{userInfoBean.user.surname}"/>
         <h:form>
-            <h:commandButton value="Back home" action="/index.jsf?faces-redirect=true"/>
+            <h:commandButton value="Back home" action="/index.jsf">
+                <f:param name="forUser" value="#{false}"/>
+            </h:commandButton>
         </h:form>
     </ui:define>
 </ui:composition>

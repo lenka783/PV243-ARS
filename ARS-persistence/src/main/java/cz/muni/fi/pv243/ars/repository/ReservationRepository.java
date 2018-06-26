@@ -38,6 +38,7 @@ public class ReservationRepository implements Serializable {
     }
 
     public void delete(Reservation reservation) {
+        reservation = entityManager.merge(reservation);
         User tenant = reservation.getUser();
         if (tenant != null) {
             tenant.removeReservation(reservation);
@@ -46,7 +47,7 @@ public class ReservationRepository implements Serializable {
         if (offer != null) {
             offer.removeReservation(reservation);
         }
-        entityManager.remove(entityManager.merge(reservation));
+        entityManager.remove(reservation);
         entityManager.flush();
     }
 

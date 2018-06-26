@@ -1,9 +1,11 @@
 package cz.muni.fi.pv243.ars.beans;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,10 +24,10 @@ public class CreateOfferBean implements Serializable {
     private OfferRepository offerRepository;
 
     @Inject
-    private UserRepository userRepository;
+    private UserInfoBean userInfoBean;
 
     private AccommodationType accommodationType;
-    private Address address = new Address();
+    private AddressBean address = new AddressBean();
     private Integer price;
     private Integer capacity;
     private boolean animalFriendly;
@@ -39,11 +41,11 @@ public class CreateOfferBean implements Serializable {
         this.accommodationType = accommodationType;
     }
 
-    public Address getAddress() {
+    public AddressBean getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressBean address) {
         this.address = address;
     }
 
@@ -79,23 +81,36 @@ public class CreateOfferBean implements Serializable {
         this.smokerFriendly = smokerFriendly;
     }
 
-    public String create() {
+    public void create() throws IOException {
         Offer offer = new Offer();
         offer.setAccommodationType(accommodationType);
-        offer.setAddress(address);
+        offer.setAddress(getAddressFromBean());
         offer.setAnimalFriendly(animalFriendly);
         offer.setCapacity(capacity);
         offer.setPrice(price);
         offer.setSmokerFriendly(smokerFriendly);
-        offer.setUser(userRepository.findById(0l));
+        offer.setUser(userInfoBean.getUser());
 
         try {
             offerRepository.create(offer);
+            FacesMessage msg = new FacesMessage("Offer created!");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e ) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            return "offers";
         }
-        return "offers";
+
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect("offers.jsf");
+    }
+
+    private Address getAddressFromBean() {
+        Address result = new Address();
+        result.setPostCode(address.getPostCode());
+        result.setCountry(address.getCountry());
+        result.setState(address.getState());
+        result.setCity(address.getCity());
+        result.setStreet(address.getStreet());
+        return result;
     }
 }

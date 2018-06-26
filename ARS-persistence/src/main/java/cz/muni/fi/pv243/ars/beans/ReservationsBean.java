@@ -3,9 +3,11 @@ package cz.muni.fi.pv243.ars.beans;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +33,7 @@ public class ReservationsBean {
     private User user;
 
     private List<Reservation> reservations;
-    private long selectedId;
+    private Long selectedId;
     private Reservation selectedReservation;
     private Date checkIn;
     private Date checkOut;
@@ -92,15 +94,16 @@ public class ReservationsBean {
         return null;
     }
 
-    public String deleteSelectedReservation() {
+    public void deleteSelectedReservation() throws IOException {
         try {
+            loadReservation();
             reservationRepository.delete(selectedReservation);
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            return null;
         }
-        return "reservations";
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect("reservations.jsf");
     }
 
 }
