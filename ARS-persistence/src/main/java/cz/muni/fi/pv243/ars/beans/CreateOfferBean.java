@@ -1,18 +1,18 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistence.model.Address;
-import cz.muni.fi.pv243.ars.persistence.model.Offer;
-import cz.muni.fi.pv243.ars.repository.AddressRepository;
-import cz.muni.fi.pv243.ars.repository.OfferRepository;
-import cz.muni.fi.pv243.ars.repository.UserRepository;
+import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
+
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.repository.OfferRepository;
+import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 @Named
 @SessionScoped
@@ -23,9 +23,6 @@ public class CreateOfferBean implements Serializable {
 
     @Inject
     private UserRepository userRepository;
-
-    @Inject
-    private AddressRepository addressRepository;
 
     private AccommodationType accommodationType;
     private Address address = new Address();
@@ -91,7 +88,6 @@ public class CreateOfferBean implements Serializable {
         offer.setPrice(price);
         offer.setSmokerFriendly(smokerFriendly);
         offer.setUser(userRepository.findById(0l));
-        System.out.println("offer created");
 
         try {
             offerRepository.create(offer);

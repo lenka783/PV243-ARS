@@ -1,11 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-  <h:outputLabel value="Welcome #{userController.userName}"/>
-</f:view>
-</html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h2>User informations</h2>
+        <h:form>
+            <table frame="box">
+                <tr>
+                    <td><h:outputLabel value=" Id: "/></td>
+                    <td><h:outputText id="id" value="#{userInfoBean.user.id}"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Name: "/></td>
+                    <td><h:outputText id="name" value="#{userInfoBean.user.name}"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Surname: "/></td>
+                    <td><h:outputText id="surname" value="#{userInfoBean.user.surname}"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Email: "/></td>
+                    <td><h:outputText id="email" value="#{userInfoBean.user.email}"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Date of birth : "/></td>
+                    <td><h:outputText value="#{userInfoBean.formatedDateOfBirth}">
+                        <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>f
+                    </h:outputText></td>
+                </tr>
+
+                <c:if test="#{userController.host}">
+                    <tr>
+                        <td><h:button value="Check my offers" outcome="offers">
+                            <f:param name="for_user" value="#{true}"/>
+                        </h:button></td>
+                    </tr>
+                </c:if>
+                <c:if test="#{userController.tenant}">
+                    <tr>
+                        <td>
+                            <h:button value="Check my reservations" outcome="reservations" />
+                        </td>
+                    </tr>
+                </c:if>
+            </table>
+        </h:form>
+    </ui:define>
+</ui:composition>

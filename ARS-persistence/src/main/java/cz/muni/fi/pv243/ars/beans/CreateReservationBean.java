@@ -6,7 +6,7 @@ import java.util.Date;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,9 +29,6 @@ public class CreateReservationBean {
 
     @Inject
     private UserController userController;
-
-    @ManagedProperty(value = "#{OffersPageBean}")
-    private OffersBean offersBean;
 
     private Date checkInDate;
     private Date checkOutDate;
@@ -61,10 +58,12 @@ public class CreateReservationBean {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public String create(Offer offer) throws IOException {
+    public void create(Offer offer) throws IOException {
         if(!userController.isLoggedIn() ) {
             userController.logIn();
         }
+
+        String redirect;
 
         try {
             Reservation reservation = new Reservation();
@@ -74,11 +73,16 @@ public class CreateReservationBean {
             reservation.setOffer(offer);
             reservation.setUser(userRepository.findById(userController.matchUser().getId()));
             reservationRepository.create(reservation);
-            return "reservations";
+
+            redirect = "reservations.jsf";
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            return "offers";
+
+            redirect = "index.jsf";
         }
+
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect(redirect);
     }
 }
