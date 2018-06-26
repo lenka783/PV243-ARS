@@ -3,11 +3,14 @@ package cz.muni.fi.pv243.ars.batching;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
+import cz.muni.fi.pv243.ars.persistence.model.UserComment;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
+import cz.muni.fi.pv243.ars.repository.UserCommentRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -24,6 +27,9 @@ public class ARSJob {
 
     @Inject
     private UserRepository userRepository;
+
+    @Inject
+    private UserCommentRepository userCommentRepository;
 
     @Inject
     private Logger log;
@@ -55,5 +61,19 @@ public class ARSJob {
         //Omitted: Saving report logic
 
         log.info("Created report " + System.currentTimeMillis());
+    }
+
+    public void removeComments(int days) {
+        LocalDate removeBefore = LocalDate.now().minusDays(days);
+
+        List<UserComment> all = userCommentRepository.findAll();
+        for (UserComment uc:
+             all) {
+            if (uc.getCreationDate().isBefore(removeBefore)) {
+                userCommentRepository.delete(uc);
+            }
+        }
+
+        log.info("Removed old user comments.");
     }
 }
