@@ -4,8 +4,12 @@
     <listeners>
         <listener ref="jobListener"/>
     </listeners>
-    <step id="ARSBatchlet">
-        <batchlet ref="ARSBatchlet"/>
+    <step id="ARSBatchletReport">
+        <batchlet ref="ARSBatchletReport"/>
+        <end on="COMPLETED" />
+    </step>
+    <step id="ARSBatchletCommentsRemoval">
+        <batchlet ref="ARSBatchletCommentsRemoval"/>
         <end on="COMPLETED" />
     </step>
 </job>

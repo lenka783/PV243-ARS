@@ -9,8 +9,8 @@ import javax.inject.Named;
 /**
  * Created by mminatova on 6/24/18.
  */
-@Named("ARSBatchlet")
-public class ARSBatchlet implements Batchlet {
+@Named("ARSBatchletReport")
+public class ARSBatchletReport implements Batchlet {
 
 
     @Inject
