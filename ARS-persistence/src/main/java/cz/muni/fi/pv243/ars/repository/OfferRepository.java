@@ -1,17 +1,13 @@
 package cz.muni.fi.pv243.ars.repository;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import cz.muni.fi.pv243.ars.persistence.model.Offer;
-import cz.muni.fi.pv243.ars.persistence.model.Reservation;
-import cz.muni.fi.pv243.ars.persistence.model.User;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by mminatova on 5/29/18.
@@ -21,12 +17,6 @@ public class OfferRepository implements Serializable {
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @Inject
-    private UserRepository userRepository;
-
-    @Inject
-    private ReservationRepository reservationRepository;
 
     public void create(Offer offer) {
         User user = entityManager.merge(offer.getUser());

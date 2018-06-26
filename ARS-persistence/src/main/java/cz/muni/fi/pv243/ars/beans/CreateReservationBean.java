@@ -7,9 +7,11 @@ import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -50,7 +52,8 @@ public class CreateReservationBean {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public String create(Offer offer, Long userId) {
+    public void create(Offer offer, Long userId) throws IOException {
+        String redirect;
         try {
 //            System.out.println("reservation init");
             Reservation reservation = new Reservation();
@@ -67,11 +70,15 @@ public class CreateReservationBean {
 //            System.out.println("reservation user");
             reservationRepository.create(reservation);
 //            System.out.println("reservation create");
-            return "reservations";
+
+            redirect = "reservations.jsf?reservations_user_id=" + userId;
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            return "offers";
+            redirect = "index.jsf";
         }
+
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect(redirect);
     }
 }

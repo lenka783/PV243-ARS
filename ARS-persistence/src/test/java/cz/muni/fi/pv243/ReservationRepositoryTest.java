@@ -15,7 +15,6 @@ import cz.muni.fi.pv243.ars.persistence.model.Address;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
-//import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -54,9 +53,6 @@ public class ReservationRepositoryTest {
     @Inject
     private OfferRepository offerRepository;
 
-//    @Inject
-//    private AddressRepository addressRepository;
-
     private EntityFactoryPersistence ef = new EntityFactoryPersistence();
 
     @Deployment
@@ -85,11 +81,6 @@ public class ReservationRepositoryTest {
         Address offer1Address = ef.createAddress("Praha", "CR", "Main");
         Address offer2Address = ef.createAddress("Bratislava", "SR", "Martincekova");
         Address hostAddress = ef.createAddress("Brno", "CR", "Technologicky park");
-
-//        addressRepository.create(tenant1Address);
-//        addressRepository.create(offer1Address);
-//        addressRepository.create(offer2Address);
-//        addressRepository.create(hostAddress);
 
         tenant1 = ef.createUser("Adam", tenant1Address);
         tenant2 = ef.createUser("Peter", tenant2Address);

@@ -70,6 +70,8 @@
                 <tr>
                     <td><h:commandButton value="Create reservation"
                                          action="#{createReservationBean.create(offersBean.selectedOffer, offersBean.currentUserId)}">
+
+                        <f:param name="reservations_user_id" value="#{offersBean.currentUserId}"/>
                     </h:commandButton></td>
                 </tr>
                 <tr>

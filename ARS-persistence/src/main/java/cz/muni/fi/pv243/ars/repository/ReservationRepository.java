@@ -22,9 +22,6 @@ public class ReservationRepository implements Serializable {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Inject
-    private UserRepository userRepository;
-
     public void create(Reservation reservation) {
         Offer offer = entityManager.merge(reservation.getOffer());
         offer.addReservation(reservation);
@@ -54,8 +51,7 @@ public class ReservationRepository implements Serializable {
     }
 
     public Reservation findById(Long id) {
-        Reservation reservation = entityManager.find(Reservation.class, id);
-        return reservation;
+        return entityManager.find(Reservation.class, id);
     }
 
     public List<Reservation> findAll() {
@@ -65,17 +61,9 @@ public class ReservationRepository implements Serializable {
     }
 
     public List<Reservation> findAllForUser(User user) {
-        //List<Reservation> result = new ArrayList<>();
-        //result.addAll(userRepository.findById(user.getId()).getReservations());
-
         return entityManager
                 .createQuery("select r from Reservation r where r.user.id = :user", Reservation.class)
                 .setParameter("user", user.getId())
                 .getResultList();
-    }
-
-    private int getAssignedId(Reservation reservation) {
-        Offer offer = reservation.getOffer();
-        return offer.hashCode();
     }
 }
