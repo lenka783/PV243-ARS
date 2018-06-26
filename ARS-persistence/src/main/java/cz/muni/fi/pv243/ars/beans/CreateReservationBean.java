@@ -11,6 +11,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import cz.muni.fi.pv243.ars.controller.UserController;
 import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
@@ -21,8 +23,12 @@ public class CreateReservationBean {
 
     @Inject
     private ReservationRepository reservationRepository;
+
     @Inject
     private UserRepository userRepository;
+
+    @Inject
+    private UserController userController;
 
     private Date checkInDate;
     private Date checkOutDate;
@@ -53,23 +59,20 @@ public class CreateReservationBean {
     }
 
     public void create(Offer offer, Long userId) throws IOException {
+        if(!userController.isLoggedIn() ) {
+            userController.logIn();
+        }
+
         String redirect;
+
         try {
-//            System.out.println("reservation init");
             Reservation reservation = new Reservation();
-//            System.out.println("reservation new");
             reservation.setFromDate(checkInDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-//            System.out.println("reservation fromDate");
             reservation.setToDate(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-//            System.out.println("reservation toDate");
             reservation.setNumberOfPeople(numberOfPeople);
-//            System.out.println("reservation people");
             reservation.setOffer(offer);
-//            System.out.println("reservation offer, userId: " + userId);
             reservation.setUser(userRepository.findById(userId));
-//            System.out.println("reservation user");
             reservationRepository.create(reservation);
-//            System.out.println("reservation create");
 
             redirect = "reservations.jsf?reservations_user_id=" + userId;
         } catch (Exception e) {

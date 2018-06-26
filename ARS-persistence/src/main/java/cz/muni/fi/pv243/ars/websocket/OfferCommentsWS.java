@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
@@ -17,6 +18,10 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.repository.OfferRepository;
+import cz.muni.fi.pv243.ars.service.CreateUserComment;
+
 /**
  * Created by jsmolar on 6/21/18.
  */
@@ -25,6 +30,15 @@ public class OfferCommentsWS {
 
     @Inject
     private Logger log;
+
+    @Inject
+    private OfferRepository offerRepository;
+
+    @Inject
+    private CreateUserComment createUserComment;
+
+    @Inject
+    private Event<Offer> offerEvent;
 
 //    private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
 
@@ -47,7 +61,9 @@ public class OfferCommentsWS {
     public String onMessage(@PathParam("offer_id") Integer offer_id,
         String message, Session session) throws IOException, EncodeException {
 
-        log.info("Web socket message" + message + "received from " + session.getId() + " from Offer: " + offer_id);
+        log.info("Web socket message: " + message + "received from " + session.getId() + " from Offer: " + offer_id);
+
+        createUserComment.create(Long.valueOf(offer_id), message);
 
         Set<Session> clients = offers.get(offer_id);
 

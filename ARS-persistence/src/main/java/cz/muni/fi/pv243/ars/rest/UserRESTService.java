@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -53,7 +54,7 @@ public class UserRESTService {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(User user) {
+    public Response create(@Valid User user) {
         if (user == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -66,7 +67,7 @@ public class UserRESTService {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(User user) {
+    public Response update(@Valid User user) {
         if (user == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -94,7 +95,7 @@ public class UserRESTService {
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response delete(User user) {
+    public Response delete(@Valid  User user) {
         if (userRepository.findById(user.getId()) == null)
             return Response.status(Response.Status.NOT_FOUND).build();
         userRepository.delete(user);

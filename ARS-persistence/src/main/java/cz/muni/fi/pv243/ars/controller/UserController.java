@@ -26,7 +26,7 @@ import org.keycloak.KeycloakPrincipal;
  */
 @Named
 @RequestScoped
-public class UserController{
+public class UserController {
 
     @Inject
     private Logger log;
@@ -83,7 +83,7 @@ public class UserController{
         log.info("Principal name: " + keycloakPrincipal.getName());
 
         User user = userRepository.findByKCid(keycloakPrincipal.getName());
-        log.info("User and KC Principal are matched. User email: " + user.getEmail());
+        log.info("User and KC Principal are matched. User id: " + user.getId());
 
         return user;
     }

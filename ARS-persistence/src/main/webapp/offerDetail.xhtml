@@ -9,6 +9,8 @@
     <f:metadata>
         <f:viewParam name="offer_id" value="#{offersBean.selectedId}"/>
         <f:viewParam name="current_user_id" value="#{offersBean.currentUserId}"/>
+        <f:viewParam name="offer_id" value="#{userCommentsListProducer.offerId}"/>
+        <f:viewAction action="#{userCommentsListProducer.findAllUserCommentsForOffer}"/>
         <f:viewAction action="#{offersBean.loadOffer}"/>
     </f:metadata>
     <ui:define name="content">
@@ -82,14 +84,13 @@
 
         <h:outputScript library="javascript" name="jquery-2.0.3.min.js" target="head"/>
         <h:outputScript library="javascript" name="websocket.js" target="head"/>
-        <rich:panel header="WebSocket: Say Hello">
-            <h:panelGrid id="connect-container" style="width: 20%">
-                <h:outputLabel value="User comments about offer"/>
-                <h:inputTextarea id="commentsArea" readonly="true" style="width:100%; align-content: flex-start" rows="20"/>
-                <h:inputText id="comment" type="text" size="40" style="width: 100%"/>
-                <h:commandButton id="send" onclick="sendWebSocketMessage()" value="Send"/>
-            </h:panelGrid>
-        </rich:panel>
+        <h:panelGrid id="connect-container" style="width: 20%">
+            <h:outputLabel value="User comments about offer"/>
+            <h:inputTextarea id="commentsArea" value="#{userCommentsListProducer.userComments}" readonly="true" style="width:100%; align-content: flex-start" rows="20">
+            </h:inputTextarea>
+            <h:inputText id="comment" type="text" size="40" style="width: 100%"/>
+            <h:commandButton id="send" onclick="sendWebSocketMessage()" value="Send"/>
+        </h:panelGrid>
 
     </ui:define>
 </ui:composition>

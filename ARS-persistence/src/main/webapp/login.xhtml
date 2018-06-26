@@ -6,6 +6,7 @@
     <ui:define name="content">
         <h:outputLabel value="Wellcome #{userController.userName}"/>
         <h:form>
+            <h:commandButton value="Back home" action="/index.jsf?faces-redirect=true"/>
             <h:button value="Back home" outcome="index">
                 <f:param name="for_user" value="#{false}"/>
                 <f:param name="user_id" value="#{userController.id}"/>
