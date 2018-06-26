@@ -15,7 +15,7 @@ import cz.muni.fi.pv243.ars.persistence.model.Address;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
-import cz.muni.fi.pv243.ars.repository.AddressRepository;
+//import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -54,15 +54,15 @@ public class ReservationRepositoryTest {
     @Inject
     private OfferRepository offerRepository;
 
-    @Inject
-    private AddressRepository addressRepository;
+//    @Inject
+//    private AddressRepository addressRepository;
 
     private EntityFactoryPersistence ef = new EntityFactoryPersistence();
 
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap
-                .create(WebArchive.class)
+                .create(WebArchive.class, "test.war")
                 .addClasses(Resources.class, EntityFactoryPersistence.class)
                 .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistence")
                 .addPackage(UserRole.class.getPackage())
@@ -86,10 +86,10 @@ public class ReservationRepositoryTest {
         Address offer2Address = ef.createAddress("Bratislava", "SR", "Martincekova");
         Address hostAddress = ef.createAddress("Brno", "CR", "Technologicky park");
 
-        addressRepository.create(tenant1Address);
-        addressRepository.create(offer1Address);
-        addressRepository.create(offer2Address);
-        addressRepository.create(hostAddress);
+//        addressRepository.create(tenant1Address);
+//        addressRepository.create(offer1Address);
+//        addressRepository.create(offer2Address);
+//        addressRepository.create(hostAddress);
 
         tenant1 = ef.createUser("Adam", tenant1Address);
         tenant2 = ef.createUser("Peter", tenant2Address);
@@ -119,8 +119,6 @@ public class ReservationRepositoryTest {
                 offer1, host
         );
 
-        offer1.addReservation(expected);
-        host.addReservation(expected);
         reservationRepository.create(expected);
 
         Reservation actual = entityManager.find(Reservation.class, expected.getId());
@@ -128,7 +126,7 @@ public class ReservationRepositoryTest {
         assertTrue(entityManager.find(User.class, expected.getUser().getId()).getReservations().contains(expected));
     }
 
-    //@Test(expected = ArquillianProxyException.class)
+    @Test(expected = EJBTransactionRolledbackException.class)
     public void createReservationWithoutHostTest() {
         Reservation res = ef.createReservation(
                 LocalDate.now(),
@@ -138,7 +136,7 @@ public class ReservationRepositoryTest {
         reservationRepository.create(res);
     }
 
-    @Test(expected = ArquillianProxyException.class)
+    @Test(expected = EJBTransactionRolledbackException.class)
     public void createReservationWithoutOfferTest() {
         Reservation res = ef.createReservation(
                 LocalDate.now(),
@@ -184,8 +182,6 @@ public class ReservationRepositoryTest {
                 LocalDate.now().plusWeeks(2),
                 offer1, host
         );
-        offer1.addReservation(expected);
-        host.addReservation(expected);
         reservationRepository.create(expected);
         int reservationCount = reservationRepository.findAll().size();
         int reservationForUserCount = reservationRepository.findAllForUser(expected.getUser()).size();
@@ -237,10 +233,6 @@ public class ReservationRepositoryTest {
                 LocalDate.now().plusWeeks(2),
                 offer2, tenant1
         );
-        offer1.addReservation(res1);
-        host.addReservation(res1);
-        offer2.addReservation(res2);
-        tenant2.addReservation(res2);
         reservationRepository.create(res1);
         reservationRepository.create(res2);
 

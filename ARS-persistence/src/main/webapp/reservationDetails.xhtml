@@ -6,7 +6,7 @@
                 xmlns:rich="http://richfaces.org/rich"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
-        <f:viewParam name="id" value="#{reservationsBean.selectedId}"/>
+        <f:viewParam name="reservation_id" value="#{reservationsBean.selectedId}"/>
         <f:viewAction action="#{reservationsBean.loadReservation}"/>
     </f:metadata>
     <ui:define name="content">
@@ -42,9 +42,9 @@
                 </tr>
                 <tr>
                     <td>
-                        <h:link value="Show offer details" outcome="offerDetail">
-                            <f:param name="id" value="#{reservationsBean.selectedReservation.offer.id}"/>
-                        </h:link>
+                        <h:button value="Show offer details" outcome="offerDetail">
+                            <f:param name="offer_id" value="#{reservationsBean.selectedReservation.offer.id}"/>
+                        </h:button>
                     </td>
                 </tr>
                 <tr>
@@ -56,7 +56,9 @@
                                      action="#{reservationsBean.deleteSelectedReservation}"/></td>
                 </tr>
                 <tr>
-                    <td><h:link value="Back" outcome="reservations.xhtml"/></td>
+                    <td><h:button value="Back" outcome="reservations">
+                        <f:param name="reservations_user_id" value="#{reservationsBean.selectedReservation.user.id}"/>
+                    </h:button></td>
                 </tr>
             </table>
         </h:form>

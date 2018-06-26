@@ -64,7 +64,7 @@ public class UserController{
         request.logout();
 
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect(request.getContextPath());
+        context.redirect("index.jsf");
     }
 
     public void logIn() throws IOException {

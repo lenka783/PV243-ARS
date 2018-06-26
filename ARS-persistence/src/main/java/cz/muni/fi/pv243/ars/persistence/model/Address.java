@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Created by jsmolar on 5/17/18.
  */
 @Entity
-@XmlRootElement
-//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+//@XmlRootElement
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Address implements Serializable {
     private static final long serialVersionUID = 1l;
 

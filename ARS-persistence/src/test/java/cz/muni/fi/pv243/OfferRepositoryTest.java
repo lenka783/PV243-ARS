@@ -18,7 +18,7 @@ import cz.muni.fi.pv243.ars.persistence.model.Address;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
-import cz.muni.fi.pv243.ars.repository.AddressRepository;
+//import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -58,7 +58,7 @@ public class OfferRepositoryTest {
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap
-                .create(WebArchive.class)
+                .create(WebArchive.class, "test.war")
                 .addClasses(Resources.class, EntityFactoryPersistence.class)
                 .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistence")
                 .addPackage(UserRole.class.getPackage())
@@ -167,7 +167,6 @@ public class OfferRepositoryTest {
         assertEquals(allForUser.size(), 0);
 
         Offer offer = ef.createOffer(address, user);
-        user.addOffer(offer);
         offerRepository.create(offer);
 
         assertEquals(offerRepository.findAllForUser(user).size(), 1);

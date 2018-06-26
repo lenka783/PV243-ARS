@@ -1,10 +1,12 @@
 package cz.muni.fi.pv243.ars.beans;
 
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.persistence.model.User;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -18,7 +20,7 @@ import java.util.List;
 /**
  * Created by jsmolar on 6/4/18.
  */
-@SessionScoped
+@RequestScoped
 @Named
 public class ReservationsBean implements Serializable {
 
@@ -29,18 +31,22 @@ public class ReservationsBean implements Serializable {
     private UserRepository userRepository;
 
     private List<Reservation> reservations;
-    private long selectedId;
-    private long userId;
+    private Long selectedId;
+    private Long currentUserId;
     private Reservation selectedReservation;
     private Date checkIn;
     private Date checkOut;
 
     public List<Reservation> getReservations() {
+        System.out.println("ReservationsBean, User id: " + currentUserId);
         return reservations;
     }
 
-    public void loadUserReservations() {
-        reservations = reservationRepository.findAllForUser(userRepository.findById(userId));
+    public void loadReservations() {
+        System.out.println("ReservationsBean, Current user id: " + currentUserId);
+        User user = userRepository.findById(currentUserId);
+        System.out.println("ReservationsBean, Current user: " + user);
+        reservations = reservationRepository.findAllForUser(user);
     }
 
     public void loadReservation() {
@@ -53,11 +59,11 @@ public class ReservationsBean implements Serializable {
         return selectedReservation;
     }
 
-    public long getSelectedId() {
+    public Long getSelectedId() {
         return selectedId;
     }
 
-    public void setSelectedId(long selectedId) {
+    public void setSelectedId(Long selectedId) {
         this.selectedId = selectedId;
     }
 
@@ -100,11 +106,11 @@ public class ReservationsBean implements Serializable {
         return "reservations";
     }
 
-    public long getUserId() {
-        return userId;
+    public Long getCurrentUserId() {
+        return currentUserId;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setCurrentUserId(Long currentUserId) {
+        this.currentUserId = currentUserId;
     }
 }

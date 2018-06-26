@@ -18,7 +18,7 @@ import cz.muni.fi.pv243.ars.persistence.model.Address;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
-import cz.muni.fi.pv243.ars.repository.AddressRepository;
+//import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -51,8 +51,8 @@ public class UserRepositoryTest {
     @Inject
     private UserRepository userRepository;
 
-    @Inject
-    private AddressRepository addressRepository;
+//    @Inject
+//    private AddressRepository addressRepository;
 
     @Inject
     private OfferRepository offerRepository;
@@ -65,7 +65,7 @@ public class UserRepositoryTest {
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap
-            .create(WebArchive.class)
+            .create(WebArchive.class, "test.war")
             .addClasses(Resources.class, EntityFactoryPersistence.class)
             .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistence")
             .addPackage(UserRole.class.getPackage())
@@ -166,7 +166,6 @@ public class UserRepositoryTest {
         userRepository.create(host);
 
         Offer offer = ef.createOffer(address, host);
-        host.addOffer(offer);
         offerRepository.create(offer);
     }
 
@@ -175,7 +174,7 @@ public class UserRepositoryTest {
 
     }
 
-    @Test(expected = ArquillianProxyException.class)
+    @Test(expected = EJBTransactionRolledbackException.class)
     public void createReservationForHost() {
         User host = ef.createUser("hostUser", address3);
         Offer offer = ef.createOffer(address, host);

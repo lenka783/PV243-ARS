@@ -26,7 +26,10 @@ public class ReservationRepository implements Serializable {
     private UserRepository userRepository;
 
     public void create(Reservation reservation) {
-//        reservation.setAssignedId(getAssignedId(reservation));
+        Offer offer = entityManager.merge(reservation.getOffer());
+        offer.addReservation(reservation);
+        User user = entityManager.merge(reservation.getUser());
+        user.addReservation(reservation);
         entityManager.persist(reservation);
         entityManager.flush();
     }
@@ -38,9 +41,9 @@ public class ReservationRepository implements Serializable {
     }
 
     public void delete(Reservation reservation) {
-        User host = reservation.getUser();
-        if (host != null) {
-            host.removeReservation(reservation);
+        User tenant = reservation.getUser();
+        if (tenant != null) {
+            tenant.removeReservation(reservation);
         }
         Offer offer = reservation.getOffer();
         if (offer != null) {
@@ -62,10 +65,13 @@ public class ReservationRepository implements Serializable {
     }
 
     public List<Reservation> findAllForUser(User user) {
-        List<Reservation> result = new ArrayList<>();
-        result.addAll(userRepository.findById(user.getId()).getReservations());
+        //List<Reservation> result = new ArrayList<>();
+        //result.addAll(userRepository.findById(user.getId()).getReservations());
 
-        return result;
+        return entityManager
+                .createQuery("select r from Reservation r where r.user.id = :user", Reservation.class)
+                .setParameter("user", user.getId())
+                .getResultList();
     }
 
     private int getAssignedId(Reservation reservation) {

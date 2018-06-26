@@ -7,7 +7,6 @@ import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,9 +21,6 @@ public class CreateReservationBean {
     private ReservationRepository reservationRepository;
     @Inject
     private UserRepository userRepository;
-
-    @ManagedProperty(value = "#{OffersPageBean}")
-    private OffersBean offersBean;
 
     private Date checkInDate;
     private Date checkOutDate;
@@ -54,15 +50,23 @@ public class CreateReservationBean {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public String create(Offer offer) {
+    public String create(Offer offer, Long userId) {
         try {
+//            System.out.println("reservation init");
             Reservation reservation = new Reservation();
+//            System.out.println("reservation new");
             reservation.setFromDate(checkInDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+//            System.out.println("reservation fromDate");
             reservation.setToDate(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+//            System.out.println("reservation toDate");
             reservation.setNumberOfPeople(numberOfPeople);
+//            System.out.println("reservation people");
             reservation.setOffer(offer);
-            reservation.setUser(userRepository.findById(0l));
+//            System.out.println("reservation offer, userId: " + userId);
+            reservation.setUser(userRepository.findById(userId));
+//            System.out.println("reservation user");
             reservationRepository.create(reservation);
+//            System.out.println("reservation create");
             return "reservations";
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");

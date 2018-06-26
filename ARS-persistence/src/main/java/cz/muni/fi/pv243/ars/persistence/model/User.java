@@ -25,8 +25,8 @@ import org.keycloak.KeycloakPrincipal;
  */
 @Entity
 @RoleOwnership
-@XmlRootElement
-//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+//@XmlRootElement
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User implements Serializable {
     private static final long serialVersionUID = 1l;
 
@@ -74,10 +74,10 @@ public class User implements Serializable {
     @Column(name="roles")
     private Set<UserRole> roles = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Offer> offers = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "user", fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 

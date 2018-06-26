@@ -4,10 +4,17 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewAction action="#{offersBean.loadOffers}"/>
+    </f:metadata>
     <ui:define name="content">
         <h2>User informations</h2>
         <h:form>
             <table frame="box">
+                <tr>
+                    <td><h:outputLabel value=" Id: " /></td>
+                    <td><h:outputText id="id" value="#{userController.id}"/></td>
+                </tr>
                 <tr>
                     <td><h:outputLabel value=" Name: " /></td>
                     <td><h:outputText id="name" value="#{userController.userName}"/></td>
@@ -30,19 +37,22 @@
                 </tr>
                 <c:if test="#{userController.host}"><tr>
                     <td><h:button value="Check my offers" outcome="offers">
-                        <f:param name="user_id" value="#{userController.id}"/>
+                        <f:param name="offers_user_id" value="#{userController.id}"/>
+                        <f:param name="for_user" value="#{true}"/>
                     </h:button></td>
                 </tr></c:if>
                 <c:if test="#{userController.tenant}"><tr>
                     <td><h:button value="Check my reservations" outcome="reservations">
-                        <f:param name="user_id" value="#{userController.id}"/>
+                        <f:param name="reservations_user_id" value="#{userController.id}"/>
                     </h:button></td>
                 </tr></c:if>
                 <tr>
                     <td><h:button value="Change password" outcome="home"/></td>
                 </tr>
                 <tr>
-                    <td><h:button value="Back" outcome="index"/></td>
+                    <td><h:button value="Back" outcome="index">
+                        <f:param name="for_user" value="#{false}"/>
+                    </h:button></td>
                 </tr>
             </table>
         </h:form>

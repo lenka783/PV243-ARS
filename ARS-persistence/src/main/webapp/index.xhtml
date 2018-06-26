@@ -24,18 +24,21 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="for_user" value="#{offersBean.forUser}"/>
+        <f:viewParam name="user_id" value="#{offersBean.currentUserId}"/>
+        <f:viewParam name="loadOffers" value="#{offersBean.loaded}"/>
+        <f:viewAction action="#{offersBean.loadOffers}"/>
+    </f:metadata>
     <ui:define name="content">
         <h1>Welcome to ARS!</h1>
 
         <h:form id="menu">
+            <h2>ARS - Accommodation Reservation System!</h2>
+
             <c:if test="#{userController.loggedIn}">
                 <h:button value="Profile" outcome="userProfile"/>
-                <h:button value="Check all offers" outcome="offers"/>
             </c:if>
-        </h:form>
-
-        <h:form id="reg">
-            <h2>ARS - Accommodation Reservation System!</h2>
             <h:panelGrid columns="2" columnClasses="titleCell">
                 <c:if test="#{userController.loggedIn eq false}">
                     <f:param name="user_id" value="#{null}"/>
@@ -50,10 +53,8 @@
 
         <c:if test="#{userController.tenant}">
             <h2>Latest offers for you!</h2>
+
             <h:form>
-                <f:metadata>
-                    <f:viewParam name="user_id" value="#{offersBean.userId}"/>
-                </f:metadata>
                 <rich:dataTable id="offersTable" value="#{offersBean.offers}" var="offer">
                     <f:facet name="noData">
                         There are not any available offer at this moment. Give it a shot later!
@@ -89,7 +90,7 @@
                                 <h:outputText value="Location  "/>
                                 <br/>
                                 <a4j:jsFunction name="blurFunction" execute="autoCompleteLocation" render="offersTable@body"/>
-                                <rich:autocomplete mode="client" id="autoCompleteLocation" onblur="blurFunction()"
+                                <rich:autocomplete mode="client" onblur="blurFunction()"
                                                    autocompleteList="#{offerFilterAutocomplete.addresses}" var="address"
                                                    fetchValue="#{address.city}" layout="div" value="#{offerFilterBean.locationFilter}">
                                     <b>#{address.city}</b> - <i>(#{address.country}) </i>
@@ -127,8 +128,7 @@
                         </f:facet>
                         <h:outputText value="#{offer.capacity}"/>
                     </rich:column>
-                    <rich:column filterValue="#{offerFilterBean.smokerFriendlyFilter}"
-                                 filterExpression="#{offer.smokerFriendly eq offerFilterBean.smokerFriendlyFilter}"
+                    <rich:column filter="#{offerFilterBean.smokerFriendlyFilterImpl}"
                                  filterType="custom">
                         <f:facet name="header">
                             <h:panelGroup>
@@ -140,8 +140,7 @@
                         </f:facet>
                         <h:outputText value="#{offer.smokerFriendly}"/>
                     </rich:column>
-                    <rich:column filterValue="#{offerFilterBean.animalFriendlyFilter}"
-                                 filterExpression="#{offer.animalFriendly eq offerFilterBean.animalFriendlyFilter}"
+                    <rich:column filter="#{offerFilterBean.animalFriendlyFilterImpl}"
                                  filterType="custom">
                         <f:facet name="header">
                             <h:outputText value="Animal friendly"/>
@@ -151,12 +150,15 @@
                         </f:facet>
                         <h:outputText value="#{offer.animalFriendly}"/>
                     </rich:column>
-                    <rich:column>
-                        <f:facet name="header">Details</f:facet>
-                        <h:button value="Show" outcome="offerDetail">
-                            <f:param name="id" value="#{offer.id}"/>
-                        </h:button>
-                    </rich:column>
+                    <c:if test="#{userController.loggedIn}">
+                        <rich:column>
+                            <f:facet name="header">Details</f:facet>
+                            <h:button value="Show" outcome="offerDetail">
+                                <f:param name="offer_id" value="#{offer.id}"/>
+                                <f:param name="current_user_id" value="#{userController.id}"/>
+                            </h:button>
+                        </rich:column>
+                    </c:if>
                 </rich:dataTable>
             </h:form>
         </c:if>

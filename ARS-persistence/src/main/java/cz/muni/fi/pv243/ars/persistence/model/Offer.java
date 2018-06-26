@@ -21,8 +21,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by jsmolar on 5/19/18.
  */
 @Entity
-@XmlRootElement
-//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+//@XmlRootElement
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Offer implements Serializable {
     private static final long serialVersionUID = 1l;
 
@@ -60,12 +60,12 @@ public class Offer implements Serializable {
 
     private Boolean isSmokerFriendly;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(updatable = false)
     @NotNull
     private User user;
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer")
+    @OneToMany(mappedBy = "offer")
     @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 

@@ -12,7 +12,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
 
-@ManagedBean(name = "offerFilterBean")
+@Named
 @ViewScoped
 public class OfferFilterBean implements Serializable {
 
@@ -50,7 +50,6 @@ public class OfferFilterBean implements Serializable {
     }
 
     public Filter<?> getLocationFilterImpl() {
-        //System.out.println(locationFilter);
         return new Filter<Offer>() {
             public boolean accept(Offer item) {
 
@@ -62,6 +61,28 @@ public class OfferFilterBean implements Serializable {
                     return true;
                 }
                 return false;
+            }
+        };
+    }
+
+    public Filter<?> getAnimalFriendlyFilterImpl() {
+        return new Filter<Offer>() {
+            public boolean accept(Offer item) {
+                if (!animalFriendlyFilter) {
+                    return true;
+                }
+                return item.getAnimalFriendly();
+            }
+        };
+    }
+
+    public Filter<?> getSmokerFriendlyFilterImpl() {
+        return new Filter<Offer>() {
+            public boolean accept(Offer item) {
+                if (!smokerFriendlyFilter) {
+                    return true;
+                }
+                return item.getSmokerFriendly();
             }
         };
     }

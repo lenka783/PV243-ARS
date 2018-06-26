@@ -8,6 +8,7 @@
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
         <f:viewParam name="offer_id" value="#{offersBean.selectedId}"/>
+        <f:viewParam name="current_user_id" value="#{offersBean.currentUserId}"/>
         <f:viewAction action="#{offersBean.loadOffer}"/>
     </f:metadata>
     <ui:define name="content">
@@ -58,26 +59,35 @@
                 <tr>
                     <td><h:outputLabel value=" Number of tenants : "/></td>
                     <td>
-                        <rich:inputNumberSlider id="numberOfTenants" showArrows="true" step="1"
+                        <rich:inputNumberSpinner id="numberOfTenants" step="1"
                                                 value="#{createReservationBean.numberOfPeople}"
                                                 maxValue="#{offersBean.selectedOffer.capacity}"
                                                 minValue="1" >
-                        </rich:inputNumberSlider>
+                        </rich:inputNumberSpinner>
                     </td>
                     <td><h:message for="numberOfTenants" style="color: red"/></td>
                 </tr>
                 <tr>
                     <td><h:commandButton value="Create reservation"
-                                         action="#{createReservationBean.create(offersBean.selectedOffer)}">
+                                         action="#{createReservationBean.create(offersBean.selectedOffer, offersBean.currentUserId)}">
                     </h:commandButton></td>
                 </tr>
                 <tr>
-                    <td><h:link value="Back" outcome="offers.xhtml"/></td>
+                    <td><h:button value="Back" outcome="index"/></td>
                 </tr>
             </table>
         </h:form>
 
-        <o:resourceInclude path="/offerComments.jsp" />
+        <h:outputScript library="javascript" name="jquery-2.0.3.min.js" target="head"/>
+        <h:outputScript library="javascript" name="websocket.js" target="head"/>
+        <rich:panel header="WebSocket: Say Hello">
+            <h:panelGrid id="connect-container" style="width: 20%">
+                <h:outputLabel value="User comments about offer"/>
+                <h:inputTextarea id="commentsArea" readonly="true" style="width:100%; align-content: flex-start" rows="20"/>
+                <h:inputText id="comment" type="text" size="40" style="width: 100%"/>
+                <h:commandButton id="send" onclick="sendWebSocketMessage()" value="Send"/>
+            </h:panelGrid>
+        </rich:panel>
 
     </ui:define>
 </ui:composition>
