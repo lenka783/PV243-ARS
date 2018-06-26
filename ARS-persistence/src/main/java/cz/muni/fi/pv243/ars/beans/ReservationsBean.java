@@ -1,51 +1,48 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import cz.muni.fi.pv243.ars.persistence.model.Reservation;
-import cz.muni.fi.pv243.ars.persistence.model.User;
-import cz.muni.fi.pv243.ars.repository.ReservationRepository;
-import cz.muni.fi.pv243.ars.repository.UserRepository;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
+import cz.muni.fi.pv243.ars.controller.UserController;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.persistence.model.User;
+import cz.muni.fi.pv243.ars.repository.ReservationRepository;
+
 /**
  * Created by jsmolar on 6/4/18.
  */
-@RequestScoped
 @Named
-public class ReservationsBean implements Serializable {
+@RequestScoped
+public class ReservationsBean {
+
+    @Inject
+    private UserController userController;
 
     @Inject
     private ReservationRepository reservationRepository;
 
-    @Inject
-    private UserRepository userRepository;
+    private User user;
 
     private List<Reservation> reservations;
-    private Long selectedId;
-    private Long currentUserId;
+    private long selectedId;
     private Reservation selectedReservation;
     private Date checkIn;
     private Date checkOut;
 
     public List<Reservation> getReservations() {
-        System.out.println("ReservationsBean, User id: " + currentUserId);
         return reservations;
     }
 
-    public void loadReservations() {
-        System.out.println("ReservationsBean, Current user id: " + currentUserId);
-        User user = userRepository.findById(currentUserId);
-        System.out.println("ReservationsBean, Current user: " + user);
+    @PostConstruct
+    public void findUser() {
+        user = userController.matchUser();
         reservations = reservationRepository.findAllForUser(user);
     }
 
@@ -106,11 +103,4 @@ public class ReservationsBean implements Serializable {
         return "reservations";
     }
 
-    public Long getCurrentUserId() {
-        return currentUserId;
-    }
-
-    public void setCurrentUserId(Long currentUserId) {
-        this.currentUserId = currentUserId;
-    }
 }

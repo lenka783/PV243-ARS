@@ -169,6 +169,15 @@ public class Offer implements Serializable {
         userComments.remove(userComment);
     }
 
+    public Offer addUserComment(UserComment userComment) {
+        userComments.add(userComment);
+        return this;
+    }
+
+    public void removeUserComment(UserComment userComment) {
+        userComments.remove(userComment);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

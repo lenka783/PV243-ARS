@@ -1,14 +1,9 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import cz.muni.fi.pv243.ars.persistence.model.Address;
-import cz.muni.fi.pv243.ars.repository.AddressRepository;
-
-import java.util.*;
 
 /**
  * Created by lenka smitalova on 6/18/18.

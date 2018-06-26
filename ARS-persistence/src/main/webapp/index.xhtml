@@ -24,16 +24,19 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/templates/default.xhtml">
-    <f:metadata>
-        <f:viewParam name="for_user" value="#{offersBean.forUser}"/>
-        <f:viewParam name="user_id" value="#{offersBean.currentUserId}"/>
-        <f:viewParam name="loadOffers" value="#{offersBean.loaded}"/>
-        <f:viewAction action="#{offersBean.loadOffers}"/>
-    </f:metadata>
     <ui:define name="content">
-        <h1>Welcome to ARS!</h1>
+        <h1>Welcome ARS!</h1>
 
         <h:form id="menu">
+            <!--<h:panelGrid columns="4" columnClasses="titleCell">-->
+                <h:commandButton value="User" action="/userProfile.jsf?faces-redirect=true"/>
+                <!--<h:link value="Go to actor detail" outcome="actorDetail?userid=0" />-->
+                <!--<h:commandButton value="Click Me" type="button" onclick="alert('h:commandButton');" />-->
+                <!--<h:commandButton value="Click Me" type="button" onclick="alert('h:commandButton');" />-->
+            <!--</h:panelGrid>-->
+        </h:form>
+
+        <h:form id="reg">
             <h2>ARS - Accommodation Reservation System!</h2>
 
             <c:if test="#{userController.loggedIn}">

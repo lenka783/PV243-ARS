@@ -8,7 +8,6 @@
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
         <f:viewParam name="offer_id" value="#{offersBean.selectedId}"/>
-        <f:viewParam name="current_user_id" value="#{offersBean.currentUserId}"/>
         <f:viewParam name="offer_id" value="#{userCommentsListProducer.offerId}"/>
         <f:viewAction action="#{userCommentsListProducer.findAllUserCommentsForOffer}"/>
         <f:viewAction action="#{offersBean.loadOffer}"/>
@@ -30,7 +29,7 @@
             </h:panelGrid>
             <table>
                 <tr>
-                    <td>Set dates for reservation: </td>
+                    <td>Set dates for reservation:</td>
                 </tr>
                 <tr>
                     <td><h:outputLabel value=" Check in date : "/></td>
@@ -71,9 +70,7 @@
                 </tr>
                 <tr>
                     <td><h:commandButton value="Create reservation"
-                                         action="#{createReservationBean.create(offersBean.selectedOffer, offersBean.currentUserId)}">
-
-                        <f:param name="reservations_user_id" value="#{offersBean.currentUserId}"/>
+                                         action="#{createReservatzionBean.create(offersBean.selectedOffer)}">
                     </h:commandButton></td>
                 </tr>
                 <tr>

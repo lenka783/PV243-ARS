@@ -1,9 +1,8 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import cz.muni.fi.pv243.ars.persistence.model.Offer;
-import cz.muni.fi.pv243.ars.persistence.model.Reservation;
-import cz.muni.fi.pv243.ars.repository.ReservationRepository;
-import cz.muni.fi.pv243.ars.repository.UserRepository;
+import java.io.IOException;
+import java.time.ZoneId;
+import java.util.Date;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -13,9 +12,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import cz.muni.fi.pv243.ars.controller.UserController;
-import java.io.IOException;
-import java.time.ZoneId;
-import java.util.Date;
+import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.repository.ReservationRepository;
+import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 @RequestScoped
 @Named
@@ -58,7 +58,7 @@ public class CreateReservationBean {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public void create(Offer offer, Long userId) throws IOException {
+    public void create(Offer offer) throws IOException {
         if(!userController.isLoggedIn() ) {
             userController.logIn();
         }
@@ -71,13 +71,14 @@ public class CreateReservationBean {
             reservation.setToDate(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             reservation.setNumberOfPeople(numberOfPeople);
             reservation.setOffer(offer);
-            reservation.setUser(userRepository.findById(userId));
+            reservation.setUser(userRepository.findById(userController.matchUser().getId()));
             reservationRepository.create(reservation);
 
-            redirect = "reservations.jsf?reservations_user_id=" + userId;
+            redirect = "reservations.jsf";
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
+
             redirect = "index.jsf";
         }
 
