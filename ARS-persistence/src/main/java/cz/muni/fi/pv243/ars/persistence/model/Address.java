@@ -16,7 +16,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 //@XmlRootElement
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Address implements Serializable {
-    private static final long serialVersionUID = 1l;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -21,10 +21,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Created by jsmolar on 5/19/18.
  */
 @Entity
-//@XmlRootElement
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Offer implements Serializable {
-    private static final long serialVersionUID = 1l;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
