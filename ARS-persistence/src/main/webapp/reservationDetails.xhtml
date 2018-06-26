@@ -6,8 +6,8 @@
                 xmlns:rich="http://richfaces.org/rich"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
-        <f:viewParam name="id" value="#{reservationsPageBean.selectedId}"/>
-        <f:viewAction action="#{reservationsPageBean.loadReservation}"/>
+        <f:viewParam name="reservation_id" value="#{reservationsBean.selectedId}"/>
+        <f:viewAction action="#{reservationsBean.loadReservation}"/>
     </f:metadata>
     <ui:define name="content">
 
@@ -15,13 +15,13 @@
             <table>
                 <tr>
                     <td><h:outputLabel value=" Id: " /></td>
-                    <td><h:outputText value="#{reservationsPageBean.selectedReservation.id}"/></td>
+                    <td><h:outputText value="#{reservationsBean.selectedReservation.id}"/></td>
                 </tr>
                 <tr>
                     <td><h:outputLabel value=" Check in: " /></td>
                     <td><a4j:outputPanel layout="block">
                         <rich:calendar id="checkIn"
-                                       value="#{reservationsPageBean.checkIn}" locale="#{calendarBean.locale}"
+                                       value="#{reservationsBean.checkIn}" locale="#{calendarBean.locale}"
                                        popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}">
                             <f:convertDateTime pattern="#{calendarBean.pattern}"/>
                         </rich:calendar>
@@ -31,32 +31,34 @@
                     <td><h:outputLabel value=" Check out: " /></td>
                     <td><a4j:outputPanel layout="block">
                         <rich:calendar id="checkOut"
-                                       value="#{reservationsPageBean.checkOut}" locale="#{calendarBean.locale}"
+                                       value="#{reservationsBean.checkOut}" locale="#{calendarBean.locale}"
                                        popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}">
                         </rich:calendar>
                     </a4j:outputPanel></td>
                 </tr>
                 <tr>
                     <td><h:outputLabel value=" Number of people : "/></td>
-                    <td><h:outputText value="#{reservationsPageBean.selectedReservation.numberOfPeople}"/></td>
+                    <td><h:outputText value="#{reservationsBean.selectedReservation.numberOfPeople}"/></td>
                 </tr>
                 <tr>
                     <td>
-                        <h:link value="Show offer details" outcome="offerDetails">
-                            <f:param name="id" value="#{reservationsPageBean.selectedReservation.offer.id}"/>
-                        </h:link>
+                        <h:button value="Show offer details" outcome="offerDetail">
+                            <f:param name="offer_id" value="#{reservationsBean.selectedReservation.offer.id}"/>
+                        </h:button>
                     </td>
                 </tr>
                 <tr>
-                    <td><h:commandButton value="Save changes" action="#{reservationsPageBean.updateSelectedReservation}"/></td>
+                    <td><h:commandButton value="Save changes" action="#{reservationsBean.updateSelectedReservation}"/></td>
                 </tr>
                 <tr>
 
                     <td><h:commandButton value="Delete reservation"
-                                     action="#{reservationsPageBean.deleteSelectedReservation}"/></td>
+                                     action="#{reservationsBean.deleteSelectedReservation}"/></td>
                 </tr>
                 <tr>
-                    <td><h:link value="Back" outcome="reservations.xhtml"/></td>
+                    <td><h:button value="Back" outcome="reservations">
+                        <f:param name="reservations_user_id" value="#{reservationsBean.selectedReservation.user.id}"/>
+                    </h:button></td>
                 </tr>
             </table>
         </h:form>

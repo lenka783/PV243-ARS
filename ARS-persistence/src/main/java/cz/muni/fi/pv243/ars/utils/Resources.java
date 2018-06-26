@@ -1,5 +1,6 @@
 package cz.muni.fi.pv243.ars.utils;
 
+import java.io.Serializable;
 import java.util.logging.Logger;
 
 import javax.enterprise.inject.Produces;
@@ -10,7 +11,7 @@ import javax.persistence.PersistenceContext;
 /**
  * Created by jsmolar on 6/4/18.
  */
-public class Resources {
+public class Resources implements Serializable {
 
     public static final String REST_SERVICE_BASE_URI = "http://localhost:8080/ARS-persistence/services/";
 
@@ -19,7 +20,7 @@ public class Resources {
     private EntityManager em;
 
     @Produces
-    public Logger produceLog(InjectionPoint injectionPoint) {
+    public static final Logger produceLog(InjectionPoint injectionPoint) {
         return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
     }
 

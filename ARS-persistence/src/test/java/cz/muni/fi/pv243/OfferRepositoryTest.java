@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -18,7 +19,7 @@ import cz.muni.fi.pv243.ars.persistence.model.Address;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
-import cz.muni.fi.pv243.ars.repository.AddressRepository;
+//import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -45,6 +46,9 @@ public class OfferRepositoryTest {
     private EntityManager entityManager;
 
     @Inject
+    private Logger log;
+
+    @Inject
     private UserTransaction tx;
 
     @Inject
@@ -58,7 +62,7 @@ public class OfferRepositoryTest {
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap
-                .create(WebArchive.class)
+                .create(WebArchive.class, "test.war")
                 .addClasses(Resources.class, EntityFactoryPersistence.class)
                 .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistence")
                 .addPackage(UserRole.class.getPackage())
@@ -68,6 +72,7 @@ public class OfferRepositoryTest {
 
 
     private Address address;
+    private User host;
 
 
     @Before
@@ -77,9 +82,14 @@ public class OfferRepositoryTest {
         address = ef.createAddress("Praha", "Czech Republic", "Dlouha");
         Address address1 = ef.createAddress("Bratislava", "Slovakia", "Bajkalska");
         Address address2 = ef.createAddress("Brno", "Czech Republic", "Sumavska");
+        Address address3 = ef.createAddress("Praha", "Czech Republic", "Hlavni");
 
-        Offer offer1 = ef.createOffer(address1);
-        Offer offer2 = ef.createOffer(address2);
+        host = ef.createUser("John", address3);
+
+        userRepository.create(host);
+
+        Offer offer1 = ef.createOffer(address1, host);
+        Offer offer2 = ef.createOffer(address2, host);
 
         offerRepository.create(offer1);
         offerRepository.create(offer2);
@@ -92,8 +102,8 @@ public class OfferRepositoryTest {
 
     @Test
     public void createOfferTest() {
-        System.out.println("create offer test");
-        Offer expected = ef.createOffer(address);
+        log.info("create offer test");
+        Offer expected = ef.createOffer(address, host);
 
         offerRepository.create(expected);
 
@@ -103,8 +113,8 @@ public class OfferRepositoryTest {
 
     @Test
     public void updateOfferTest() {
-        System.out.println("update offer test");
-        Offer expected = ef.createOffer(address);
+        log.info("update offer test");
+        Offer expected = ef.createOffer(address, host);
         expected.setAnimalFriendly(true);
         offerRepository.create(expected);
         assertEquals(offerRepository.findById(expected.getId()), expected);
@@ -119,8 +129,8 @@ public class OfferRepositoryTest {
 
     @Test
     public void deleteOfferTest() {
-        System.out.println("delete offer test");
-        Offer toDelete = ef.createOffer(address);
+        log.info("delete offer test");
+        Offer toDelete = ef.createOffer(address, host);
         offerRepository.create(toDelete);
 
         int offerCount = offerRepository.findAll().size();
@@ -132,8 +142,8 @@ public class OfferRepositoryTest {
 
     @Test
     public void findByIdTest() {
-        System.out.println("find by id offer test");
-        Offer expected = ef.createOffer(address);
+        log.info("find by id offer test");
+        Offer expected = ef.createOffer(address, host);
         offerRepository.create(expected);
 
         Offer actual = offerRepository.findById(expected.getId());
@@ -142,10 +152,10 @@ public class OfferRepositoryTest {
 
     @Test
     public void findAllTest() {
-        System.out.println("find all offer test");
+        log.info("find all offer test");
         assertEquals(offerRepository.findAll().size(), 2);
 
-        Offer offer = ef.createOffer(address);
+        Offer offer = ef.createOffer(address, host);
         offerRepository.create(offer);
 
         assertEquals(offerRepository.findAll().size(), 3);
@@ -154,14 +164,13 @@ public class OfferRepositoryTest {
 
     @Test
     public void findAllForUserTest() {
-        System.out.println("find all offers for user test");
-        User user = ef.createUser("testUser");
+        log.info("find all offers for user test");
+        User user = ef.createUser("testUser", address);
         userRepository.create(user);
         List<Offer> allForUser = offerRepository.findAllForUser(user);
         assertEquals(allForUser.size(), 0);
 
-        Offer offer = ef.createOffer(address);
-        offer.setUser(user);
+        Offer offer = ef.createOffer(address, user);
         offerRepository.create(offer);
 
         assertEquals(offerRepository.findAllForUser(user).size(), 1);

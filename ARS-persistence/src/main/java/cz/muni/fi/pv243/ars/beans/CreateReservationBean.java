@@ -7,10 +7,11 @@ import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedProperty;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -22,9 +23,6 @@ public class CreateReservationBean {
     private ReservationRepository reservationRepository;
     @Inject
     private UserRepository userRepository;
-
-    @ManagedProperty(value = "#{OffersPageBean}")
-    private OffersPageBean offersPageBean;
 
     private Date checkInDate;
     private Date checkOutDate;
@@ -54,20 +52,33 @@ public class CreateReservationBean {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public String create(Offer offer) {
+    public void create(Offer offer, Long userId) throws IOException {
+        String redirect;
         try {
+//            System.out.println("reservation init");
             Reservation reservation = new Reservation();
+//            System.out.println("reservation new");
             reservation.setFromDate(checkInDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+//            System.out.println("reservation fromDate");
             reservation.setToDate(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+//            System.out.println("reservation toDate");
             reservation.setNumberOfPeople(numberOfPeople);
+//            System.out.println("reservation people");
             reservation.setOffer(offer);
-            reservation.setUser(userRepository.findById(0l));
+//            System.out.println("reservation offer, userId: " + userId);
+            reservation.setUser(userRepository.findById(userId));
+//            System.out.println("reservation user");
             reservationRepository.create(reservation);
-            return "reservations";
+//            System.out.println("reservation create");
+
+            redirect = "reservations.jsf?reservations_user_id=" + userId;
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            return "offers";
+            redirect = "index.jsf";
         }
+
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect(redirect);
     }
 }

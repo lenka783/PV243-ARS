@@ -1,6 +1,6 @@
 package cz.muni.fi.pv243.ars.rest;
 
-import cz.muni.fi.pv243.ars.messaging.Sender;
+//import cz.muni.fi.pv243.ars.messaging.Sender;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 
@@ -22,8 +22,8 @@ public class ReservationRESTService {
     @Inject
     private ReservationRepository reservationRepository;
 
-    @Inject
-    private Sender sender;
+//    @Inject
+//    private Sender sender;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -38,7 +38,7 @@ public class ReservationRESTService {
     public Response getReservation(@PathParam("id") Long id) {
         Reservation byId = reservationRepository.findById(id);
 
-        sender.sendMessage("Got GET request for reservation with id:" + id.toString());
+//        sender.sendMessage("Got GET request for reservation with id:" + id.toString());
 
         if (byId == null) {
             return Response.status(Response.Status.NOT_FOUND).build();

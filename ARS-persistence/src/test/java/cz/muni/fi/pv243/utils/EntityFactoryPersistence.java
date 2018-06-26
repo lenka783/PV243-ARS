@@ -22,7 +22,8 @@ public class EntityFactoryPersistence {
             .setSurname("surname")
             .setDateOfBirth(LocalDate.now())
             .setPassword("123456")
-            .setEmail(name + "@example.com");
+            .setEmail(name + "@example.com")
+            .setActive(true);
 
         return user;
     }
@@ -46,20 +47,25 @@ public class EntityFactoryPersistence {
         Offer offer = new Offer();
 
         offer.setAccommodationType(AccommodationType.HOUSE)
+                .setName("testName" + rand.nextInt(1000))
                 .setAddress(address)
                 .setAnimalFriendly(true)
-                .setCapacity(rand.nextInt(10));
+                .setCapacity(rand.nextInt(10))
+                .setPrice(rand.nextInt(5000));
 
         return offer;
     }
 
-    public Offer createOffer(Address address, User tenant) {
+    public Offer createOffer(Address address, User host) {
         Offer offer = new Offer();
 
         offer.setAccommodationType(AccommodationType.HOUSE)
+                .setName("testName" + rand.nextInt(1000))
                 .setAddress(address)
                 .setAnimalFriendly(true)
-                .setCapacity(rand.nextInt(10));
+                .setCapacity(rand.nextInt(10))
+                .setPrice(rand.nextInt(5000))
+                .setUser(host);
 
         return offer;
     }
@@ -70,7 +76,6 @@ public class EntityFactoryPersistence {
         reservation.setFromDate(from)
                 .setToDate(to)
                 .setNumberOfPeople(rand.nextInt(10))
-                .setAssignedId(offer.hashCode())
                 .setOffer(offer);
 
         return reservation;
@@ -82,7 +87,6 @@ public class EntityFactoryPersistence {
         reservation.setFromDate(from)
                 .setToDate(to)
                 .setNumberOfPeople(rand.nextInt(10))
-                .setAssignedId(offer.hashCode())
                 .setUser(host)
                 .setOffer(offer);
 

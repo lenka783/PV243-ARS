@@ -1,0 +1,11 @@
+{
+  "realm": "ARS",
+  "auth-server-url": "http://localhost:8180/auth",
+  "ssl-required": "external",
+  "resource": "ARS-persistence",
+  "credentials": {
+    "secret": "ff4d35a1-79ff-4133-adbc-550aaad6f5d4"
+  },
+  "confidential-port": 0,
+  "policy-enforcer": {}
+}

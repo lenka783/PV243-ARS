@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -17,39 +18,51 @@ import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
 import cz.muni.fi.pv243.ars.persistence.validation.RoleOwnership;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.keycloak.KeycloakPrincipal;
 
 /**
  * Created by jsmolar on 5/10/18.
  */
 @Entity
 @RoleOwnership
+//@XmlRootElement
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User implements Serializable {
+    private static final long serialVersionUID = 1l;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    private String keycloakPrincipal;
 
     @NotNull
     @Size(min = 1, max = 25)
+    @Column(updatable = false, nullable = false)
     private String name;
 
     @NotNull
     @Size(min = 1, max = 25)
+    @Column(nullable = false)
     private String surname;
 
     @NotNull
     @NotEmpty
     @Email
+    @Column(updatable = false, nullable = false)
     private String email;
 
     @NotNull
+    @Column(updatable = false, nullable = false)
     private String password;
 
     @AddressConstraint
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, optional = false)
+    @NotNull
     private Address address;
 
+    @NotNull
+    @Column(updatable = false, nullable = false)
     private LocalDate dateOfBirth;
 
     @NotNull
@@ -61,11 +74,10 @@ public class User implements Serializable {
     @Column(name="roles")
     private Set<UserRole> roles = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Offer> offers = new HashSet<>();
 
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "user", fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
 
@@ -88,6 +100,15 @@ public class User implements Serializable {
 
     public User setId(Long id) {
         this.id = id;
+        return this;
+    }
+
+    public String getKeycloakPrincipal() {
+        return keycloakPrincipal;
+    }
+
+    public User setKeycloakPrincipal(String keycloakPrincipal) {
+        this.keycloakPrincipal = keycloakPrincipal;
         return this;
     }
 

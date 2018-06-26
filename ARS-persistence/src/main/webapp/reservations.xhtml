@@ -6,28 +6,35 @@
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
                 template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="reservations_user_id" value="#{reservationsBean.currentUserId}"/>
+        <f:viewAction action="#{reservationsBean.loadReservations}"/>
+    </f:metadata>
     <ui:define name="content">
         <h2>Reservations</h2>
-        <h:panelGroup rendered="#{empty reservationsPageBean.reservations}">
-            <em>Places for you to visit!</em>
-        </h:panelGroup>
-        <rich:dataTable id="reservationsTable" value="#{reservationsPageBean.reservations}" var="reservation"
-                        selectionMode="none">
-            <rich:column>
-                <f:facet name="header">Id</f:facet>
-                <h:outputText value="#{reservation.id}"/>
-            </rich:column>
-            <rich:column>
-                <f:facet name="header">Location</f:facet>
-                <h:outputText value="#{reservation.offer.address.city}"/>
-            </rich:column>
-            <rich:column>
-                <f:facet name="header">Details</f:facet>
-                <h:link value="Show" outcome="reservationDetails">
-                    <f:param name="id" value="#{reservation.id}"/>
-                </h:link>
-            </rich:column>
-        </rich:dataTable>
-        <h:link value="Back" outcome="home.xhtml"/>
+        <p>Your next visits: </p>
+        <h:form>
+            <rich:messages/>
+            <rich:dataTable id="reservationsTable" value="#{reservationsBean.reservations}" var="reservation">
+                <f:facet name="noData">
+                    Nothing found
+                </f:facet>
+                <rich:column>
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{reservation.id}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Location</f:facet>
+                    <h:outputText value="#{reservation.offer.address.city}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Details</f:facet>
+                    <h:button value="Show" outcome="reservationDetails">
+                        <f:param name="reservation_id" value="#{reservation.id}"/>
+                    </h:button>
+                </rich:column>
+            </rich:dataTable>
+            <h:button value="Back" outcome="userProfile"/>
+        </h:form>
     </ui:define>
 </ui:composition>
