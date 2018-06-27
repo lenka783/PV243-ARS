@@ -28,10 +28,12 @@
 <h:body>
     <div id="container">
         <div class="dualbrand">
-            <img src="resources/gfx/ars.png"  alt="ars_logo"/>
-            <h:button value="Home" outcome="index">
-                <f:param name="for_user" value="#{false}"/>
-            </h:button>
+            <h:panelGrid>
+                <img src="resources/gfx/ars.png"  alt="ars_logo"/>
+                <h:button value="Home" outcome="index">
+                    <f:param name="for_user" value="#{false}"/>
+                </h:button>
+            </h:panelGrid>
         </div>
         <div id="content">
             <ui:insert name="content">

@@ -1,17 +1,14 @@
 package cz.muni.fi.pv243.ars.repository;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Lenka Smitalova on 5/29/2018

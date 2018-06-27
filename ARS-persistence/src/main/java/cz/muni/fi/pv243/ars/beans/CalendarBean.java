@@ -2,9 +2,7 @@ package cz.muni.fi.pv243.ars.beans;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
-import java.util.Date;
 import java.util.Locale;
-import java.util.regex.Pattern;
 
 /**
  * Created by lenka smitalova on 6/19/18.

@@ -3,8 +3,6 @@ package cz.muni.fi.pv243.ars.beans;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
-import cz.muni.fi.pv243.ars.persistence.model.Address;
-
 /**
  * Created by lenka smitalova on 6/18/18.
  */

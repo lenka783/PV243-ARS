@@ -7,10 +7,8 @@ import cz.muni.fi.pv243.ars.repository.OfferRepository;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.io.Serializable;
 import java.util.List;
 
 /**
