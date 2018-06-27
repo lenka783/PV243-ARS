@@ -20,9 +20,6 @@ import java.util.Date;
 public class ReservationDetailBean implements Serializable {
 
     @Inject
-    private UserController userController;
-
-    @Inject
     private ReservationRepository reservationRepository;
 
     private Long id;

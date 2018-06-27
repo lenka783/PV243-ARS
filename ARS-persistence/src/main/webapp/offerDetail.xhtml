@@ -38,7 +38,7 @@
                         <td>
                             <a4j:outputPanel layout="block">
                                 <rich:calendar id="checkIn"
-                                               value="#{reservationBean.checkInDate}" locale="#{calendarBean.locale}"
+                                               value="#{createReservationBean.checkInDate}" locale="#{calendarBean.locale}"
                                                popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}"
                                                required="true" requiredMessage="Date of birth must not be empty">
                                 </rich:calendar>
@@ -51,7 +51,7 @@
                         <td>
                             <a4j:outputPanel layout="block">
                                 <rich:calendar id="checkOut"
-                                               value="#{reservationBean.checkOutDate}" locale="#{calendarBean.locale}"
+                                               value="#{createReservationBean.checkOutDate}" locale="#{calendarBean.locale}"
                                                popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}"
                                                required="true" requiredMessage="Date of birth must not be empty">
                                 </rich:calendar>
@@ -63,7 +63,7 @@
                         <td><h:outputLabel value=" Number of tenants : "/></td>
                         <td>
                             <rich:inputNumberSpinner id="numberOfTenants" step="1"
-                                                     value="#{reservationBean.numberOfPeople}"
+                                                     value="#{createReservationBean.numberOfPeople}"
                                                      maxValue="#{offerDetailBean.offer.capacity}"
                                                      minValue="1" required="true"
                                                      requiredMessage="Number of people must be set">
@@ -73,7 +73,7 @@
                     </tr>
                     <tr>
                         <td><h:commandButton value="Create reservation"
-                                             action="#{reservationBean.create(offerDetailBean.offer)}">
+                                             action="#{createReservationBean.create(offerDetailBean.offer)}">
                         </h:commandButton></td>
                     </tr>
                 </table>

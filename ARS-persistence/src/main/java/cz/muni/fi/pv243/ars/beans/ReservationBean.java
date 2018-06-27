@@ -26,9 +26,6 @@ public class ReservationBean {
     private ReservationRepository reservationRepository;
 
     @Inject
-    private UserController userController;
-
-    @Inject
     private ReservationDetailBean reservationDetailBean;
 
     private Date checkInDate;
@@ -64,34 +61,6 @@ public class ReservationBean {
 
     public void setNumberOfPeople(Integer numberOfPeople) {
         this.numberOfPeople = numberOfPeople;
-    }
-
-    public void create(Offer offer) throws IOException {
-        if(!userController.isLoggedIn() ) {
-            userController.logIn();
-        }
-
-        String redirect;
-
-        try {
-            Reservation reservation = new Reservation();
-            reservation.setFromDate(checkInDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            reservation.setToDate(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
-            reservation.setNumberOfPeople(numberOfPeople);
-            reservation.setOffer(offer);
-            reservation.setUser(userController.matchUser());
-            reservationRepository.create(reservation);
-
-            redirect = "reservations.jsf?for_user=true";
-        } catch (Exception e) {
-            FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-
-            redirect = "index.jsf?for_user=false";
-        }
-
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect(redirect);
     }
 
     public String updateReservation(Reservation reservation) {
