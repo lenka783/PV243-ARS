@@ -8,51 +8,69 @@
     <ui:define name="content">
         <h:form>
             <table>
-                <tr><td>
-                    <h:outputText value="Accommodation type"/>
-                    <h:inputText value="#{createOfferBean.accommodationType}"/>
+                <tr>
+                    <td><h:outputText value="Accommodation type"/></td>
+                    <td>
+                    <h:selectOneMenu id="type" value="#{createOfferBean.accommodationType}"
+                                     required="true" requiredMessage="You must choose one accommodation type.">
+                        <f:selectItem itemValue="#{null}" itemLabel="--select--" />
+                        <f:selectItems value="#{offerFilterAutocomplete.accomodationOptions}"/>
+                    </h:selectOneMenu>
+                    </td>
+                    <td><h:message for="type" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputText value="Street"/></td>
+                    <td><h:inputText id="street" value="#{createOfferBean.address.street}"
+                                     required="true" requiredMessage="Street must not be empty"/>
+                    </td>
+                    <td><h:message for="street" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputText value="City"/></td>
+                    <td><h:inputText id="city" value="#{createOfferBean.address.city}"
+                                     required="true" requiredMessage="City must not be empty"/></td>
+                    <td><h:message for="city" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputText value="State"/></td>
+                    <td><h:inputText value="#{createOfferBean.address.state}"/>
                 </td></tr>
-                <tr><td>
-                    <h:outputText value="Street"/>
-                    <h:inputText value="#{createOfferBean.address.street}"/>
+                <tr>
+                    <td><h:outputText value="Country"/></td>
+                    <td><h:inputText id="country" value="#{createOfferBean.address.country}"
+                                 required="true" requiredMessage="Country must not be empty"/></td>
+                    <td><h:message for="country" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputText value="ZIP"/></td>
+                    <td><h:inputText id="zip" value="#{createOfferBean.address.postCode}"
+                                 required="true" requiredMessage="Postcode must not be empty"/></td>
+                    <td><h:message for="zip" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputText value="Price"/></td>
+                    <td><rich:inputNumberSlider id="price" value="#{createOfferBean.price}"
+                                                showArrows="true" step="100" minValue="0" maxValue="500000"/>
                 </td></tr>
-                <tr><td>
-                    <h:outputText value="City"/>
-                    <h:inputText value="#{createOfferBean.address.city}"/>
+                <tr>
+                    <td><h:outputText value="Capacity"/>
+                    <rich:inputNumberSlider id="capacity" value="#{createOfferBean.capacity}"
+                                            showArrows="true" step="1" minValue="0" maxValue="20"/>
                 </td></tr>
-                <tr><td>
-                    <h:outputText value="State"/>
-                    <h:inputText value="#{createOfferBean.address.state}"/>
-                </td></tr>
-                <tr><td>
-                    <h:outputText value="Country"/>
-                    <h:inputText value="#{createOfferBean.address.country}"/>
-                </td></tr>
-                <tr><td>
-                    <h:outputText value="ZIP"/>
-                    <h:inputText value="#{createOfferBean.address.postCode}"/>
-                </td></tr>
-                <tr><td>
-                    <h:outputText value="Price"/>
-                    <h:inputText value="#{createOfferBean.price}"/>
-                </td></tr>
-                <tr><td>
-                    <h:outputText value="Capacity"/>
-                    <h:inputText value="#{createOfferBean.capacity}"/>
-                </td></tr>
-                <tr><td>
-                    <h:outputText value="Smoker friendly"/>
+                <tr>
+                    <td><h:outputText value="Smoker friendly"/>
                     <h:selectBooleanCheckbox value="#{createOfferBean.smokerFriendly}"/>
                 </td></tr>
-                <tr><td>
-                    <h:outputText value="Animal friendly"/>
+                <tr>
+                    <td><h:outputText value="Animal friendly"/>
                     <h:selectBooleanCheckbox value="#{createOfferBean.animalFriendly}"/>
                 </td></tr>
                 <tr>
-                    <td><h:commandButton value="Create createOfferBean" action="#{createOfferBean.create}"/></td>
+                    <td><h:commandButton value="Create" action="#{createOfferBean.create}"/></td>
                 </tr>
             </table>
-            <h:link value="Back" outcome="home.xhtml"/>
+            <h:button value="Back" outcome="offers"/>
         </h:form>
     </ui:define>
 </ui:composition>

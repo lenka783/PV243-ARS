@@ -19,40 +19,6 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
-  <!--<servlet>-->
-    <!--<servlet-sender>SecuredServlet</servlet-sender>-->
-    <!--<servlet-class>cz.muni.fi.pv243.ars.servlet.SecuredServlet</servlet-class>-->
-    <!--<load-on-startup>1</load-on-startup>-->
-  <!--</servlet>-->
-
-  <!--<servlet-mapping>-->
-    <!--<servlet-sender>SecuredServlet</servlet-sender>-->
-    <!--<url-pattern>/services/*</url-pattern>-->
-  <!--</servlet-mapping>-->
-
-  <!--<servlet>-->
-    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
-    <!--<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>-->
-    <!--<load-on-startup>1</load-on-startup>-->
-  <!--</servlet>-->
-
-  <!--<servlet-mapping>-->
-    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
-    <!--<url-pattern>/faces/*</url-pattern>-->
-  <!--</servlet-mapping>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
-    <!--<url-pattern>*.jsf</url-pattern>-->
-  <!--</servlet-mapping>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
-    <!--<url-pattern>*.faces</url-pattern>-->
-  <!--</servlet-mapping>-->
-  <!--<servlet-mapping>-->
-    <!--<servlet-sender>Faces Servlet</servlet-sender>-->
-    <!--<url-pattern>*.xhtml</url-pattern>-->
-  <!--</servlet-mapping>-->
-
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>ARS-persistence</web-resource-name>

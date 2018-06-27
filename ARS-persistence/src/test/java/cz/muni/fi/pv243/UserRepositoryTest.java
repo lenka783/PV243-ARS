@@ -19,7 +19,7 @@ import cz.muni.fi.pv243.ars.persistence.model.Address;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
-import cz.muni.fi.pv243.ars.repository.AddressRepository;
+//import cz.muni.fi.pv243.ars.repository.AddressRepository;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -55,8 +55,8 @@ public class UserRepositoryTest {
     @Inject
     private UserRepository userRepository;
 
-    @Inject
-    private AddressRepository addressRepository;
+//    @Inject
+//    private AddressRepository addressRepository;
 
     @Inject
     private OfferRepository offerRepository;
@@ -69,7 +69,7 @@ public class UserRepositoryTest {
     @Deployment
     public static Archive<?> createDeployment() {
         return ShrinkWrap
-            .create(WebArchive.class)
+            .create(WebArchive.class, "test.war")
             .addClasses(Resources.class, EntityFactoryPersistence.class)
             .addPackages(true, "cz.muni.fi.pv243.ars.repository", "cz.muni.fi.pv243.ars.persistence")
             .addPackage(UserRole.class.getPackage())
@@ -78,14 +78,20 @@ public class UserRepositoryTest {
     }
 
     private Address address;
+    private Address address1;
+    private Address address2;
+    private Address address3;
 
     @Before
     public void init() throws SystemException, NotSupportedException {
         tx.begin();
         address = ef.createAddress("Bratislava", "Slovakia", "Bajkalska");
+        address1 = ef.createAddress("Liptovsky Mikulas", "Slovakia", "Senicka");
+        address2 = ef.createAddress("Prievidza", "Slovakia", "Hlavna");
+        address3 = ef.createAddress("Brno", "CR", "Masarykova");
         User user1 = ef.createUser("user1Test", address);
-        User user2 = ef.createUser("user2Test", address);
-        User user3 = ef.createUser("user3Test", address);
+        User user2 = ef.createUser("user2Test", address1);
+        User user3 = ef.createUser("user3Test", address2);
 
         userRepository.create(user1);
         userRepository.create(user2);
@@ -100,7 +106,7 @@ public class UserRepositoryTest {
     @Test
     public void createUserTest() {
         log.info("create test user");
-        User expected = ef.createUser("testUser");
+        User expected = ef.createUser("testUser", address3);
 
         userRepository.create(expected);
 
@@ -111,7 +117,7 @@ public class UserRepositoryTest {
     @Test
     public void updateUserTest() {
         log.info("update test user");
-        User expected = ef.createUser("updateUser", address);
+        User expected = ef.createUser("updateUser", address3);
         userRepository.create(expected);
         assertEquals(userRepository.findById(expected.getId()), expected);
 
@@ -126,7 +132,7 @@ public class UserRepositoryTest {
     @Test
     public void deleteUserTest() {
         log.info("delete test user");
-        User user = ef.createUser("userForDelete");
+        User user = ef.createUser("userForDelete", address3);
         userRepository.create(user);
 
         int userCount = userRepository.findAll().size();
@@ -139,7 +145,7 @@ public class UserRepositoryTest {
     @Test
     public void findByIdTest() {
         log.info("find by id test user");
-        User expected = ef.createUser("findUser", address);
+        User expected = ef.createUser("findUser", address3);
         userRepository.create(expected);
 
         User actual = userRepository.findById(expected.getId());
@@ -151,22 +157,20 @@ public class UserRepositoryTest {
         log.info("find all test user");
         assertEquals(userRepository.findAll().size(), 3);
 
-        User expected = ef.createUser("findAllUser", address);
+        User expected = ef.createUser("findAllUser", address3);
         userRepository.create(expected);
 
         assertEquals(userRepository.findAll().size(), 4);
     }
 
     @Test
-    public void createOfferForHost(Address address) {
-        User host = ef.createUser("hostUser");
-        Offer offer = ef.createOffer(address);
-
-        host.addRole(UserRole.HOST)
-            .addOffer(offer);
-
-        offerRepository.create(offer);
+    public void createOfferForHost() {
+        User host = ef.createUser("hostUser", address3);
+        host.addRole(UserRole.HOST);
         userRepository.create(host);
+
+        Offer offer = ef.createOffer(address, host);
+        offerRepository.create(offer);
     }
 
     @Test
@@ -176,8 +180,8 @@ public class UserRepositoryTest {
 
     @Test(expected = EJBTransactionRolledbackException.class)
     public void createReservationForHost() {
-        User host = ef.createUser("hostUser");
-        Offer offer = ef.createOffer(address);
+        User host = ef.createUser("hostUser", address3);
+        Offer offer = ef.createOffer(address, host);
         Reservation reservation = ef.createReservation(LocalDate.now(), LocalDate.now().plusWeeks(1), offer, host);
 
         host.addRole(UserRole.HOST)

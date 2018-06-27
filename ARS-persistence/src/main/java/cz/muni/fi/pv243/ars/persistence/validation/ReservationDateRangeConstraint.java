@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = {ReservationDateRangeValidator.class})
 public @interface ReservationDateRangeConstraint {
 
-    String message () default "Validation of Reservation failed.";
+    String message () default "Validation of Reservation failed for some very unknown reason :D.";
     Class<?>[] groups () default {};
     Class<? extends Payload>[] payload () default {};
 }

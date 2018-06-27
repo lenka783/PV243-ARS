@@ -11,6 +11,7 @@ import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import cz.muni.fi.pv243.ars.persistence.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.persistence.model.User;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
 import org.keycloak.KeycloakPrincipal;
@@ -57,16 +58,28 @@ public class UserController {
         log.info("Principal: " + keycloakPrincipal);
         log.info("Principal name: " + keycloakPrincipal.getName());
 
-        User user = userRepository.findByKCid(keycloakPrincipal.getName());
-        log.info("User and KC Principal are matched. User id: " + user.getId());
+        User matchedUser = userRepository.findByKCid(keycloakPrincipal.getName());
+        log.info("User and KC Principal are matched. User id: " + matchedUser.getId());
 
-        return user;
+        return matchedUser;
     }
 
-    public String getUserName() {
+    public boolean isHost() {
+        if (!isLoggedIn()) {
+            return false;
+        }
         User user = matchUser();
 
-        return user.getName() + " " + user.getSurname();
+        return user.getRoles().contains(UserRole.HOST);
+    }
+
+    public boolean isTenant() {
+        if (!isLoggedIn()) {
+            return true;
+        }
+        User user = matchUser();
+
+        return user.getRoles().contains(UserRole.TENANT);
     }
 
 }
