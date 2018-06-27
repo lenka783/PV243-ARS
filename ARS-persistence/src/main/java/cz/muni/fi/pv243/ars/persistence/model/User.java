@@ -1,16 +1,5 @@
 package cz.muni.fi.pv243.ars.persistence.model;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import cz.muni.fi.pv243.ars.persistence.enumeration.UserRole;
@@ -18,14 +7,21 @@ import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
 import cz.muni.fi.pv243.ars.persistence.validation.RoleOwnership;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.keycloak.KeycloakPrincipal;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by jsmolar on 5/10/18.
  */
 @Entity
 @RoleOwnership
-//@XmlRootElement
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class User implements Serializable {
     private static final long serialVersionUID = 1l;

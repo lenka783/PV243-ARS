@@ -1,6 +1,5 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import cz.muni.fi.pv243.ars.controller.UserController;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 
@@ -12,8 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.IOException;
 import java.io.Serializable;
-import java.time.ZoneId;
-import java.util.Date;
 
 @SessionScoped
 @Named

@@ -1,21 +1,18 @@
 package cz.muni.fi.pv243.ars.persistence.model;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
-import org.hibernate.validator.constraints.NotEmpty;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by jsmolar on 5/19/18.

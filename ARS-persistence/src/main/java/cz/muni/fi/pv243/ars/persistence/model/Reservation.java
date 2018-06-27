@@ -4,20 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import cz.muni.fi.pv243.ars.persistence.validation.ReservationDateRangeConstraint;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-
-import javax.faces.annotation.ManagedProperty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+import java.time.LocalDate;
 
 /**
  * Created by jsmolar on 5/19/18.
  */
 @Entity
 @ReservationDateRangeConstraint
-//@XmlRootElement
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Reservation implements Serializable {
     private static final long serialVersionUID = 1l;

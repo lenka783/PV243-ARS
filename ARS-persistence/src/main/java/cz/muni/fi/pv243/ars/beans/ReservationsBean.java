@@ -1,21 +1,15 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.io.IOException;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-
 import cz.muni.fi.pv243.ars.controller.UserController;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.List;
 
 /**
  * Created by jsmolar on 6/4/18.

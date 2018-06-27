@@ -1,8 +1,7 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import java.io.IOException;
-import java.time.ZoneId;
-import java.util.Date;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
+import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -11,12 +10,9 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-
-import cz.muni.fi.pv243.ars.controller.UserController;
-import cz.muni.fi.pv243.ars.persistence.model.Offer;
-import cz.muni.fi.pv243.ars.persistence.model.Reservation;
-import cz.muni.fi.pv243.ars.repository.ReservationRepository;
-import cz.muni.fi.pv243.ars.repository.UserRepository;
+import java.io.IOException;
+import java.time.ZoneId;
+import java.util.Date;
 
 @RequestScoped
 @Named
