@@ -2,12 +2,18 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
             <table>
+                <tr>
+                    <td><h:outputText value="Offers name (title)"/></td>
+                    <td><h:inputText id="name" value="#{createOfferBean.name}"
+                                     required="true" requiredMessage="Name must not be empty"/>
+                    </td>
+                    <td><h:message for="name" style="color: red"/></td>
+                </tr>
                 <tr>
                     <td><h:outputText value="Accommodation type"/></td>
                     <td>

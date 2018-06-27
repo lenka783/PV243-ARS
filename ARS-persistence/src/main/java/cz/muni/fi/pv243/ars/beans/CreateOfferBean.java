@@ -30,6 +30,7 @@ public class CreateOfferBean implements Serializable {
 
     private AccommodationType accommodationType;
     private AddressBean address = new AddressBean();
+    private String name;
     private Integer price;
     private Integer capacity;
     private boolean animalFriendly;
@@ -49,6 +50,14 @@ public class CreateOfferBean implements Serializable {
 
     public void setAddress(AddressBean address) {
         this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getPrice() {
@@ -84,24 +93,16 @@ public class CreateOfferBean implements Serializable {
     }
 
     public void create() throws IOException {
-        System.out.println("Create init");
         Offer offer = new Offer();
-        System.out.println("Offer init");
-        offer.setAccommodationType(accommodationType);
-        System.out.println("Offer accommodation");
-        offer.setAddress(getAddressFromBean());
-        System.out.println("Offer address");
-        offer.setAnimalFriendly(animalFriendly);
-        System.out.println("Offer animal");
-        offer.setCapacity(capacity);
-        System.out.println("Offer capacity");
-        offer.setPrice(price);
-        System.out.println("Offer price");
-        offer.setSmokerFriendly(smokerFriendly);
-        System.out.println("Offer smoker");
-        offer.setUser(userController.matchUser());
-        System.out.println("Offer user");
-
+                offer.setAccommodationType(accommodationType);
+                offer.setAddress(getAddressFromBean());
+                offer.setAnimalFriendly(animalFriendly);
+                offer.setName(name);
+                offer.setCapacity(capacity);
+                offer.setPrice(price);
+                offer.setSmokerFriendly(smokerFriendly);
+                offer.setUser(userController.matchUser());
+        
         try {
             offerRepository.create(offer);
             FacesMessage msg = new FacesMessage("Offer created!");
@@ -112,22 +113,16 @@ public class CreateOfferBean implements Serializable {
         }
 
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect("offers.jsf");
+        context.redirect("offers.jsf?for_user=true");
     }
 
     private Address getAddressFromBean() {
         Address result = new Address();
-        System.out.println("Address init");
-        result.setPostCode(address.getPostCode());
-        System.out.println("Address ZIP");
-        result.setCountry(address.getCountry());
-        System.out.println("Address country");
-        result.setState(address.getState());
-        System.out.println("Address state");
-        result.setCity(address.getCity());
-        System.out.println("Address city");
-        result.setStreet(address.getStreet());
-        System.out.println("Address street");
-        return result;
+                result.setPostCode(address.getPostCode());
+                result.setCountry(address.getCountry());
+                result.setState(address.getState());
+                result.setCity(address.getCity());
+                result.setStreet(address.getStreet());
+                return result;
     }
 }
