@@ -116,6 +116,7 @@
                     <f:facet name="header">Details</f:facet>
                     <h:button value="Show" outcome="offerDetail">
                         <f:param name="offer_id" value="#{offer.id}"/>
+                        <f:param name="for_user" value="#{true}"/>
                     </h:button>
                 </rich:column>
             </rich:dataTable>

@@ -25,7 +25,7 @@
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
-        <f:viewParam name="forUser" value="#{offersBean.forUser}"/>
+        <f:viewParam name="for_user" value="#{offersBean.forUser}"/>
     </f:metadata>
     <ui:define name="content">
         <h1>Welcome ARS!</h1>
@@ -145,6 +145,7 @@
                             <f:facet name="header">Details</f:facet>
                             <h:button value="Show" outcome="offerDetail">
                                 <f:param name="offer_id" value="#{offer.id}"/>
+                                <f:param name="for_user" value="#{false}"/>
                             </h:button>
                         </rich:column>
                     </c:if>

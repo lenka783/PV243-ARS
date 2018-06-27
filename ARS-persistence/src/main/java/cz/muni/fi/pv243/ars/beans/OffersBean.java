@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RequestScoped
 @Named
-public class OffersBean implements Serializable {
+public class OffersBean {
 
     @Inject
     private OfferRepository offerRepository;
@@ -28,8 +28,6 @@ public class OffersBean implements Serializable {
 
     private User user;
     private List<Offer> offers;
-    private Long selectedId;
-    private Offer selectedOffer;
 
     private boolean forUser;
 
@@ -45,22 +43,6 @@ public class OffersBean implements Serializable {
         } else {
             offers = offerRepository.findAllAvailableForUser(user);
         }
-    }
-
-    public void loadOffer() {
-        selectedOffer = offerRepository.findById(selectedId);
-    }
-
-    public Offer getSelectedOffer() {
-        return selectedOffer;
-    }
-
-    public Long getSelectedId() {
-        return selectedId;
-    }
-
-    public void setSelectedId(Long selectedId) {
-        this.selectedId = selectedId;
     }
 
     public boolean isForUser() {

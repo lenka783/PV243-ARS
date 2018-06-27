@@ -132,4 +132,10 @@ public class Reservation implements Serializable {
         result = 31 * result + (getNumberOfPeople() == null ? 0 : getNumberOfPeople().hashCode());
         return result;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Reservation: id - %d, userId - %d, offerId - %d, from - %s, to - %s, people - %d",
+                id, user.getId(), offer.getId(), fromDate.toString(), toDate.toString(), numberOfPeople);
+    }
 }

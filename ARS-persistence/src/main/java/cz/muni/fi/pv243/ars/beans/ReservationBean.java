@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -19,20 +20,27 @@ import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 @RequestScoped
 @Named
-public class CreateReservationBean {
+public class ReservationBean {
 
     @Inject
     private ReservationRepository reservationRepository;
 
     @Inject
-    private UserRepository userRepository;
+    private UserController userController;
 
     @Inject
-    private UserController userController;
+    private ReservationDetailBean reservationDetailBean;
 
     private Date checkInDate;
     private Date checkOutDate;
     private Integer numberOfPeople;
+
+    @PostConstruct
+    public void reservationDatesInit() {
+        checkInDate = Date.from(reservationDetailBean.getReservation().getFromDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        checkOutDate = Date.from(reservationDetailBean.getReservation().getToDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        numberOfPeople = reservationDetailBean.getReservation().getNumberOfPeople();
+    }
 
     public Date getCheckInDate() {
         return checkInDate;
@@ -71,18 +79,43 @@ public class CreateReservationBean {
             reservation.setToDate(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             reservation.setNumberOfPeople(numberOfPeople);
             reservation.setOffer(offer);
-            reservation.setUser(userRepository.findById(userController.matchUser().getId()));
+            reservation.setUser(userController.matchUser());
             reservationRepository.create(reservation);
 
-            redirect = "reservations.jsf";
+            redirect = "reservations.jsf?for_user=true";
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 
-            redirect = "index.jsf";
+            redirect = "index.jsf?for_user=false";
         }
 
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         context.redirect(redirect);
+    }
+
+    public String updateReservation(Reservation reservation) {
+        try {
+            reservation.setFromDate(checkInDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            reservation.setToDate(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            System.out.println(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            System.out.println(reservation.toString());
+            reservationRepository.update(reservation);
+        } catch (Exception e ) {
+            FacesMessage msg = new FacesMessage("Something went wrong while updating reservation.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        return null;
+    }
+
+    public void deleteReservation(Reservation reservation) throws IOException {
+        try {
+            reservationRepository.delete(reservation);
+        } catch (Exception e) {
+            FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect("reservations.jsf");
     }
 }
