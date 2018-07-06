@@ -1,16 +1,15 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import java.util.ArrayList;
-import java.util.List;
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.model.Address;
+import cz.muni.fi.pv243.ars.repository.AddressRepository;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
-
-import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistence.model.Address;
-import cz.muni.fi.pv243.ars.repository.AddressRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 @ManagedBean(name = "offerFilterAutocomplete")
 @RequestScoped
@@ -60,3 +59,4 @@ public class OfferFilterAutocompleteBean {
         this.accomodationOptions = accomodationOptions;
     }
 }
+

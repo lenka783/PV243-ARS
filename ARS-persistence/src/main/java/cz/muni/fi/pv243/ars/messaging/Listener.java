@@ -18,11 +18,12 @@
 //        try {
 //            String json = message.getBody(String.class);
 //
-//            System.out.println("Received message: " + json);
+//            log.info("Received message: " + json);
 //
 //
 //        } catch (JMSException e) {
 //            e.printStackTrace();
 //        }
 //    }
+//
 //}

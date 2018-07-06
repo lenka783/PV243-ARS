@@ -1,18 +1,21 @@
 package cz.muni.fi.pv243.ars.persistence.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
-import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
+import cz.muni.fi.pv243.ars.persistence.validation.AddressConstraint;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Created by jsmolar on 5/19/18.
@@ -63,9 +66,6 @@ public class Offer implements Serializable {
     @OneToMany(mappedBy = "offer")
     @PrimaryKeyJoinColumn
     private Set<Reservation> reservations = new HashSet<>();
-
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "offer", fetch = FetchType.EAGER)
-    private Set<UserComment> userComments = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -155,15 +155,6 @@ public class Offer implements Serializable {
     public Offer setPrice(Integer price) {
         this.price = price;
         return this;
-    }
-
-    public Offer addUserComment(UserComment userComment) {
-        userComments.add(userComment);
-        return this;
-    }
-
-    public void removeUserComment(UserComment userComment) {
-        userComments.remove(userComment);
     }
 
     @Override

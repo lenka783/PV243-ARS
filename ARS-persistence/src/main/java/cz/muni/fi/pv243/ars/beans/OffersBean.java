@@ -1,9 +1,9 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import cz.muni.fi.pv243.ars.controller.UserController;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.User;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
+import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -22,7 +22,7 @@ public class OffersBean {
     private OfferRepository offerRepository;
 
     @Inject
-    private UserController userController;
+    private UserRepository userRepository;
 
     private User user;
     private List<Offer> availableOffers;

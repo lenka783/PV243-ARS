@@ -24,18 +24,25 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/templates/default.xhtml">
-    <ui:define name="content">
-        <h1>Welcome ARS!</h1>
-        <h2>ARS - Accommodation Reservation System!</h2>
+<ui:define name="content">
+        <h1>Welcome to ARS!</h1>
 
         <h:form id="menu">
-            <h:commandButton value="Profile" action="/userProfile.jsf?faces-redirect=true"/>
+            <h2>ARS - Accommodation Reservation System!</h2>
+
             <c:if test="#{userController.loggedIn}">
-                <h:commandButton value="Log Out" action="#{userController.logOut}"/>
+                <h:button value="Profile" outcome="userProfile"/>
             </c:if>
-            <c:if test="#{userController.loggedIn eq false}">
-                <h:commandButton value="Log In" action="#{userController.logIn}"/>
-            </c:if>
+            <h:panelGrid columns="2" columnClasses="titleCell">
+                <c:if test="#{userController.loggedIn eq false}">
+                    <f:param name="user_id" value="#{null}"/>
+                    <h:commandButton value="Log In" action="#{userController.logIn}"/>
+                </c:if>
+                <c:if test="#{userController.loggedIn}">
+                    <f:param name="user_id" value="#{userController.id}"/>
+                    <h:commandButton value="Log Out" action="#{userController.logOut}"/>
+                </c:if>
+            </h:panelGrid>
         </h:form>
 
         <c:if test="#{userController.tenant}">
@@ -92,7 +99,7 @@
                             <h:panelGroup>
                                 <h:outputText value="Price"/>
                                 <br/>
-                                <h:outputText value="Max: "/>
+                                <h:outputText value="Max:"/>
                                 <h:inputText value="#{offerFilterBean.priceFilter}" maxValue="500000">
                                     <a4j:ajax render="offersTable@body" event="blur"/>
                                 </h:inputText>
@@ -106,13 +113,11 @@
                             <h:panelGroup>
                                 <h:outputText value="Capacity"/>
                                 <br/>
-                                <h:panelGrid columns="2">
-                                    <h:outputText value="Min: "/>
-                                    <rich:inputNumberSpinner value="#{offerFilterBean.capacityFilter}" minValue="1" maxValue="20"
-                                                             step="1">
-                                        <a4j:ajax render="offersTable@body" event="change"/>
-                                    </rich:inputNumberSpinner>
-                                </h:panelGrid>
+                                <h:outputText value="Min:"/>
+                                <rich:inputNumberSpinner value="#{offerFilterBean.capacityFilter}" minValue="1" maxValue="20"
+                                                         step="1">
+                                    <a4j:ajax render="offersTable@body" event="change"/>
+                                </rich:inputNumberSpinner>
                             </h:panelGroup>
                         </f:facet>
                         <h:outputText value="#{offer.capacity}"/>

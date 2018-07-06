@@ -1,9 +1,13 @@
 package cz.muni.fi.pv243.ars.controller;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -11,6 +15,7 @@ import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import cz.muni.fi.pv243.ars.beans.UserInfoBean;
 import cz.muni.fi.pv243.ars.persistence.enumeration.UserRole;
 import cz.muni.fi.pv243.ars.persistence.model.User;
 import cz.muni.fi.pv243.ars.repository.UserRepository;
@@ -21,7 +26,7 @@ import org.keycloak.KeycloakPrincipal;
  */
 @Named
 @RequestScoped
-public class UserController {
+public class UserController{
 
     @Inject
     private Logger log;
@@ -32,15 +37,34 @@ public class UserController {
     @Inject
     private HttpServletRequest request;
 
+    private UserInfoBean currentUser;
+
     public boolean isLoggedIn() {
         return request.getUserPrincipal() != null;
+    }
+
+    public boolean isHost() {
+        if (!isLoggedIn()) {
+            return false;
+        }
+        User user = matchUser();
+        return user.getRoles().contains(UserRole.HOST);
+    }
+
+    public boolean isTenant() {
+        if (!isLoggedIn()) {
+            return true;
+        }
+        User user = matchUser();
+        System.out.println("User is tenant: " + user.getRoles().contains(UserRole.TENANT));
+        return user.getRoles().contains(UserRole.TENANT);
     }
 
     public void logOut() throws ServletException, IOException {
         request.logout();
 
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect(request.getContextPath());
+        context.redirect("index.jsf");
     }
 
     public void logIn() throws IOException {
@@ -58,28 +82,39 @@ public class UserController {
         log.info("Principal: " + keycloakPrincipal);
         log.info("Principal name: " + keycloakPrincipal.getName());
 
-        User matchedUser = userRepository.findByKCid(keycloakPrincipal.getName());
-        log.info("User and KC Principal are matched. User id: " + matchedUser.getId());
+        User user = userRepository.findByKCid(keycloakPrincipal.getName());
+        log.info("User and KC Principal are matched. User email: " + user.getEmail());
 
-        return matchedUser;
+        return user;
     }
 
-    public boolean isHost() {
-        if (!isLoggedIn()) {
-            return false;
-        }
+    public String getUserName() {
         User user = matchUser();
 
-        return user.getRoles().contains(UserRole.HOST);
+        return user.getName();
     }
 
-    public boolean isTenant() {
-        if (!isLoggedIn()) {
-            return true;
-        }
+    public String getUserSurname() {
         User user = matchUser();
 
-        return user.getRoles().contains(UserRole.TENANT);
+        return user.getSurname();
     }
 
+    public String getUserEmail() {
+        User user = matchUser();
+
+        return user.getEmail();
+    }
+
+    public Date getUserDateOfBirth() {
+        User user = matchUser();
+
+        return Date.from(user.getDateOfBirth().atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
+    public Long getId() {
+        User user = matchUser();
+
+        return user == null ? null : user.getId();
+    }
 }
