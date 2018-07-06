@@ -1,34 +1,30 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import java.io.IOException;
-import java.io.Serializable;
-
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import cz.muni.fi.pv243.ars.controller.UserController;
 import cz.muni.fi.pv243.ars.persistence.enumeration.AccommodationType;
 import cz.muni.fi.pv243.ars.persistence.model.Address;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
+import cz.muni.fi.pv243.ars.repository.UserRepository;
+
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 
 @Named
-@RequestScoped
+@SessionScoped
 public class CreateOfferBean implements Serializable {
 
     @Inject
     private OfferRepository offerRepository;
 
     @Inject
-    private UserController userController;
+    private UserRepository userRepository;
 
     private AccommodationType accommodationType;
-    private AddressBean address = new AddressBean();
-    private String name;
+    private Address address = new Address();
     private Integer price;
     private Integer capacity;
     private boolean animalFriendly;
@@ -42,20 +38,12 @@ public class CreateOfferBean implements Serializable {
         this.accommodationType = accommodationType;
     }
 
-    public AddressBean getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(AddressBean address) {
+    public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Integer getPrice() {
@@ -90,37 +78,23 @@ public class CreateOfferBean implements Serializable {
         this.smokerFriendly = smokerFriendly;
     }
 
-    public void create() throws IOException {
+    public String create() {
         Offer offer = new Offer();
-                offer.setAccommodationType(accommodationType);
-                offer.setAddress(getAddressFromBean());
-                offer.setAnimalFriendly(animalFriendly);
-                offer.setName(name);
-                offer.setCapacity(capacity);
-                offer.setPrice(price);
-                offer.setSmokerFriendly(smokerFriendly);
-                offer.setUser(userController.matchUser());
-        
+        offer.setAccommodationType(accommodationType);
+        offer.setAddress(address);
+        offer.setAnimalFriendly(animalFriendly);
+        offer.setCapacity(capacity);
+        offer.setPrice(price);
+        offer.setSmokerFriendly(smokerFriendly);
+        offer.setUser(userRepository.findById(0l));
+
         try {
             offerRepository.create(offer);
-            FacesMessage msg = new FacesMessage("Offer created!");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
         } catch (Exception e ) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            return "offers";
         }
-
-        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-        context.redirect("offers.jsf?for_user=true");
-    }
-
-    private Address getAddressFromBean() {
-        Address result = new Address();
-                result.setPostCode(address.getPostCode());
-                result.setCountry(address.getCountry());
-                result.setState(address.getState());
-                result.setCity(address.getCity());
-                result.setStreet(address.getStreet());
-                return result;
+        return "offers";
     }
 }

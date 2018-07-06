@@ -1,9 +1,9 @@
 package cz.muni.fi.pv243.ars.beans;
 
-import cz.muni.fi.pv243.ars.controller.UserController;
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.repository.ReservationRepository;
+import cz.muni.fi.pv243.ars.repository.UserRepository;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -21,9 +21,8 @@ public class CreateReservationBean {
 
     @Inject
     private ReservationRepository reservationRepository;
-
     @Inject
-    private UserController userController;
+    private UserRepository userRepository;
 
     private Date checkInDate;
     private Date checkOutDate;
@@ -53,32 +52,33 @@ public class CreateReservationBean {
         this.numberOfPeople = numberOfPeople;
     }
 
-    public void create(Offer offer) throws IOException {
-        if(!userController.isLoggedIn() ) {
-            userController.logIn();
-        }
-
+    public void create(Offer offer, Long userId) throws IOException {
         String redirect;
-
         try {
+//            System.out.println("reservation init");
             Reservation reservation = new Reservation();
+//            System.out.println("reservation new");
             reservation.setFromDate(checkInDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+//            System.out.println("reservation fromDate");
             reservation.setToDate(checkOutDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+//            System.out.println("reservation toDate");
             reservation.setNumberOfPeople(numberOfPeople);
+//            System.out.println("reservation people");
             reservation.setOffer(offer);
-            reservation.setUser(userController.matchUser());
+//            System.out.println("reservation offer, userId: " + userId);
+            reservation.setUser(userRepository.findById(userId));
+//            System.out.println("reservation user");
             reservationRepository.create(reservation);
+//            System.out.println("reservation create");
 
-            redirect = "reservations.jsf?for_user=true";
+            redirect = "reservations.jsf?reservations_user_id=" + userId;
         } catch (Exception e) {
             FacesMessage msg = new FacesMessage("Something went wrong, please try again later.");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-
-            redirect = "index.jsf?for_user=false";
+            redirect = "index.jsf";
         }
 
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         context.redirect(redirect);
     }
-
 }

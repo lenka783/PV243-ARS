@@ -4,11 +4,13 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 template="/WEB-INF/templates/default.xhtml">
     <ui:define name="content">
-        <h:outputLabel value="Wellcome #{userInfoBean.user.name} #{userInfoBean.user.surname}"/>
+        <h:outputLabel value="Wellcome #{userController.userName}"/>
         <h:form>
-            <h:commandButton value="Back home" action="/index.jsf">
-                <f:param name="forUser" value="#{false}"/>
-            </h:commandButton>
+            <h:button value="Back home" outcome="index">
+                <f:param name="for_user" value="#{false}"/>
+                <f:param name="user_id" value="#{userController.id}"/>
+            </h:button>
+            <!--<h:link value="Back" outcome="home"/>-->
         </h:form>
     </ui:define>
 </ui:composition>

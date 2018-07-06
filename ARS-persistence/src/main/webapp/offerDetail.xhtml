@@ -4,101 +4,92 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
-                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:o="http://omnifaces.org/ui"
                 template="/WEB-INF/templates/default.xhtml">
     <f:metadata>
-        <f:viewParam name="offer_id" value="#{offerDetailBean.id}"/>
-        <f:viewParam name="offer_id" value="#{userCommentsListProducer.offerId}"/>
-        <f:viewParam name="for_user" value="#{offersBean.forUser}"/>
-        <f:viewAction action="#{userCommentsListProducer.findAllUserCommentsForOffer}"/>
-        <f:viewAction action="#{offerDetailBean.loadOffer}"/>
+        <f:viewParam name="offer_id" value="#{offersBean.selectedId}"/>
+        <f:viewParam name="current_user_id" value="#{offersBean.currentUserId}"/>
+        <f:viewAction action="#{offersBean.loadOffer}"/>
     </f:metadata>
     <ui:define name="content">
 
         <h:form id="form">
             <h:panelGrid columns="2">
                 <h:outputText value="ID:"/>
-                <h:outputText value="#{offerDetailBean.offer.id}"/>
+                <h:outputText value="#{offersBean.selectedOffer.id}"/>
                 <h:outputText value="Type:"/>
-                <h:outputText value="#{offerDetailBean.offer.accommodationType}"/>
+                <h:outputText value="#{offersBean.selectedOffer.accommodationType}"/>
                 <h:outputText value="Email:"/>
-                <h:outputText value="#{offerDetailBean.offer.capacity}"/>
+                <h:outputText value="#{offersBean.selectedOffer.capacity}"/>
                 <h:outputText value="Animal friendly:"/>
-                <h:outputText value="#{offerDetailBean.offer.animalFriendly}"/>
+                <h:outputText value="#{offersBean.selectedOffer.animalFriendly}"/>
                 <h:outputText value="Smoker friendly:"/>
-                <h:outputText value="#{offerDetailBean.offer.smokerFriendly}"/>
+                <h:outputText value="#{offersBean.selectedOffer.smokerFriendly}"/>
             </h:panelGrid>
-            <c:if test="#{offersBean.forUser eq false}">
-                <table>
-                    <tr>
-                        <td>Set dates for reservation:</td>
-                    </tr>
-                    <tr>
-                        <td><h:outputLabel value=" Check in date : "/></td>
-                        <td>
-                            <a4j:outputPanel layout="block">
-                                <rich:calendar id="checkIn"
-                                               value="#{createReservationBean.checkInDate}" locale="#{calendarBean.locale}"
-                                               popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}"
-                                               required="true" requiredMessage="Date of birth must not be empty">
-                                </rich:calendar>
-                            </a4j:outputPanel>
-                        </td>
-                        <td><h:message for="checkIn" style="color: red"/></td>
-                    </tr>
-                    <tr>
-                        <td><h:outputLabel value=" Check out date : "/></td>
-                        <td>
-                            <a4j:outputPanel layout="block">
-                                <rich:calendar id="checkOut"
-                                               value="#{createReservationBean.checkOutDate}" locale="#{calendarBean.locale}"
-                                               popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}"
-                                               required="true" requiredMessage="Date of birth must not be empty">
-                                </rich:calendar>
-                            </a4j:outputPanel>
-                        </td>
-                        <td><h:message for="checkOut" style="color: red"/></td>
-                    </tr>
-                    <tr>
-                        <td><h:outputLabel value=" Number of tenants : "/></td>
-                        <td>
-                            <rich:inputNumberSpinner id="numberOfTenants" step="1"
-                                                     value="#{createReservationBean.numberOfPeople}"
-                                                     maxValue="#{offerDetailBean.offer.capacity}"
-                                                     minValue="1" required="true"
-                                                     requiredMessage="Number of people must be set">
-                            </rich:inputNumberSpinner>
-                        </td>
-                        <td><h:message for="numberOfTenants" style="color: red"/></td>
-                    </tr>
-                    <tr>
-                        <td><h:commandButton value="Create reservation"
-                                             action="#{createReservationBean.create(offerDetailBean.offer)}">
-                        </h:commandButton></td>
-                    </tr>
-                </table>
-            </c:if>
-            <h:panelGroup>
-                <c:if test="#{offersBean.forUser eq false}">
-                    <h:button value="Back" outcome="index.jsf?for_user=false"/>
-                </c:if>
-                <c:if test="#{offersBean.forUser}">
-                    <h:button value="Back" outcome="offers.jsf?for_user=true"/>
-                </c:if>
-            </h:panelGroup>
+            <table>
+                <tr>
+                    <td>Set dates for reservation: </td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Check in date : "/></td>
+                    <td>
+                        <a4j:outputPanel layout="block">
+                            <rich:calendar id="checkIn"
+                                           value="#{createReservationBean.checkInDate}" locale="#{calendarBean.locale}"
+                                           popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}"
+                                           required="true" requiredMessage="Date of birth must not be empty">
+                            </rich:calendar>
+                        </a4j:outputPanel>
+                    </td>
+                    <td><h:message for="checkIn" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Check out date : "/></td>
+                    <td>
+                        <a4j:outputPanel layout="block">
+                            <rich:calendar id="checkOut"
+                                           value="#{createReservationBean.checkOutDate}" locale="#{calendarBean.locale}"
+                                           popup="#{calendarBean.popup}" datePattern="#{calendarBean.pattern}"
+                                           required="true" requiredMessage="Date of birth must not be empty">
+                            </rich:calendar>
+                        </a4j:outputPanel>
+                    </td>
+                    <td><h:message for="checkOut" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:outputLabel value=" Number of tenants : "/></td>
+                    <td>
+                        <rich:inputNumberSpinner id="numberOfTenants" step="1"
+                                                value="#{createReservationBean.numberOfPeople}"
+                                                maxValue="#{offersBean.selectedOffer.capacity}"
+                                                minValue="1" >
+                        </rich:inputNumberSpinner>
+                    </td>
+                    <td><h:message for="numberOfTenants" style="color: red"/></td>
+                </tr>
+                <tr>
+                    <td><h:commandButton value="Create reservation"
+                                         action="#{createReservationBean.create(offersBean.selectedOffer, offersBean.currentUserId)}">
+
+                        <f:param name="reservations_user_id" value="#{offersBean.currentUserId}"/>
+                    </h:commandButton></td>
+                </tr>
+                <tr>
+                    <td><h:button value="Back" outcome="index"/></td>
+                </tr>
+            </table>
         </h:form>
 
         <h:outputScript library="javascript" name="jquery-2.0.3.min.js" target="head"/>
         <h:outputScript library="javascript" name="websocket.js" target="head"/>
-        <h:panelGrid id="connect-container" style="width: 20%">
-            <h:outputLabel value="User comments about offer"/>
-            <h:inputTextarea id="commentsArea" value="#{userCommentsListProducer.userComments}" readonly="true" style="width:100%; align-content: flex-start" rows="20">
-            </h:inputTextarea>
-            <h:inputText id="comment" type="text" size="40" style="width: 100%"/>
-            <h:commandButton id="send" onclick="sendWebSocketMessage()" value="Send">
-                <a4j:ajax render="comment"/>
-            </h:commandButton>
-        </h:panelGrid>
+        <rich:panel header="WebSocket: Say Hello">
+            <h:panelGrid id="connect-container" style="width: 20%">
+                <h:outputLabel value="User comments about offer"/>
+                <h:inputTextarea id="commentsArea" readonly="true" style="width:100%; align-content: flex-start" rows="20"/>
+                <h:inputText id="comment" type="text" size="40" style="width: 100%"/>
+                <h:commandButton id="send" onclick="sendWebSocketMessage()" value="Send"/>
+            </h:panelGrid>
+        </rich:panel>
 
     </ui:define>
 </ui:composition>

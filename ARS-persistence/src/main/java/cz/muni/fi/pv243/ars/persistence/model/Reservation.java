@@ -4,16 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import cz.muni.fi.pv243.ars.persistence.validation.ReservationDateRangeConstraint;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
+
+import javax.faces.annotation.ManagedProperty;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Created by jsmolar on 5/19/18.
  */
 @Entity
 @ReservationDateRangeConstraint
+//@XmlRootElement
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Reservation implements Serializable {
     private static final long serialVersionUID = 1l;
@@ -127,11 +131,5 @@ public class Reservation implements Serializable {
         result = 31 * result + (getToDate() == null ? 0 : getToDate().hashCode());
         result = 31 * result + (getNumberOfPeople() == null ? 0 : getNumberOfPeople().hashCode());
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Reservation: id - %d, userId - %d, offerId - %d, from - %s, to - %s, people - %d",
-                id, user.getId(), offer.getId(), fromDate.toString(), toDate.toString(), numberOfPeople);
     }
 }

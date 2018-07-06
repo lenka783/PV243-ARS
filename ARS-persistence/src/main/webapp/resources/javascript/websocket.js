@@ -3,7 +3,7 @@ $(document).ready(openWebSocket);
 
 function openWebSocket() {
     var wsProtocol = window.location.protocol == "https:" ? "wss" : "ws";
-    var wsURI = wsProtocol + '://' + window.location.host + '/ARS-persistence/comments/' + offerId();
+    var wsURI = wsProtocol + '://' + window.location.host + '/ARS-persistence/comments/' + getUrlVars()['offer_id'];
     websocket = new WebSocket(wsURI);
     
     websocket.onmessage = function (event) {
@@ -41,10 +41,6 @@ function sendWebSocketMessage() {
 
 function addComment(comment) {
     document.getElementById('commentsArea').value += comment + '\n';
-}
-
-function offerId() {
-    return getUrlVars()['offer_id'];
 }
 
 function getUrlVars() {
