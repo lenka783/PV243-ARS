@@ -25,9 +25,9 @@ INSERT INTO Offer (id,name,capacity,accommodationType,isAnimalFriendly,isSmokerF
 INSERT INTO Offer (id,name,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (303,'Best price in town',2,'ROOM',true,false,107,200,350);
 INSERT INTO Offer (id,name,capacity,accommodationType,isAnimalFriendly,isSmokerFriendly,address_id,user_id,price) VALUES (304,'Student home',1,'ROOM',false,false,108,202,300);
 
-INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (418,'2018-07-31','2018-08-12',8,302,200);
-INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (419,'2018-06-30','2018-07-25',1,304,201);
-INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (420,'2018-04-30','2018-05-25',4,302,200);
-INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (421,'2018-09-20','2018-09-25',1,302,200);
+INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (418,'2018-07-31','2018-08-12',8,302,201);
+INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (419,'2018-06-30','2018-07-25',1,304,200);
+INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (420,'2018-04-30','2018-05-25',4,302,201);
+INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (421,'2018-09-20','2018-09-25',1,304,200);
 INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (422,'2018-09-30','2018-10-25',1,300,201);
 INSERT INTO Reservation (id,fromDate,toDate,numberOfPeople,offer_id,user_id) VALUES (423,'2018-04-30','2018-05-25',2,301,201);

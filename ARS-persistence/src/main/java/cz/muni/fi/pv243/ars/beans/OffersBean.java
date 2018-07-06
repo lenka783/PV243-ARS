@@ -25,29 +25,21 @@ public class OffersBean {
     private UserController userController;
 
     private User user;
-    private List<Offer> offers;
+    private List<Offer> availableOffers;
+    private List<Offer> usersOffers;
 
-    private boolean forUser;
+    public List<Offer> getAvailableOffers() {
+        return availableOffers;
+    }
 
-    public List<Offer> getOffers() {
-        return offers;
+    public List<Offer> getUsersOffers() {
+        return usersOffers;
     }
 
     @PostConstruct
     public void loadOffers() {
         user = userController.matchUser();
-        if (forUser) {
-            offers = offerRepository.findAllForUser(user);
-        } else {
-            offers = offerRepository.findAllAvailableForUser(user);
-        }
-    }
-
-    public boolean isForUser() {
-        return forUser;
-    }
-
-    public void setForUser(boolean forUser) {
-        this.forUser = forUser;
+        usersOffers = offerRepository.findAllForUser(user);
+        availableOffers = offerRepository.findAllAvailableForUser(user);
     }
 }

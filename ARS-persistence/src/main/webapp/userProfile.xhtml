@@ -33,9 +33,7 @@
 
                 <c:if test="#{userController.host}">
                     <tr>
-                        <td><h:button value="Check my offers" outcome="offers">
-                            <f:param name="for_user" value="#{true}"/>
-                        </h:button></td>
+                        <td><h:button value="Check my offers" outcome="offers"/></td>
                     </tr>
                 </c:if>
                 <c:if test="#{userController.tenant}">

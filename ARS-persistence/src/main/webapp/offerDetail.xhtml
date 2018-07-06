@@ -9,7 +9,6 @@
     <f:metadata>
         <f:viewParam name="offer_id" value="#{offerDetailBean.id}"/>
         <f:viewParam name="offer_id" value="#{userCommentsListProducer.offerId}"/>
-        <f:viewParam name="for_user" value="#{offersBean.forUser}"/>
         <f:viewAction action="#{userCommentsListProducer.findAllUserCommentsForOffer}"/>
         <f:viewAction action="#{offerDetailBean.loadOffer}"/>
     </f:metadata>
@@ -21,14 +20,14 @@
                 <h:outputText value="#{offerDetailBean.offer.id}"/>
                 <h:outputText value="Type:"/>
                 <h:outputText value="#{offerDetailBean.offer.accommodationType}"/>
-                <h:outputText value="Email:"/>
+                <h:outputText value="Capacity:"/>
                 <h:outputText value="#{offerDetailBean.offer.capacity}"/>
                 <h:outputText value="Animal friendly:"/>
                 <h:outputText value="#{offerDetailBean.offer.animalFriendly}"/>
                 <h:outputText value="Smoker friendly:"/>
                 <h:outputText value="#{offerDetailBean.offer.smokerFriendly}"/>
             </h:panelGrid>
-            <c:if test="#{offersBean.forUser eq false}">
+            <c:if test="#{userController.loggedIn}">
                 <table>
                     <tr>
                         <td>Set dates for reservation:</td>
@@ -79,12 +78,7 @@
                 </table>
             </c:if>
             <h:panelGroup>
-                <c:if test="#{offersBean.forUser eq false}">
-                    <h:button value="Back" outcome="index.jsf?for_user=false"/>
-                </c:if>
-                <c:if test="#{offersBean.forUser}">
-                    <h:button value="Back" outcome="offers.jsf?for_user=true"/>
-                </c:if>
+                    <h:button value="Back" outcome="index.jsf"/>
             </h:panelGroup>
         </h:form>
 

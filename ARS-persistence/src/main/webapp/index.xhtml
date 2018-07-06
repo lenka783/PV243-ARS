@@ -24,9 +24,6 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/templates/default.xhtml">
-    <f:metadata>
-        <f:viewParam name="for_user" value="#{offersBean.forUser}"/>
-    </f:metadata>
     <ui:define name="content">
         <h1>Welcome ARS!</h1>
         <h2>ARS - Accommodation Reservation System!</h2>
@@ -45,7 +42,7 @@
             <h2>Latest offers for you!</h2>
 
             <h:form>
-                <rich:dataTable id="offersTable" value="#{offersBean.offers}" var="offer">
+                <rich:dataTable id="offersTable" value="#{offersBean.availableOffers}" var="offer">
                     <f:facet name="noData">
                         There are not any available offer at this moment. Give it a shot later!
                     </f:facet>
@@ -147,7 +144,6 @@
                             <f:facet name="header">Details</f:facet>
                             <h:button value="Show" outcome="offerDetail">
                                 <f:param name="offer_id" value="#{offer.id}"/>
-                                <f:param name="for_user" value="#{false}"/>
                             </h:button>
                         </rich:column>
                     </c:if>

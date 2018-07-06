@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                template="/WEB-INF/templates/default.xhtml">
+    <f:metadata>
+        <f:viewParam name="offer_id" value="#{offerDetailBean.id}"/>
+        <f:viewParam name="offer_id" value="#{userCommentsListProducer.offerId}"/>
+        <f:viewAction action="#{userCommentsListProducer.findAllUserCommentsForOffer}"/>
+        <f:viewAction action="#{offerDetailBean.loadOffer}"/>
+    </f:metadata>
+    <ui:define name="content">
+
+        <h:form id="form">
+            <h:panelGrid columns="2">
+                <h:outputText value="ID:"/>
+                <h:outputText value="#{offerDetailBean.offer.id}"/>
+                <h:outputText value="Type:"/>
+                <h:outputText value="#{offerDetailBean.offer.accommodationType}"/>
+                <h:outputText value="Location"/>
+                <h:outputText value="#{offerDetailBean.offer.address.city}"/>
+                <h:outputText value="Capacity:"/>
+                <h:outputText value="#{offerDetailBean.offer.capacity}"/>
+                <h:outputText value="Animal friendly:"/>
+                <h:outputText value="#{offerDetailBean.offer.animalFriendly}"/>
+                <h:outputText value="Smoker friendly:"/>
+                <h:outputText value="#{offerDetailBean.offer.smokerFriendly}"/>
+            </h:panelGrid>
+            <h:panelGroup>
+                <h:button value="Back" outcome="offers.jsf"/>
+            </h:panelGroup>
+        </h:form>
+
+        <h:form>
+            <h2>Reservations for your offer:</h2>
+            <rich:messages/>
+            <rich:dataTable id="reservationsTable" value="#{offerDetailBean.reservations}" var="reservation">
+                <f:facet name="noData">
+                    No reservations for your offer yet!
+                </f:facet>
+                <rich:column>
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{reservation.id}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Offer id</f:facet>
+                    <h:outputText value="#{reservation.offer.id}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Check-in</f:facet>
+                    <h:outputText value="#{reservation.fromDate}"/>
+                </rich:column>
+                <rich:column>
+                    <f:facet name="header">Check-out</f:facet>
+                    <h:outputText value="#{reservation.toDate}"/>
+                </rich:column>
+            </rich:dataTable>
+        </h:form>
+
+        <h:outputScript library="javascript" name="jquery-2.0.3.min.js" target="head"/>
+        <h:outputScript library="javascript" name="websocket.js" target="head"/>
+        <h:panelGrid id="connect-container" style="width: 20%">
+            <h:outputLabel value="User comments about my offer"/>
+            <h:inputTextarea id="commentsArea"
+                             value="#{userCommentsListProducer.userComments}"
+                             readonly="true"
+                             style="width:100%; align-content: flex-start"
+                             rows="20">
+            </h:inputTextarea>
+        </h:panelGrid>
+
+    </ui:define>
+</ui:composition>
