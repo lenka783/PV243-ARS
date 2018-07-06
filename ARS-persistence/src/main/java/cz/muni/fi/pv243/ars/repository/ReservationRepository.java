@@ -62,8 +62,15 @@ public class ReservationRepository implements Serializable {
 
     public List<Reservation> findAllForUser(User user) {
         return entityManager
-                .createQuery("select r from Reservation r where r.user.id = :user", Reservation.class)
+                .createQuery("select r from Reservation r where r.user.id = :user order by r.fromDate", Reservation.class)
                 .setParameter("user", user.getId())
+                .getResultList();
+    }
+
+    public List<Reservation> findAllForOffer(Offer offer) {
+        return entityManager
+                .createQuery("select r from Reservation r where r.offer.id = :offer order by r.fromDate", Reservation.class)
+                .setParameter("offer", offer.getId())
                 .getResultList();
     }
 }

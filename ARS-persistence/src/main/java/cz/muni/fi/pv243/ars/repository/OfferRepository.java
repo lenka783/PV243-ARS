@@ -66,6 +66,9 @@ public class OfferRepository implements Serializable {
     }
 
     public List<Offer> findAllForUser(User user) {
+        if (user == null || user.getId() == null) {
+            return findAll();
+        }
         List<Offer> offers = entityManager
                 .createQuery("select o from Offer o where o.user.id = :user_id", Offer.class)
                 .setParameter("user_id", user.getId())

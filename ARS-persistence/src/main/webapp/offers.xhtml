@@ -6,16 +6,11 @@
                 xmlns:a4j="http://richfaces.org/a4j"
                 xmlns:rich="http://richfaces.org/rich"
                 template="/WEB-INF/templates/default.xhtml">
-    <f:metadata>
-        <f:viewParam name="offers_user_id" value="#{offersBean.currentUserId}"/>
-        <f:viewParam name="for_user" value="#{offersBean.forUser}"/>
-        <f:viewAction action="#{offersBean.loadOffers}"/>
-    </f:metadata>
     <ui:define name="content">
         <h2>Your offers</h2>
 
         <h:form>
-            <rich:dataTable id="offersTable" value="#{offersBean.offers}" var="offer">
+            <rich:dataTable id="useroOfersTable" value="#{offersBean.usersOffers}" var="offer">
                 <f:facet name="noData">
                     There are not any available offer at this moment. Give it a shot later!
                 </f:facet>
@@ -112,10 +107,9 @@
                     <h:outputText value="#{offer.animalFriendly}"/>
                 </rich:column>
                 <rich:column>
-                    <f:facet name="header">Details</f:facet>
-                    <h:button value="Show" outcome="offerDetail">
+                    <f:facet name="header">Edit</f:facet>
+                    <h:button value="Edit" outcome="editOffer">
                         <f:param name="offer_id" value="#{offer.id}"/>
-                        <f:param name="current_user_id" value="#{userController.id}"/>
                     </h:button>
                 </rich:column>
             </rich:dataTable>

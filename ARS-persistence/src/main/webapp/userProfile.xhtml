@@ -35,25 +35,19 @@
                         <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>f
                     </h:outputText></td>
                 </tr>
-                <c:if test="#{userController.host}"><tr>
-                    <td><h:button value="Check my offers" outcome="offers">
-                        <f:param name="offers_user_id" value="#{userController.id}"/>
-                        <f:param name="for_user" value="#{true}"/>
-                    </h:button></td>
-                </tr></c:if>
-                <c:if test="#{userController.tenant}"><tr>
-                    <td><h:button value="Check my reservations" outcome="reservations">
-                        <f:param name="reservations_user_id" value="#{userController.id}"/>
-                    </h:button></td>
-                </tr></c:if>
-                <tr>
-                    <td><h:button value="Change password" outcome="home"/></td>
-                </tr>
-                <tr>
-                    <td><h:button value="Back" outcome="index">
-                        <f:param name="for_user" value="#{false}"/>
-                    </h:button></td>
-                </tr>
+
+                <c:if test="#{userController.host}">
+                    <tr>
+                        <td><h:button value="Check my offers" outcome="offers"/></td>
+                    </tr>
+                </c:if>
+                <c:if test="#{userController.tenant}">
+                    <tr>
+                        <td>
+                            <h:button value="Check my reservations" outcome="reservations" />
+                        </td>
+                    </tr>
+                </c:if>
             </table>
         </h:form>
     </ui:define>
