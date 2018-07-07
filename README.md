@@ -14,7 +14,7 @@ Edit link to docs: https://docs.google.com/forms/d/e/1FAIpQLSfDoOxwAgQix7tEWuSMG
 
 ### Start the Keycloak Server
 
-    KEYCLOAK_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100
+    $KEYCLOAK_HOME/bin/standalone.sh -Djboss.socket.binding.port-offset=100
 
 The URL for Keycloak server will be http://localhost:8180
 
@@ -30,6 +30,6 @@ EAP_HOME/bin/standalone.sh
 ````
 - To install the Keycloak adapter run following commands:
 ````
-WILDFLY_HOME/bin/jboss-cli.sh -c --file=WILDFLY_HOME/bin/adapter-install.cli
-WILDFLY_HOME/bin/jboss-cli.sh -c --command=:reload
+$WILDFLY_HOME/bin/jboss-cli.sh -c --file=$WILDFLY_HOME/bin/adapter-install.cli
+$WILDFLY_HOME/bin/jboss-cli.sh -c --command=:reload
 ````

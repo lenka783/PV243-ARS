@@ -1,12 +1,15 @@
 package cz.muni.fi.pv243.ars.beans;
 
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
+import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.repository.OfferRepository;
+import cz.muni.fi.pv243.ars.repository.ReservationRepository;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 
 @SessionScoped
 @Named
@@ -15,9 +18,11 @@ public class OfferDetailBean implements Serializable {
     @Inject
     private OfferRepository offerRepository;
 
+    @Inject
+    private ReservationRepository reservationRepository;
+
     private Long id;
     private Offer offer;
-    private boolean forUser;
 
     public void loadOffer() {
         offer = offerRepository.findById(id);
@@ -35,11 +40,7 @@ public class OfferDetailBean implements Serializable {
         this.id = id;
     }
 
-    public boolean isForUser() {
-        return forUser;
-    }
-
-    public void setForUser(boolean forUser) {
-        this.forUser = forUser;
+    public List<Reservation> getReservations() {
+        return reservationRepository.findAllForOffer(offer);
     }
 }

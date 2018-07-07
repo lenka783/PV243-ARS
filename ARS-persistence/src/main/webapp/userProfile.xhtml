@@ -4,56 +4,45 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:c="http://java.sun.com/jsp/jstl/core"
                 template="/WEB-INF/templates/default.xhtml">
-    <f:metadata>
-        <f:viewAction action="#{offersBean.loadOffers}"/>
-    </f:metadata>
     <ui:define name="content">
         <h2>User informations</h2>
         <h:form>
             <table frame="box">
                 <tr>
-                    <td><h:outputLabel value=" Id: " /></td>
-                    <td><h:outputText id="id" value="#{userController.id}"/></td>
+                    <td><h:outputLabel value=" Id: "/></td>
+                    <td><h:outputText id="id" value="#{userInfoBean.user.id}"/></td>
                 </tr>
                 <tr>
-                    <td><h:outputLabel value=" Name: " /></td>
-                    <td><h:outputText id="name" value="#{userController.userName}"/></td>
+                    <td><h:outputLabel value=" Name: "/></td>
+                    <td><h:outputText id="name" value="#{userInfoBean.user.name}"/></td>
                 </tr>
                 <tr>
-                    <td><h:outputLabel value=" Surname: " /></td>
-                    <td><h:inputText id="surname" value="#{userController.userSurname}"
-                                     required="true" requiredMessage="Surname must not be empty" /></td>
-                    <td><h:message for="surname" style="color:red" /></td>
+                    <td><h:outputLabel value=" Surname: "/></td>
+                    <td><h:outputText id="surname" value="#{userInfoBean.user.surname}"/></td>
                 </tr>
                 <tr>
-                    <td><h:outputLabel value=" Email: " /></td>
-                    <td><h:outputText id="email" value="#{userController.userEmail}"/></td>
+                    <td><h:outputLabel value=" Email: "/></td>
+                    <td><h:outputText id="email" value="#{userInfoBean.user.email}"/></td>
                 </tr>
                 <tr>
                     <td><h:outputLabel value=" Date of birth : "/></td>
-                    <td><h:outputText value="#{userController.userDateOfBirth}">
+                    <td><h:outputText value="#{userInfoBean.formatedDateOfBirth}">
                         <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>f
                     </h:outputText></td>
                 </tr>
-                <c:if test="#{userController.host}"><tr>
-                    <td><h:button value="Check my offers" outcome="offers">
-                        <f:param name="offers_user_id" value="#{userController.id}"/>
-                        <f:param name="for_user" value="#{true}"/>
-                    </h:button></td>
-                </tr></c:if>
-                <c:if test="#{userController.tenant}"><tr>
-                    <td><h:button value="Check my reservations" outcome="reservations">
-                        <f:param name="reservations_user_id" value="#{userController.id}"/>
-                    </h:button></td>
-                </tr></c:if>
-                <tr>
-                    <td><h:button value="Change password" outcome="home"/></td>
-                </tr>
-                <tr>
-                    <td><h:button value="Back" outcome="index">
-                        <f:param name="for_user" value="#{false}"/>
-                    </h:button></td>
-                </tr>
+
+                <c:if test="#{userController.host}">
+                    <tr>
+                        <td><h:button value="Check my offers" outcome="offers"/></td>
+                    </tr>
+                </c:if>
+                <c:if test="#{userController.tenant}">
+                    <tr>
+                        <td>
+                            <h:button value="Check my reservations" outcome="reservations" />
+                        </td>
+                    </tr>
+                </c:if>
             </table>
         </h:form>
     </ui:define>

@@ -1,17 +1,14 @@
 package cz.muni.fi.pv243.ars.repository;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ejb.Stateless;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import cz.muni.fi.pv243.ars.persistence.model.Offer;
 import cz.muni.fi.pv243.ars.persistence.model.Reservation;
 import cz.muni.fi.pv243.ars.persistence.model.User;
+
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by Lenka Smitalova on 5/29/2018
@@ -38,6 +35,7 @@ public class ReservationRepository implements Serializable {
     }
 
     public void delete(Reservation reservation) {
+        reservation = entityManager.merge(reservation);
         User tenant = reservation.getUser();
         if (tenant != null) {
             tenant.removeReservation(reservation);
@@ -46,7 +44,7 @@ public class ReservationRepository implements Serializable {
         if (offer != null) {
             offer.removeReservation(reservation);
         }
-        entityManager.remove(entityManager.merge(reservation));
+        entityManager.remove(reservation);
         entityManager.flush();
     }
 
@@ -62,8 +60,15 @@ public class ReservationRepository implements Serializable {
 
     public List<Reservation> findAllForUser(User user) {
         return entityManager
-                .createQuery("select r from Reservation r where r.user.id = :user", Reservation.class)
+                .createQuery("select r from Reservation r where r.user.id = :user order by r.fromDate", Reservation.class)
                 .setParameter("user", user.getId())
+                .getResultList();
+    }
+
+    public List<Reservation> findAllForOffer(Offer offer) {
+        return entityManager
+                .createQuery("select r from Reservation r where r.offer.id = :offer order by r.fromDate", Reservation.class)
+                .setParameter("offer", offer.getId())
                 .getResultList();
     }
 }

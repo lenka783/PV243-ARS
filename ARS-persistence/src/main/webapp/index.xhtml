@@ -24,38 +24,25 @@
                 xmlns:rich="http://richfaces.org/rich"
                 xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/WEB-INF/templates/default.xhtml">
-    <f:metadata>
-        <f:viewParam name="for_user" value="#{offersBean.forUser}"/>
-        <f:viewParam name="user_id" value="#{offersBean.currentUserId}"/>
-        <f:viewParam name="loadOffers" value="#{offersBean.loaded}"/>
-        <f:viewAction action="#{offersBean.loadOffers}"/>
-    </f:metadata>
     <ui:define name="content">
-        <h1>Welcome to ARS!</h1>
+        <h1>Welcome ARS!</h1>
+        <h2>ARS - Accommodation Reservation System!</h2>
 
         <h:form id="menu">
-            <h2>ARS - Accommodation Reservation System!</h2>
-
+            <h:commandButton value="Profile" action="/userProfile.jsf?faces-redirect=true"/>
             <c:if test="#{userController.loggedIn}">
-                <h:button value="Profile" outcome="userProfile"/>
+                <h:commandButton value="Log Out" action="#{userController.logOut}"/>
             </c:if>
-            <h:panelGrid columns="2" columnClasses="titleCell">
-                <c:if test="#{userController.loggedIn eq false}">
-                    <f:param name="user_id" value="#{null}"/>
-                    <h:commandButton value="Log In" action="#{userController.logIn}"/>
-                </c:if>
-                <c:if test="#{userController.loggedIn}">
-                    <f:param name="user_id" value="#{userController.id}"/>
-                    <h:commandButton value="Log Out" action="#{userController.logOut}"/>
-                </c:if>
-            </h:panelGrid>
+            <c:if test="#{userController.loggedIn eq false}">
+                <h:commandButton value="Log In" action="#{userController.logIn}"/>
+            </c:if>
         </h:form>
 
         <c:if test="#{userController.tenant}">
             <h2>Latest offers for you!</h2>
 
             <h:form>
-                <rich:dataTable id="offersTable" value="#{offersBean.offers}" var="offer">
+                <rich:dataTable id="offersTable" value="#{offersBean.availableOffers}" var="offer">
                     <f:facet name="noData">
                         There are not any available offer at this moment. Give it a shot later!
                     </f:facet>
@@ -105,7 +92,7 @@
                             <h:panelGroup>
                                 <h:outputText value="Price"/>
                                 <br/>
-                                <h:outputText value="Max:"/>
+                                <h:outputText value="Max: "/>
                                 <h:inputText value="#{offerFilterBean.priceFilter}" maxValue="500000">
                                     <a4j:ajax render="offersTable@body" event="blur"/>
                                 </h:inputText>
@@ -119,11 +106,13 @@
                             <h:panelGroup>
                                 <h:outputText value="Capacity"/>
                                 <br/>
-                                <h:outputText value="Min:"/>
-                                <rich:inputNumberSpinner value="#{offerFilterBean.capacityFilter}" minValue="1" maxValue="20"
-                                                         step="1">
-                                    <a4j:ajax render="offersTable@body" event="change"/>
-                                </rich:inputNumberSpinner>
+                                <h:panelGrid columns="2">
+                                    <h:outputText value="Min: "/>
+                                    <rich:inputNumberSpinner value="#{offerFilterBean.capacityFilter}" minValue="1" maxValue="20"
+                                                             step="1">
+                                        <a4j:ajax render="offersTable@body" event="change"/>
+                                    </rich:inputNumberSpinner>
+                                </h:panelGrid>
                             </h:panelGroup>
                         </f:facet>
                         <h:outputText value="#{offer.capacity}"/>
@@ -155,7 +144,6 @@
                             <f:facet name="header">Details</f:facet>
                             <h:button value="Show" outcome="offerDetail">
                                 <f:param name="offer_id" value="#{offer.id}"/>
-                                <f:param name="current_user_id" value="#{userController.id}"/>
                             </h:button>
                         </rich:column>
                     </c:if>

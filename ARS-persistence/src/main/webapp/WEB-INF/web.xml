@@ -27,6 +27,19 @@
     </web-resource-collection>
     <auth-constraint>
       <role-name>user</role-name>
+      <role-name>admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>ARS-persistence</web-resource-name>
+      <url-pattern>/services/users/</url-pattern>
+      <url-pattern>/services/addresses/</url-pattern>
+      <url-pattern>/services/reservations/</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
     </auth-constraint>
   </security-constraint>
 
